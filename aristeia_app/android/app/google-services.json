@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "217158479906",
+    "project_id": "aristeia-d7d47",
+    "storage_bucket": "aristeia-d7d47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217158479906:android:b7527087450354fa2a5a7b",
+        "android_client_info": {
+          "package_name": "com.example.aristeia_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217158479906-1rpfje5i535v8pq5pu870oi244lf2h1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIgClWzP8VQKim6HDEcYX8GxxdkDOmbms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217158479906-1rpfje5i535v8pq5pu870oi244lf2h1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
