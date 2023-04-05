@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'core/network/firebaseAuth.dart';
+import 'core/network/firebase_options.dart';
 
 void main() async {
   //esto es necesario para poder hacer la conexión con firebase
@@ -50,15 +52,33 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Future<void> _pruebaAuth(String email, String contrasenia) async {
+    try {
+      UserCredential prueba = await const AuthFirebase().signInWithEmail(
+        email,
+        contrasenia,
+      );
+
+      print('Inicio de sesion exitoso');
+    } on FirebaseAuthException catch (e) {
+      print('Se ha presentado un error ${e.message}');
+    }
+  }
+
+  Future<void> _pruebaCreacionAuth(String email, String contrasenia) async {
+    try {
+      final credential =
+          await AuthFirebase().createUserEmail(email, contrasenia);
+      print('Creacion de usuario');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -106,7 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          _pruebaAuth('usuario4@example.com', '123456');
+          //_pruebaCreacionAuth('usuario4@example.com', '123456');
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
