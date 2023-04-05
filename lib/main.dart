@@ -1,4 +1,5 @@
-import 'package:aristeia_app/core/utils/app_gradients.dart';
+import 'package:aristeia_app/core/routes/routes.dart';
+import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,59 +10,29 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const MyApp());
+  runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  MyApp({Key? key}) : super(key: key);
+  static final colors = AppColors();
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
+      title: 'MyUnify',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Aristeia'),
-    );
-  }
-}
+        primaryColor:  colors.mainColor,
+        textTheme: TextTheme(
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  static final gradients = AppGradients();
-
-  @override
-  Widget build(BuildContext context) {
-
-    
-    return Scaffold(
-      appBar: AppBar(
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: Container(width: 300,
-        height: 300,
-        decoration: BoxDecoration(
-            gradient: gradients.mainGradient,
+        ), 
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.purple,
+          backgroundColor: colors.backgroundColor,
           ),
-        )
-
       ),
-
-    );
+      debugShowCheckedModeBanner: false,
+      routerConfig: _appRouter.config(),);
   }
 }

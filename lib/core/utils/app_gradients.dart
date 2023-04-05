@@ -32,5 +32,14 @@ class AppGradients {
     ],
   );
 
+  final infoGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color.fromARGB(158, 109, 76, 228),
+      Color.fromARGB(57, 109, 76, 228),
+    ],
+  );
+
 
 }
