@@ -1,34 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-Future<String> createEvent(Map<String, dynamic> data) async {
+Future<String> createEtiqueta(Map<String, dynamic> data) async {
   String respuesta = "";
-  var rng = Random();
-  String idEvento = rng.nextInt(1000).toString();
   FirebaseFirestore db = FirebaseFirestore.instance;
   //instanciamos la db y buscamos la coleccion
-  CollectionReference collectionReferenceEvento = db.collection('Evento');
+  CollectionReference collectionReferenceEvento = db.collection('etiquetas');
   //antes que nada, verificamos que la informacion esté correcta
-  if (data.containsKey("creador") &&
-      data.containsKey("titulo") &&
-      data.containsKey("lugar") &&
-      data.containsKey("link_img")) {
+  if (data.containsKey("nombre")) {
     //subimos los datos del evento
-    collectionReferenceEvento.doc(idEvento).set(data);
-    respuesta = 'datos subidos con id $idEvento';
+    collectionReferenceEvento.add(data);
+    respuesta = 'datos subidos con';
   } else {
     respuesta = 'datos insuficientes';
   }
-  /*
-  Widget completado(BuildContext context) {
-    return AlertDialog(
-        title: const Text('Notificacion Evento'),
-        content: Text(
-          respuesta,
-          style: TextStyle(fontSize: 20),
-        ));
-  }
-  */
+
   return respuesta;
 }
