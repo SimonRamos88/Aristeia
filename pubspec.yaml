@@ -1,0 +1,54 @@
+name: aristeia_app
+description: A new Flutter project.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  auto_route: ^6.0.5
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.9.0
+  flutter:
+    sdk: flutter
+  salomon_bottom_bar: ^3.3.2
+
+dev_dependencies: 
+  auto_route_generator: ^6.0.3
+  build_runner: ^2.3.3
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+
+  assets:
+    - assets/images/
+    - assets/logo/
+    - assets/
+
+  # fonts:
+  #   - family: Inter
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Regular.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/Inter-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700
+  #   - family: MuseoModerno
+  #     fonts:
+  #       - asset: assets/fonts/MuseoModerno-Regular.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/MuseoModerno-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/MuseoModerno-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/MuseoModerno-Bold.ttf
+  #         weight: 700
