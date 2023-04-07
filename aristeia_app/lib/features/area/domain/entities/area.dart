@@ -13,3 +13,6 @@ class Area {
     this.subtemas.add(tema);
   }
 }
+
+//borrar luego
+class Tema {}
