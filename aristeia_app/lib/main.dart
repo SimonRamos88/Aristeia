@@ -1,3 +1,6 @@
+import 'package:aristeia_app/core/network/create_auth.dart';
+import 'package:aristeia_app/features/usuario/domain/repositories/createUsuario.dart';
+import 'package:aristeia_app/features/usuario/domain/repositories/deleteUsuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import './core/network/do_auth.dart';
@@ -91,10 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //print(do_Auth('usuario4@example.com', '123456'));
-          //_pruebaCreacionAuth('usuario4@example.com', '123456');
-          print('trayendo datos');
-          getRoadmaps();
+          print('hola');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
