@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import './core/network/do_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +44,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  Future<void> getRoadmaps() async {
+    print('entrando');
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference collectionReferenceR = db.collection('roadmap');
+    //DocumentSnapshot query =
+    await collectionReferenceR
+        .doc('1')
+        .collection('bloques')
+        .doc('1')
+        .collection('recursos')
+        .doc('2')
+        .set({
+      "nombre": "segundo recurso",
+      "autor": "yo",
+      "links_relacionados": ['jijiji', 'jjoojo']
+    });
+
+    // print(query.data());
+    /*
+    for (var r in query.docs) {
+      print(r.data());
+    }
+    */
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +91,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          do_Auth('usuario4@example.com', '123456');
+          //print(do_Auth('usuario4@example.com', '123456'));
           //_pruebaCreacionAuth('usuario4@example.com', '123456');
+          print('trayendo datos');
+          getRoadmaps();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
