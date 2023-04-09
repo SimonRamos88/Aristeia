@@ -1,6 +1,8 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
+import 'package:aristeia_app/core/widgets/button.dart';
+import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           title: 'Iniciar sesión',
           type: 1,
           onPressedLeading: () {
-            context.router.replace(const WelcomeRouter());
+            context.router.push(const WelcomeRouter());
           },
         ),
         body: Column(
@@ -27,23 +29,21 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(
               width: 1,
-              height: 16,
+              height: 24,
             ),
-            TextField(),
+            InputField(hintText: 'Correo'),
+            InputField(hintText: 'Contraseña', isPassword: true,),
             const SizedBox(
               width: 1,
               height: 16,
             ),
-            TextField(),
-            const SizedBox(
-              width: 1,
-              height: 32,
-            ),
-            ElevatedButton(
-                onPressed: () {
+            MyButton(
+              buttonText: 'Iniciar sesión',
+            onTap: () {
                   context.router.push(const LoggedWrapperRoute());
                 },
-                child: Text('Iniciar sesión')),
+            ),
+          
             const SizedBox(
               width: 1,
               height: 32,

@@ -1,8 +1,9 @@
+import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomGradient extends CustomPainter {
   CustomGradient({
-    required this.gradient, 
+    required this.gradient,
     required this.sWidth,
     required this.bRadius,
   });
@@ -15,11 +16,14 @@ class CustomGradient extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Rect innerRect = Rect.fromLTRB(sWidth, sWidth, size.width - sWidth, size.height - sWidth);
+    Rect innerRect = Rect.fromLTRB(
+        sWidth, sWidth, size.width - sWidth, size.height - sWidth);
     Rect outerRect = Offset.zero & size;
 
-    RRect innerRoundedRect = RRect.fromRectAndRadius(innerRect, Radius.circular(bRadius));
-    RRect outerRoundedRect = RRect.fromRectAndRadius(outerRect, Radius.circular(bRadius));
+    RRect innerRoundedRect =
+        RRect.fromRectAndRadius(innerRect, Radius.circular(bRadius));
+    RRect outerRoundedRect =
+        RRect.fromRectAndRadius(outerRect, Radius.circular(bRadius));
 
     p.shader = gradient.createShader(outerRect);
     Path borderPath = _calculateBorderPath(outerRoundedRect, innerRoundedRect);
@@ -42,12 +46,12 @@ class CustomGradientContainer extends StatelessWidget {
     required this.child,
     this.strokeWidth = 0,
     this.bRadius = 1,
-    this.padding=12,
+    this.padding = 12,
   }) : this.painter = CustomGradient(
-      gradient: gradient,
-      sWidth: strokeWidth,
-      bRadius: bRadius,
-  );
+          gradient: gradient,
+          sWidth: strokeWidth,
+          bRadius: bRadius,
+        );
 
   final CustomGradient painter;
   final Widget child;
@@ -57,107 +61,107 @@ class CustomGradientContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-        painter: painter, 
-        child: child
-    );
+    return CustomPaint(painter: painter, child: child);
   }
 }
 
 class MyButton extends StatelessWidget {
-  const MyButton({
-      Key? key,
-      required this.buttonText,
-      this.width = 200,
-      this.height = 50,
-      this.shadow = 0,
-      this.borderRadius = 0,
-      this.backgroundGradient = const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.blue,
-                Colors.red,
-              ],
-            ),
-      this.borderGradient = const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.yellow,
-                Colors.red,
-              ],
-            ),
-      this.splashColor = const Color.fromARGB(255, 0, 0, 0),
-      this.colorText = const Color.fromARGB(255, 0, 0, 0),
-      this.fontSize = 15,
-      this.strokeWidth = 0,
-      this.onTap,
-    }) : super(key: key); 
-
   final String buttonText;
   final double width;
-  final double height;
   final double shadow;
-  final double borderRadius; 
   final LinearGradient backgroundGradient;
   final LinearGradient borderGradient;
-  final double strokeWidth;
-  final Color splashColor;
   final Color colorText;
-  final double fontSize;
+  final bool outlined;
+  final bool large;
   final Function()? onTap;
+
+  const MyButton({
+    Key? key,
+    this.outlined = false,
+    this.large = true,
+    required this.buttonText,
+    this.width = 200,
+    this.shadow = 0,
+    this.backgroundGradient = const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color(0xff6D4CE4),
+        Color(0xff6D4CE4),
+        Color.fromRGBO(109, 76, 228, 0.75),
+      ],
+      stops: [0.0, 0.01, 1.0],
+    ),
+    this.borderGradient = const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color(0xff6D4CE4),
+        Color(0xff6D4CE4),
+        Color.fromRGBO(109, 76, 228, 0.75),
+      ],
+      stops: [0.0, 0.01, 1.0],
+    ),
+    this.colorText = Colors.white,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       // Background button
       child: Container(
+        margin: large ? EdgeInsets.symmetric(horizontal: 24, vertical: 16) : null,
+        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(22),
           gradient: backgroundGradient,
         ),
         // Gradient border
         child: CustomGradientContainer(
-          bRadius: borderRadius,
-          gradient: borderGradient,
-          strokeWidth: strokeWidth,
+          bRadius: 20,
+          gradient: outlined
+              ? const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white,
+                    Colors.white,
+                  ],
+                )
+              : borderGradient,
+          strokeWidth: outlined ? 3 : 0,
           // Button content
           child: Material(
             color: Colors.transparent,
-            elevation: shadow, 
+            elevation: shadow,
             // Widget border
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(20),
             // Splash animation when the button is clicked
             child: InkWell(
               onTap: onTap,
-              splashColor: splashColor,
+              splashColor: const Color.fromRGBO(109, 76, 228, 0.85),
               // Animation border
-              borderRadius: BorderRadius.circular(borderRadius),
+              borderRadius: BorderRadius.circular(22),
               child: Container(
+                padding: large ? null : EdgeInsets.symmetric(horizontal: 24),
                 // Size widget
-                height: height,
-                width: width,
-                child: Row(
-                  children: [
-                    // Text resizable
-                    Expanded(
-                      child:Text(
-                        buttonText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          color: colorText,
-                          fontWeight: FontWeight.bold,
-                        )
-                      ),
-                    )
-                  ],
-                )
-              )
+                alignment: Alignment.center ,
+                height: 48,
+                //margin: EdgeInsets.symmetric(horizontal: 20),
+                width: large? null: width,
+
+                child:  Text(buttonText,
+                     
+                      style: heading3bStyle.copyWith(
+                        color: colorText,
+                      )),
+              
+              ),
             ),
           ),
-        ), 
+        ),
       ),
     );
   }

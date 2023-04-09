@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppGradients {
-
   static final colors = AppColors();
 
   final mainGradient = LinearGradient(
@@ -14,13 +13,15 @@ class AppGradients {
     ],
   );
 
-   final blueGradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
+  final blueGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
-      colors.blueColor,
-      colors.blueColor50,
+      Color(0xff4650FA),
+      Color.fromRGBO(70, 80, 250, 0.7),
+      Color.fromRGBO(70, 80, 250, 0),
     ],
+    stops: [0.0, 0.9323, 1.0],
   );
 
   final pinkGradient = LinearGradient(
@@ -43,14 +44,12 @@ class AppGradients {
 
   final cardGradient = LinearGradient(
     begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
+    end: Alignment.center,
     colors: [
       Color(0xffF3EBF9),
       Color(0xffFBF9FD),
     ],
   );
-
-
 }
 
 //static final gradients = AppGradients();
