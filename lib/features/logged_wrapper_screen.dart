@@ -18,7 +18,7 @@ class LoggedWrapperScreen extends StatelessWidget {
           HomeRoute(),
           MyRoadmapsRoute(),
           PublicRoadmapsRoute(),
-          PublicRoadmapsRoute()
+          CreateRoute()
         ],
     //     // appBarBuilder: (_, tabsRouter) => AppBarWidget(type: tabsRouter.activeIndex),
         bottomNavigationBuilder: (_, tabsRouter) {

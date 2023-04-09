@@ -33,7 +33,8 @@ class AppRouter extends $AppRouter {
         children: [                    
           AutoRoute(path: 'inicio', page: HomeRoute.page),                    
           AutoRoute(path: 'comunidad', page: PublicRoadmapsRoute.page),                
-          AutoRoute(path: 'personal', page: MyRoadmapsRoute.page),                      
+          AutoRoute(path: 'personal', page: MyRoadmapsRoute.page), 
+          AutoRoute(path: 'crear', page: CreateRoute.page),                      
       ],  
       ),  
   ];  

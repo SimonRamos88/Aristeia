@@ -1,14 +1,8 @@
 import 'dart:async';
-
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
-import 'package:aristeia_app/core/utils/app_gradients.dart';
-import 'package:aristeia_app/features/home_screen.dart';
-import 'package:aristeia_app/features/welcome_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -54,22 +48,22 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
             Image(
               image: AssetImage('assets/images/splashLogo.png'),
               width: 300,
               height: 300,
             ),
-            Container(
+            SizedBox(
               width: 1,
               height: 30,
             ),
             Text('RoadmapTo',
             style: TextStyle(
-              color: Color.fromARGB(255, 184, 177, 214),
+              color: Color.fromARGB(255, 231, 229, 240),
               fontFamily: 'Comfortaa',
               fontWeight: FontWeight.w700,
-              fontSize: 55,
+              fontSize: 50,
             ),),
           ]),
         ),
