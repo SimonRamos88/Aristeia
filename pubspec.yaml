@@ -14,6 +14,7 @@ dependencies:
   firebase_core: ^2.9.0
   flutter:
     sdk: flutter
+  gradient_borders: ^1.0.0
   salomon_bottom_bar: ^3.3.2
 
 dev_dependencies: 
