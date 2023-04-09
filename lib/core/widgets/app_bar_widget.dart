@@ -68,7 +68,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 (type == 2)
                     ? IconButton(
                         onPressed: onPressedAction,
-                        icon: Icon(Icons.search,
+                        icon: Icon(Icons.logout,
                             color: Theme.of(context).primaryColor),
                       )
                     : (type == 4)

@@ -36,10 +36,21 @@ class AppGradients {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color.fromARGB(158, 109, 76, 228),
-      Color.fromARGB(57, 109, 76, 228),
+      Color(0xffEEEAFC),
+      Color(0xffFCFCFF),
+    ],
+  );
+
+  final cardGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xffF3EBF9),
+      Color(0xffFBF9FD),
     ],
   );
 
 
 }
+
+//static final gradients = AppGradients();

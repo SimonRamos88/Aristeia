@@ -14,7 +14,7 @@ class RegisterScreen extends StatelessWidget {
         title: 'registro',
         type: 1,
         onPressedLeading: () {
-          context.router.replace(const WelcomeRouter());
+          context.router.push(const WelcomeRouter());
         },
       ),
       body: Column(

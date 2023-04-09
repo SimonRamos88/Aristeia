@@ -34,5 +34,99 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routerConfig: _appRouter.config(),);
+    
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text(widget.title),
+    //   ),
+    //   body: Center(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           MyButton(
+    //             buttonText: "Iniciar sesión",
+    //             width: 301,
+    //             height: 48,
+    //             borderRadius: 22,
+    //             backgroundGradient: const LinearGradient(
+    //               begin: Alignment.topCenter,
+    //               end: Alignment.bottomCenter,
+    //               colors: [
+    //                 Color(0xff6D4CE4),
+    //                 Color(0xff6D4CE4),
+    //                 Color.fromRGBO(109, 76, 228, 0.75),
+    //               ],
+    //               stops: [0.0, 0.01, 1.0],
+    //             ),
+    //             splashColor: Color.fromRGBO(109, 76, 228, 0.85),
+    //             colorText: Colors.white,
+    //             fontSize: 16,
+    //             onTap: (){
+    //               print('Share');
+    //             },
+    //           ),
+    //           const SizedBox(
+    //             height: 20,
+    //           ),
+    //           MyButton(
+    //             buttonText: "Registrarse",
+    //             width: 301,
+    //             height: 48,
+    //             borderRadius: 22,
+    //             backgroundGradient: const LinearGradient(
+    //               begin: Alignment.topCenter,
+    //               end: Alignment.bottomCenter,
+    //               colors: [
+    //               Colors.white,
+    //               Colors.white,
+    //               ],
+    //             ),
+    //             borderGradient: const LinearGradient(
+    //               begin: Alignment.topCenter,
+    //               end: Alignment.bottomCenter,
+    //               colors: [
+    //               Color(0xff6D4CE4),
+    //               Color(0xff6D4CE4),
+    //               Color.fromRGBO(109, 76, 228, 0.75),
+    //               ],
+    //               stops: [0.0, 0.01, 1.0],
+    //             ),
+    //             splashColor: Color.fromRGBO(249, 247, 255, 0.2),
+    //             colorText: Color(0xff6D4CE4),
+    //             fontSize: 16,
+    //             strokeWidth: 2,
+    //             onTap: (){
+    //               print('Share');
+    //             },
+    //           ),
+    //           const SizedBox(
+    //             height: 20,
+    //           ),
+    //           MyButton(
+    //             buttonText: "Agregar etiqueta",
+    //             width: 301,
+    //             height: 48,
+    //             borderRadius: 22,
+    //             backgroundGradient: const LinearGradient(
+    //               begin: Alignment.topCenter,
+    //               end: Alignment.bottomCenter,
+    //               colors: [
+    //               Color(0xff4650FA),
+    //               Color.fromRGBO(70, 80, 250, 0.7),
+    //               Color.fromRGBO(70, 80, 250, 0),
+    //               ],
+    //               stops: [0.0, 0.9323, 1.0],
+    //             ),
+    //             splashColor: Color.fromRGBO(70, 80, 250, 0.7),
+    //             colorText: Colors.white,
+    //             fontSize: 16,
+    //             onTap: (){
+    //               print('Share');
+    //             },
+    //           ),
+    //         ],
+    //       )
+    //     ),
+    // );
   }
 }

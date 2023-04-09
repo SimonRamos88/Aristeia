@@ -9,8 +9,8 @@ class PublicRoadmapsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'RoadmapTo', type: 2),
+      appBar: AppBarWidget(title: 'Roadmaps públicos', type: 2),
       body: Container(child: Text('soy los roadmaps publicos'),),
-    );;
+    );
   }
 }
