@@ -1,20 +1,25 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
+import 'package:aristeia_app/core/widgets/but.dart';
+import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
+import '../core/utils/app_gradients.dart';
 
 @RoutePage()
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   static final colors = AppColors();
+  static final gradients = AppGradients();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Image(image: AssetImage('assets/images/welcomeImage.png')),
           const SizedBox(
@@ -32,25 +37,25 @@ class WelcomeScreen extends StatelessWidget {
           ),
           const SizedBox(
             width: 1,
-            height: 16,
+            height: 24,
           ),
-          ElevatedButton(
-              onPressed: () {
+           MyButton(
+            buttonText: "Iniciar sesión",
+            onTap: () {
                 context.router.push(const LoginRoute());
               },
-              child: Text('Iniciar sesión')),
-          const SizedBox(
-            width: 1,
-            height: 16,
           ),
-          ElevatedButton(
-              onPressed: () {
+          MyButton(
+            buttonText: "Registrarse",
+            colorText: Theme.of(context).primaryColor,
+            outlined: true,
+            onTap: () {
                 context.router.push(const RegisterRoute());
               },
-              child: Text('Registrarse')),
+          ),
           const SizedBox(
             width: 1,
-            height: 16,
+            height: 24,
           ),
           Text(
             'Desarrollado por Aristeia',

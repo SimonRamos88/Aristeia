@@ -1,7 +1,10 @@
+import 'package:aristeia_app/core/utils/app_colors.dart';
+import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class InputField extends StatelessWidget {
+class InputField extends StatefulWidget {
+  //final TextEditingController controller;
   final String hintText;
   //final Function(String) validator;
   //final Function(String) onSaved;
@@ -10,23 +13,36 @@ class InputField extends StatelessWidget {
   final bool isPassword;
   final int lengthText;
 
-  const InputField(
+  InputField(
       {Key? key,
+      //required this.controller,
       required this.hintText,
       // required this.validator,
       // required this.onSaved,
       this.isPassword = false,
       this.lengthText = 15,
-      this.height = 53,
+      this.height = 70,
       this.width = 284});
+
+  @override
+  State<InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
+
+  static final colors = AppColors();
+  bool _obscurepassword = true;
+
+  final circularBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(30),
+    borderSide: BorderSide(width: 0.5, style: BorderStyle.none),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Container(
-        width: width,
-        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: const GradientBoxBorder(
@@ -40,18 +56,40 @@ class InputField extends StatelessWidget {
           cursorColor: const Color.fromRGBO(70, 80, 250, 0.7),
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.left,
-          maxLength: lengthText,
+          maxLength: widget.lengthText,
+          style: interHeading3Style.copyWith(color: Colors.black),
           decoration: InputDecoration(
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    onPressed: () =>
+                        setState(() => (_obscurepassword = !_obscurepassword)),
+                    icon: Icon(
+                      _obscurepassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Theme.of(context).primaryColor,
+                    ))
+                : null,
+            enabledBorder: circularBorder,
+            focusedBorder: circularBorder.copyWith(
+              borderSide: const BorderSide(
+                  width: 1,
+                  style: BorderStyle.solid,
+                  color: Color.fromARGB(97, 157, 70, 250)),
+            ),
             counterText: "",
-            hintText: hintText,
-            hintStyle: const TextStyle(color: Color.fromRGBO(70, 80, 250, 0.7)),
-            border: InputBorder.none,
+            labelText: widget.hintText,
+            labelStyle: heading3bStyle.copyWith(
+                backgroundColor: colors.backgroundColor,
+                color: Theme.of(context).primaryColor),
+            floatingLabelStyle: heading2bStyle.copyWith(
+                backgroundColor: colors.backgroundColor,
+                color: Theme.of(context).primaryColor),
+            border: circularBorder,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
           ),
-          obscureText: isPassword,
-          style: const TextStyle(
-              color: Color.fromRGBO(40, 40, 46, 0.7), fontSize: 16),
+          obscureText: widget.isPassword ? _obscurepassword : false,
         ),
       ),
     );
