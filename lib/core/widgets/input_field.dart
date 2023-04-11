@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class InputField extends StatefulWidget {
-  //final TextEditingController controller;
+  final TextEditingController controller;
   final String hintText;
   //final Function(String) validator;
   //final Function(String) onSaved;
@@ -15,12 +15,12 @@ class InputField extends StatefulWidget {
 
   InputField(
       {Key? key,
-      //required this.controller,
       required this.hintText,
+      required this.controller,
       // required this.validator,
       // required this.onSaved,
       this.isPassword = false,
-      this.lengthText = 15,
+      this.lengthText = 100,
       this.height = 70,
       this.width = 284});
 
@@ -53,6 +53,7 @@ class _InputFieldState extends State<InputField> {
               width: 3),
         ),
         child: TextField(
+          controller: widget.controller,
           cursorColor: const Color.fromRGBO(70, 80, 250, 0.7),
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.left,

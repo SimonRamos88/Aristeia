@@ -10,7 +10,7 @@ class MyRoadmapsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Mis roadmaps', type: 2),
+      appBar: AppBarWidget(title: 'Mis roadmaps', type: 0),
       body: Column(
         children: [Text('soy mis roadmaps'),
         RoadmapCard(),

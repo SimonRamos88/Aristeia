@@ -42,7 +42,7 @@ class WelcomeScreen extends StatelessWidget {
            MyButton(
             buttonText: "Iniciar sesión",
             onTap: () {
-                context.router.push(const LoginRoute());
+                context.router.push(LoginRoute());
               },
           ),
           MyButton(
@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
             colorText: Theme.of(context).primaryColor,
             outlined: true,
             onTap: () {
-                context.router.push(const RegisterRoute());
+                context.router.push(RegisterRoute());
               },
           ),
           const SizedBox(

@@ -97,7 +97,7 @@ class MyButton extends StatelessWidget {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color(0xff6D4CE4),
+Color(0xff6D4CE4),
         Color(0xff6D4CE4),
         Color.fromRGBO(109, 76, 228, 0.75),
       ],
@@ -116,30 +116,39 @@ class MyButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
-          gradient: backgroundGradient,
+          gradient: outlined? null: backgroundGradient,
+          //gradient: backgroundGradient,
+          border: Border.all(
+            color: outlined? Theme.of(context).primaryColor:Color.fromRGBO(109, 76, 228, 0.329), 
+            width: 3,
+            //strokeAlign: BorderSide.strokeAlignOutside
+            ),
         ),
         // Gradient border
-        child: CustomGradientContainer(
-          bRadius: 20,
-          gradient: outlined
-              ? const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white,
-                    Colors.white,
-                  ],
-                )
-              : borderGradient,
-          strokeWidth: outlined ? 3 : 0,
+        // child: CustomGradientContainer(
+        //   bRadius: 20,
+        //   gradient: outlined
+        //       ? const LinearGradient(
+        //           begin: Alignment.topCenter,
+        //           end: Alignment.bottomCenter,
+        //           colors: [
+        //             Colors.white,
+        //             Colors.white,
+        //           ],
+        //         )
+        //       : borderGradient,
+        //   strokeWidth: outlined ? 25 : 0,
           // Button content
           child: Material(
             color: Colors.transparent,
             elevation: shadow,
             // Widget border
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(22),
             // Splash animation when the button is clicked
             child: InkWell(
+              // focusColor: Colors.transparent,
+              // hoverColor: Colors.transparent,
+              // highlightColor: Colors.transparent,
               onTap: onTap,
               splashColor: const Color.fromRGBO(109, 76, 228, 0.85),
               // Animation border
@@ -162,7 +171,7 @@ class MyButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      // ),
     );
   }
 }

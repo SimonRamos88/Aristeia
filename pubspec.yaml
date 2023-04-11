@@ -13,6 +13,9 @@ dependencies:
   auto_route: ^6.0.5
   cupertino_icons: ^1.0.2
   firebase_core: ^2.9.0
+  firebase_auth: ^4.4.0
+  get: ^4.6.5
+  cloud_firestore: ^4.5.0
   flutter:
     sdk: flutter
   page_transition: ^2.0.9

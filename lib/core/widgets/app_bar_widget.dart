@@ -44,13 +44,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           title,
           style: heading2bStyle.copyWith(color: Theme.of(context).primaryColor),
         ),
-        leading: (type == 1 || type == 2 || type == 3)
+        leading: (type == 1 || type == 3)
             ? IconButton(
                 onPressed: onPressedLeading,
                 icon: Icon(Icons.arrow_back,
                     color: Theme.of(context).primaryColor),
               )
-            : (type == 4)
+            : (type == 2)
                 ? IconButton(
                     onPressed: onPressedLeading,
                     icon: Icon(Icons.settings,
