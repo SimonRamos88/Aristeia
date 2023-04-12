@@ -13,7 +13,7 @@ class AuthGuard extends AutoRouteGuard {
     // true to resume/continue navigation or false to abort navigation
     User? user = FirebaseAuth.instance.currentUser;
 
-    print(user);
+    //print(user);
 
     if (user != null) {
       // if user is authenticated we continue
