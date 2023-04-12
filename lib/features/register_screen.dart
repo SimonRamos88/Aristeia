@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: Column(
         children: [
-          // InputField(hintText: 'Usuario'),
+          //InputField(hintText: 'Usuario', controller: _controllerEmail),
           // InputField(hintText: 'Nombre'),
           InputField(hintText: 'Correo', controller: _controllerEmail),
           InputField(hintText: 'Contraseña', isPassword: true,controller: _controllerPassword),
