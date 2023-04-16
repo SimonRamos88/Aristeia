@@ -29,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   route() {
     User? user = Auth().currentUser;
-
     if (user != null) {
       // if user is authenticated we continue
       context.router.replace(const LoggedWrapperRoute());
