@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'MyUnify',
+      title: 'Aristeia',
       theme: ThemeData(
         primaryColor:  colors.mainColor,
         colorScheme: ColorScheme.fromSwatch(

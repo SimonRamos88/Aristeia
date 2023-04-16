@@ -16,8 +16,8 @@ class LoggedWrapperScreen extends StatelessWidget {
       child: AutoTabsScaffold(
         routes: [
           HomeRoute(),
-          MyRoadmapsRoute(),
-          PublicRoadmapsRoute(),
+          MisRoadmapsRouter(),
+          ComunidadRouter(),
           CreateRoute()
         ],
     //     // appBarBuilder: (_, tabsRouter) => AppBarWidget(type: tabsRouter.activeIndex),

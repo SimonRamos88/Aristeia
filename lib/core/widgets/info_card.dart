@@ -13,8 +13,7 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
+    return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         //margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
         decoration: BoxDecoration(
@@ -32,7 +31,7 @@ class InfoCard extends StatelessWidget {
           ],
         ),
         child: child,
-      ),
+      
     );
   }
 }
