@@ -27,3 +27,4 @@ class AuthGuard extends AutoRouteGuard {
     }
   }
 }
+

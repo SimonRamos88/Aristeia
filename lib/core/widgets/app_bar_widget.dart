@@ -6,7 +6,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final int type;
   final void Function()? onPressedLeading;
   final void Function()? onPressedAction;
-  final PreferredSizeWidget tabBar;
 
 
   const AppBarWidget({
@@ -15,10 +14,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.type = 0,
     this.onPressedLeading,
     this.onPressedAction,
-    this.tabBar = const PreferredSize(
-      preferredSize: Size(0, 0),
-      child: Text(''),
-    ),
   });
 
   const AppBarWidget.tab({
@@ -27,18 +22,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.type = 0,
     this.onPressedLeading,
     this.onPressedAction,
-    this.tabBar = const PreferredSize(
-      preferredSize: Size(0, 0),
-      child: Text(''),
-    ),
+
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      toolbarHeight: 50,
+      elevation: 2,
+      backgroundColor: Colors.white,
+      toolbarHeight: 45,
       centerTitle: true,
         title: Text(
           title,
@@ -94,6 +86,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight);
+      Size.fromHeight(45);
   //Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

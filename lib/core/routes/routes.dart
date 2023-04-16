@@ -1,12 +1,13 @@
 import 'package:aristeia_app/core/routes/route_guard.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
+import 'package:aristeia_app/features/router_pages/comunidad_router_screen.dart';
 import 'package:aristeia_app/main.dart';
 import 'package:auto_route/auto_route.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 class AppRouter extends $AppRouter {
   @override
-  RouteType get defaultRouteType => RouteType.adaptive();
+  RouteType get defaultRouteType => const RouteType.adaptive();
 
   @override
   final List<AutoRoute> routes = [
@@ -23,14 +24,44 @@ class AppRouter extends $AppRouter {
     AutoRoute(
       path: '/logged',
       page: LoggedWrapperRoute.page,
-      guards: [AuthGuard()],
+      //guards: [AuthGuard()],
       children: [
-        AutoRoute(path: 'inicio', page: HomeRoute.page),
-        AutoRoute(path: 'comunidad', page: PublicRoadmapsRoute.page),
-        AutoRoute(path: 'personal', page: MyRoadmapsRoute.page),
+        AutoRoute(path: '', page: HomeRoute.page),
+        AutoRoute(
+          path: 'comunidad',
+          page: ComunidadRouter.page,
+          children: [
+            AutoRoute(path: '', page: PublicRoadmapsRoute.page),
+            AutoRoute(
+              path: ':roadId', 
+              page: BlockRouter.page,
+              children: [
+                AutoRoute(path: '', page: SingleRoadRoute.page),
+                AutoRoute(path: ':blockId', page: SingleBlockRoute.page),
+                ]
+              ),
+          ],
+        ),
+        AutoRoute(path: 'personal', 
+        page: MisRoadmapsRouter.page,
+        children: [
+            AutoRoute(path: '', page: MyRoadmapsRoute.page),
+            AutoRoute(
+              path: ':roadId', 
+              page: BlockRouter.page,
+              children: [
+                AutoRoute(path: '', page: SingleRoadRoute.page),
+                AutoRoute(path: ':blockId', page: SingleBlockRoute.page),
+                ]
+              ),
+          ],
+        ),
         AutoRoute(path: 'crear', page: CreateRoute.page),
+        AutoRoute(path: 'configuracion', page: ConfigurationRoute.page),
+    
       ],
     ),
+  
   ];
 }    
 // flutter pub run build_runner build --delete-conflicting-outputs

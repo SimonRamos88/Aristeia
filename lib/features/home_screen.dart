@@ -32,107 +32,114 @@ class HomeScreen extends StatelessWidget {
           context.router.replace(const WelcomeRouter());
         },
       ),
-      body: Column(children: [
-        //Tarjeta de inicio del usuario
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: InfoCard(
-            child: Row(children: [
-              const Image(
-                  width: 73,
-                  height: 73,
-                  image: AssetImage('assets/images/profileImage.png')),
-              const SizedBox(
-                width: 24,
-                height: 1,
-              ),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          //Tarjeta de inicio del usuario
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: InfoCard(
+              child: Row(children: [
+                const Image(
+                    width: 73,
+                    height: 73,
+                    image: AssetImage('assets/images/profileImage.png')),
+                const SizedBox(
+                  width: 24,
+                  height: 1,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Joramos',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: heading2bStyle.copyWith(
+                              color: Theme.of(context).primaryColor)),
+                      Text('Jose Simón Ramos alias el simon',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: interHeading3Style.copyWith(
+                              color: Theme.of(context).primaryColor)),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(user?.email ?? 'User email', style: bodyStyle),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ),
+          BoxText.section(
+            text: 'Mis estadísticas:',
+            centered: false,
+            color: Theme.of(context).primaryColor,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(left: 24, right: 12),
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: Text(
+                    'Tiempo dedicado a RoadmapTo esta semana:',
+                    textAlign: TextAlign.center,
+                    style: heading3bStyle.copyWith(
+                        color: Theme.of(context).primaryColor),
+                  )),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Joramos',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: heading2bStyle.copyWith(
-                            color: Theme.of(context).primaryColor)),
-                    Text('Jose Simón Ramos alias el simon',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: interHeading3Style.copyWith(
-                            color: Theme.of(context).primaryColor)),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(user?.email ?? 'User email', style: bodyStyle),
-                  ],
+                child: InfoCard(
+                  child: Text(
+                    '24 horas 30 minutos',
+                    textAlign: TextAlign.center,
+                    style: interHeading3Style,
+                  ),
                 ),
               ),
-            ]),
+            ],
           ),
-        ),
-        BoxText.section(
-          text: 'Mis estadísticas:',
-          centered: false,
-          color: Theme.of(context).primaryColor,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-                padding: EdgeInsets.only(left: 24, right: 12),
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
-                  'Tiempo dedicado a RoadmapTo esta semana:',
-                  textAlign: TextAlign.center,
-                  style: heading3bStyle.copyWith(
-                      color: Theme.of(context).primaryColor),
-                )),
-            InfoCard(
-              child: Text(
-                '24 horas 30 minutos',
-                textAlign: TextAlign.center,
-                style: interHeading3Style,
+          SizedBox(
+            height: 16,
+          ),
+          BoxText.section(
+              text: 'Roadmaps culminados:',
+              centered: false,
+              color: Theme.of(context).primaryColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(left: 24, right: 12),
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: Text(
+                    'Este mes has completado:',
+                    textAlign: TextAlign.center,
+                    style: heading3bStyle.copyWith(
+                        color: Theme.of(context).primaryColor),
+                  )),
+              Expanded(
+                child: InfoCard(
+                  child: Text(
+                    '20 bloques y 2 roadmaps',
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    style: interHeading3Style,
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        BoxText.section(
-            text: 'Roadmaps culminados:',
-            centered: false,
-            color: Theme.of(context).primaryColor),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-                padding: EdgeInsets.only(left: 24, right: 12),
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
-                  'Este mes has completado:',
-                  textAlign: TextAlign.center,
-                  style: heading3bStyle.copyWith(
-                      color: Theme.of(context).primaryColor),
-                )),
-            InfoCard(
-              child: Text(
-                '20 bloques y 2 roadmaps',
-                textAlign: TextAlign.center,
-                style: interHeading3Style,
-              ),
-            ),
-          ],
-        ),
-      ]),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }

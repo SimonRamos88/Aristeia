@@ -46,10 +46,29 @@ class AppGradients {
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
-      Color(0xffF3EBF9),
-      Color(0xffFBF9FD),
+      Color.fromARGB(255, 242, 230, 252),
+      Color.fromARGB(255, 250, 245, 255),
     ],
   );
+
+  final bluecardGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.center,
+    colors: [
+      Color.fromARGB(255, 224, 225, 255),
+      Color.fromARGB(255, 245, 245, 255),
+    ],
+  );
+
+   final pinkcardGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.center,
+    colors: [
+       Color.fromARGB(255, 247, 221, 255),
+      Color.fromARGB(255, 253, 245, 255),
+    ],
+  );
+
 }
 
 //static final gradients = AppGradients();
