@@ -9,16 +9,35 @@ import 'package:aristeia_app/core/widgets/info_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget{
   HomeScreen({super.key});
+
+  State<HomeScreen> createState() => _HomeScreenState();
+
+}
+class _HomeScreenState extends State<HomeScreen> {
   static final gradients = AppGradients();
 
   final User? user = Auth().currentUser;
-
+  String usertag= 'usertag';
+  String usernames= 'nombres';
   Future<void> signOut() async {
     await Auth().signOut();
+    print("deslogeado");
+  }
+
+
+  Future<void> readUserData() async{
+    final docUser= FirebaseFirestore.instance.collection('usuarios').doc(user?.uid);
+    final queryU = await docUser.get();
+    setState(() {
+      usertag= queryU.get('usertag');
+      usernames= queryU.get('nombres');
+    });
+    print('funciono');
   }
 
   @override
@@ -52,13 +71,13 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Joramos',
+                      Text(usertag ?? "usertag",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                           style: heading2bStyle.copyWith(
                               color: Theme.of(context).primaryColor)),
-                      Text('Jose Simón Ramos alias el simon',
+                      Text(usernames ?? 'Nombres',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,

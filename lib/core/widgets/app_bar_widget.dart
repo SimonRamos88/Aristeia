@@ -16,21 +16,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedAction,
   });
 
-  const AppBarWidget.tab({
-    super.key,
-    this.title = '',
-    this.type = 0,
-    this.onPressedLeading,
-    this.onPressedAction,
-
-  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 2,
       backgroundColor: Colors.white,
-      toolbarHeight: 45,
+      //toolbarHeight: 45,
       centerTitle: true,
         title: Text(
           title,
@@ -86,6 +78,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight(45);
+      Size.fromHeight(kToolbarHeight);
   //Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

@@ -3,6 +3,7 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/widgets/but.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../core/utils/app_gradients.dart';
@@ -18,10 +19,15 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              width: 1,
+              height: MediaQuery.of(context).size.height/6,
+            ),
             const Image(image: AssetImage('assets/images/welcomeImage.png')),
             const SizedBox(
               width: 1,

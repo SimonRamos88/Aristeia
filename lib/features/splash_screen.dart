@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     User? user = Auth().currentUser;
     
 
-    if (user == null) {
+    if (user != null) {
       // if user is authenticated we continue
       context.router.replace(const WelcomeRouter());
     } else {
@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Text(
                   'RoadmapTo',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 231, 229, 240),
+                    color: Color.fromARGB(223, 231, 229, 240),
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.w700,
                     fontSize: 50,
