@@ -24,10 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final User? user = Auth().currentUser;
   String usertag= 'usertag';
   String usernames= 'nombres';
-  Future<void> signOut() async {
-    await Auth().signOut();
-    print("deslogeado");
-  }
+
 
 
   Future<void> readUserData() async{
@@ -47,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: 'RoadmapTo',
         type: 2,
         onPressedAction: () {
-          signOut;
+          print("nono");
+          Auth().signOut();
+          print("papaya");
           context.router.replace(const WelcomeRouter());
         },
       ),
