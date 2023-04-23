@@ -8,26 +8,30 @@ class Etiqueta extends StatelessWidget {
   
   final String text;
   final int size;
+  final int color;
 
 
   const Etiqueta({
     required this.text, 
-    this.size = 1});
+    this.size = 1,
+    this.color = 0,
+    });
 
   const Etiqueta.large({
     required this.text, 
-    this.size = 2});
+    this.size = 2,
+    this.color = 0,});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: (size==1)? const EdgeInsets.symmetric(horizontal: 8,vertical: 3):const EdgeInsets.symmetric(horizontal: 8,vertical: 4) ,
+      padding: (size==1)? const EdgeInsets.symmetric(horizontal: 8,vertical: 3):const EdgeInsets.symmetric(horizontal: 12,vertical: 5) ,
       //margin: (size==1)? const EdgeInsets.only(right: 4): null,
       alignment: (size==1)? Alignment.center : null,
       //height: (size==1)? 17:21,
       decoration: BoxDecoration(
         borderRadius: (size==1)?  BorderRadius.circular(18) : BorderRadius.circular(13.0),
-        gradient: gradients.mainGradient,
+        gradient: color==0? gradients.mainGradient: gradients.mainBlueGradient,
       ),
       child:  Text(
           text,

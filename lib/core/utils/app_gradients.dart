@@ -13,6 +13,15 @@ class AppGradients {
     ],
   );
 
+  final mainBlueGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      const Color(0xff4650FA),
+      Color.fromARGB(255, 161, 166, 255),
+    ],
+  );
+
   final blueGradient = const LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
