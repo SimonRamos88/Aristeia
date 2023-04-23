@@ -164,7 +164,7 @@ Color(0xff6D4CE4),
                 child:  Text(buttonText,
                      
                       style: heading3bStyle.copyWith(
-                        color: colorText,
+                        color: (outlined && colorText== Colors.white)? Theme.of(context).primaryColor: colorText,
                       )),
               
               ),

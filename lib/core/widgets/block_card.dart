@@ -3,6 +3,7 @@ import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/etiqueta.dart';
+import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
 class BlockCard extends StatelessWidget {
@@ -94,12 +95,7 @@ class BlockCard extends StatelessWidget {
                             color: colors.blueColor,
                           ),
                         )
-                      : Text('estado',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          style: subheadingbStyle.copyWith(
-                              color: Theme.of(context).primaryColor))
+                      : StateWidget(large:false, estado:0)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),

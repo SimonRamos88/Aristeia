@@ -21,6 +21,10 @@ import 'package:aristeia_app/features/router_pages/block_router_screen.dart'
     as _i15;
 import 'package:aristeia_app/features/router_pages/comunidad_router_screen.dart'
     as _i16;
+import 'package:aristeia_app/features/router_pages/config_router_screen.dart'
+    as _i20;
+import 'package:aristeia_app/features/router_pages/home_router_screen.dart'
+    as _i19;
 import 'package:aristeia_app/features/router_pages/roadmap_router_screen.dart'
     as _i17;
 import 'package:aristeia_app/features/router_pages/welcome_router_screen.dart'
@@ -30,17 +34,17 @@ import 'package:aristeia_app/features/single_road_screen.dart' as _i14;
 import 'package:aristeia_app/features/splash_screen.dart' as _i8;
 import 'package:aristeia_app/features/unnavailable_roadmap_screen.dart' as _i13;
 import 'package:aristeia_app/features/welcome_screen.dart' as _i9;
-import 'package:auto_route/auto_route.dart' as _i19;
-import 'package:flutter/material.dart' as _i20;
+import 'package:auto_route/auto_route.dart' as _i21;
+import 'package:flutter/material.dart' as _i22;
 
-abstract class $AppRouter extends _i19.RootStackRouter {
-  $AppRouter([_i20.GlobalKey<_i20.NavigatorState>? navigatorKey])
+abstract class $AppRouter extends _i21.RootStackRouter {
+  $AppRouter([_i22.GlobalKey<_i22.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i19.PageFactory> pagesMap = {
+  final Map<String, _i21.PageFactory> pagesMap = {
     CreateRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.CreateScreen(),
       );
@@ -48,13 +52,13 @@ abstract class $AppRouter extends _i19.RootStackRouter {
     HomeRoute.name: (routeData) {
       final args =
           routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.HomeScreen(key: args.key),
       );
     },
     LoggedWrapperRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i3.LoggedWrapperScreen(),
       );
@@ -62,19 +66,19 @@ abstract class $AppRouter extends _i19.RootStackRouter {
     LoginRoute.name: (routeData) {
       final args = routeData.argsAs<LoginRouteArgs>(
           orElse: () => const LoginRouteArgs());
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.LoginScreen(key: args.key),
       );
     },
     MyRoadmapsRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.MyRoadmapsScreen(),
       );
     },
     PublicRoadmapsRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i6.PublicRoadmapsScreen(),
       );
@@ -82,31 +86,31 @@ abstract class $AppRouter extends _i19.RootStackRouter {
     RegisterRoute.name: (routeData) {
       final args = routeData.argsAs<RegisterRouteArgs>(
           orElse: () => const RegisterRouteArgs());
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i7.RegisterScreen(key: args.key),
       );
     },
     SplashRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i8.SplashScreen(),
       );
     },
     WelcomeRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i9.WelcomeScreen(),
       );
     },
     ConfigurationRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i10.ConfigurationScreen(),
       );
     },
     EditProfileRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i11.EditProfileScreen(),
       );
@@ -116,7 +120,7 @@ abstract class $AppRouter extends _i19.RootStackRouter {
       final args = routeData.argsAs<SingleBlockRouteArgs>(
           orElse: () =>
               SingleBlockRouteArgs(blockId: pathParams.getInt('blockId')));
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i12.SingleBlockScreen(
           key: args.key,
@@ -125,7 +129,7 @@ abstract class $AppRouter extends _i19.RootStackRouter {
       );
     },
     UnnavailableRoadmapRoute.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i13.UnnavailableRoadmapScreen(),
       );
@@ -135,7 +139,7 @@ abstract class $AppRouter extends _i19.RootStackRouter {
       final args = routeData.argsAs<SingleRoadRouteArgs>(
           orElse: () =>
               SingleRoadRouteArgs(roadId: pathParams.getInt('roadId')));
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i14.SingleRoadScreen(
           key: args.key,
@@ -144,27 +148,39 @@ abstract class $AppRouter extends _i19.RootStackRouter {
       );
     },
     BlockRouter.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i15.RoadmapRouterScreen(),
       );
     },
     ComunidadRouter.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i16.ComunidadRouterScreen(),
       );
     },
     MisRoadmapsRouter.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i17.MisRoadmapsRouterScreen(),
       );
     },
     WelcomeRouter.name: (routeData) {
-      return _i19.AutoRoutePage<dynamic>(
+      return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i18.WelcomeRouterScreen(),
+      );
+    },
+    HomeRouter.name: (routeData) {
+      return _i21.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i19.HomeRouterScreen(),
+      );
+    },
+    ConfigRouter.name: (routeData) {
+      return _i21.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i20.ConfigRouterScreen(),
       );
     },
   };
@@ -172,8 +188,8 @@ abstract class $AppRouter extends _i19.RootStackRouter {
 
 /// generated route for
 /// [_i1.CreateScreen]
-class CreateRoute extends _i19.PageRouteInfo<void> {
-  const CreateRoute({List<_i19.PageRouteInfo>? children})
+class CreateRoute extends _i21.PageRouteInfo<void> {
+  const CreateRoute({List<_i21.PageRouteInfo>? children})
       : super(
           CreateRoute.name,
           initialChildren: children,
@@ -181,15 +197,15 @@ class CreateRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'CreateRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.HomeScreen]
-class HomeRoute extends _i19.PageRouteInfo<HomeRouteArgs> {
+class HomeRoute extends _i21.PageRouteInfo<HomeRouteArgs> {
   HomeRoute({
-    _i20.Key? key,
-    List<_i19.PageRouteInfo>? children,
+    _i22.Key? key,
+    List<_i21.PageRouteInfo>? children,
   }) : super(
           HomeRoute.name,
           args: HomeRouteArgs(key: key),
@@ -198,14 +214,14 @@ class HomeRoute extends _i19.PageRouteInfo<HomeRouteArgs> {
 
   static const String name = 'HomeRoute';
 
-  static const _i19.PageInfo<HomeRouteArgs> page =
-      _i19.PageInfo<HomeRouteArgs>(name);
+  static const _i21.PageInfo<HomeRouteArgs> page =
+      _i21.PageInfo<HomeRouteArgs>(name);
 }
 
 class HomeRouteArgs {
   const HomeRouteArgs({this.key});
 
-  final _i20.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -215,8 +231,8 @@ class HomeRouteArgs {
 
 /// generated route for
 /// [_i3.LoggedWrapperScreen]
-class LoggedWrapperRoute extends _i19.PageRouteInfo<void> {
-  const LoggedWrapperRoute({List<_i19.PageRouteInfo>? children})
+class LoggedWrapperRoute extends _i21.PageRouteInfo<void> {
+  const LoggedWrapperRoute({List<_i21.PageRouteInfo>? children})
       : super(
           LoggedWrapperRoute.name,
           initialChildren: children,
@@ -224,15 +240,15 @@ class LoggedWrapperRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'LoggedWrapperRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.LoginScreen]
-class LoginRoute extends _i19.PageRouteInfo<LoginRouteArgs> {
+class LoginRoute extends _i21.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
-    _i20.Key? key,
-    List<_i19.PageRouteInfo>? children,
+    _i22.Key? key,
+    List<_i21.PageRouteInfo>? children,
   }) : super(
           LoginRoute.name,
           args: LoginRouteArgs(key: key),
@@ -241,14 +257,14 @@ class LoginRoute extends _i19.PageRouteInfo<LoginRouteArgs> {
 
   static const String name = 'LoginRoute';
 
-  static const _i19.PageInfo<LoginRouteArgs> page =
-      _i19.PageInfo<LoginRouteArgs>(name);
+  static const _i21.PageInfo<LoginRouteArgs> page =
+      _i21.PageInfo<LoginRouteArgs>(name);
 }
 
 class LoginRouteArgs {
   const LoginRouteArgs({this.key});
 
-  final _i20.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -258,8 +274,8 @@ class LoginRouteArgs {
 
 /// generated route for
 /// [_i5.MyRoadmapsScreen]
-class MyRoadmapsRoute extends _i19.PageRouteInfo<void> {
-  const MyRoadmapsRoute({List<_i19.PageRouteInfo>? children})
+class MyRoadmapsRoute extends _i21.PageRouteInfo<void> {
+  const MyRoadmapsRoute({List<_i21.PageRouteInfo>? children})
       : super(
           MyRoadmapsRoute.name,
           initialChildren: children,
@@ -267,13 +283,13 @@ class MyRoadmapsRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'MyRoadmapsRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i6.PublicRoadmapsScreen]
-class PublicRoadmapsRoute extends _i19.PageRouteInfo<void> {
-  const PublicRoadmapsRoute({List<_i19.PageRouteInfo>? children})
+class PublicRoadmapsRoute extends _i21.PageRouteInfo<void> {
+  const PublicRoadmapsRoute({List<_i21.PageRouteInfo>? children})
       : super(
           PublicRoadmapsRoute.name,
           initialChildren: children,
@@ -281,15 +297,15 @@ class PublicRoadmapsRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'PublicRoadmapsRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i7.RegisterScreen]
-class RegisterRoute extends _i19.PageRouteInfo<RegisterRouteArgs> {
+class RegisterRoute extends _i21.PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({
-    _i20.Key? key,
-    List<_i19.PageRouteInfo>? children,
+    _i22.Key? key,
+    List<_i21.PageRouteInfo>? children,
   }) : super(
           RegisterRoute.name,
           args: RegisterRouteArgs(key: key),
@@ -298,14 +314,14 @@ class RegisterRoute extends _i19.PageRouteInfo<RegisterRouteArgs> {
 
   static const String name = 'RegisterRoute';
 
-  static const _i19.PageInfo<RegisterRouteArgs> page =
-      _i19.PageInfo<RegisterRouteArgs>(name);
+  static const _i21.PageInfo<RegisterRouteArgs> page =
+      _i21.PageInfo<RegisterRouteArgs>(name);
 }
 
 class RegisterRouteArgs {
   const RegisterRouteArgs({this.key});
 
-  final _i20.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -315,8 +331,8 @@ class RegisterRouteArgs {
 
 /// generated route for
 /// [_i8.SplashScreen]
-class SplashRoute extends _i19.PageRouteInfo<void> {
-  const SplashRoute({List<_i19.PageRouteInfo>? children})
+class SplashRoute extends _i21.PageRouteInfo<void> {
+  const SplashRoute({List<_i21.PageRouteInfo>? children})
       : super(
           SplashRoute.name,
           initialChildren: children,
@@ -324,13 +340,13 @@ class SplashRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i9.WelcomeScreen]
-class WelcomeRoute extends _i19.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i19.PageRouteInfo>? children})
+class WelcomeRoute extends _i21.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i21.PageRouteInfo>? children})
       : super(
           WelcomeRoute.name,
           initialChildren: children,
@@ -338,13 +354,13 @@ class WelcomeRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'WelcomeRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i10.ConfigurationScreen]
-class ConfigurationRoute extends _i19.PageRouteInfo<void> {
-  const ConfigurationRoute({List<_i19.PageRouteInfo>? children})
+class ConfigurationRoute extends _i21.PageRouteInfo<void> {
+  const ConfigurationRoute({List<_i21.PageRouteInfo>? children})
       : super(
           ConfigurationRoute.name,
           initialChildren: children,
@@ -352,13 +368,13 @@ class ConfigurationRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'ConfigurationRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i11.EditProfileScreen]
-class EditProfileRoute extends _i19.PageRouteInfo<void> {
-  const EditProfileRoute({List<_i19.PageRouteInfo>? children})
+class EditProfileRoute extends _i21.PageRouteInfo<void> {
+  const EditProfileRoute({List<_i21.PageRouteInfo>? children})
       : super(
           EditProfileRoute.name,
           initialChildren: children,
@@ -366,16 +382,16 @@ class EditProfileRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'EditProfileRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i12.SingleBlockScreen]
-class SingleBlockRoute extends _i19.PageRouteInfo<SingleBlockRouteArgs> {
+class SingleBlockRoute extends _i21.PageRouteInfo<SingleBlockRouteArgs> {
   SingleBlockRoute({
-    _i20.Key? key,
+    _i22.Key? key,
     required int blockId,
-    List<_i19.PageRouteInfo>? children,
+    List<_i21.PageRouteInfo>? children,
   }) : super(
           SingleBlockRoute.name,
           args: SingleBlockRouteArgs(
@@ -388,8 +404,8 @@ class SingleBlockRoute extends _i19.PageRouteInfo<SingleBlockRouteArgs> {
 
   static const String name = 'SingleBlockRoute';
 
-  static const _i19.PageInfo<SingleBlockRouteArgs> page =
-      _i19.PageInfo<SingleBlockRouteArgs>(name);
+  static const _i21.PageInfo<SingleBlockRouteArgs> page =
+      _i21.PageInfo<SingleBlockRouteArgs>(name);
 }
 
 class SingleBlockRouteArgs {
@@ -398,7 +414,7 @@ class SingleBlockRouteArgs {
     required this.blockId,
   });
 
-  final _i20.Key? key;
+  final _i22.Key? key;
 
   final int blockId;
 
@@ -410,8 +426,8 @@ class SingleBlockRouteArgs {
 
 /// generated route for
 /// [_i13.UnnavailableRoadmapScreen]
-class UnnavailableRoadmapRoute extends _i19.PageRouteInfo<void> {
-  const UnnavailableRoadmapRoute({List<_i19.PageRouteInfo>? children})
+class UnnavailableRoadmapRoute extends _i21.PageRouteInfo<void> {
+  const UnnavailableRoadmapRoute({List<_i21.PageRouteInfo>? children})
       : super(
           UnnavailableRoadmapRoute.name,
           initialChildren: children,
@@ -419,16 +435,16 @@ class UnnavailableRoadmapRoute extends _i19.PageRouteInfo<void> {
 
   static const String name = 'UnnavailableRoadmapRoute';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i14.SingleRoadScreen]
-class SingleRoadRoute extends _i19.PageRouteInfo<SingleRoadRouteArgs> {
+class SingleRoadRoute extends _i21.PageRouteInfo<SingleRoadRouteArgs> {
   SingleRoadRoute({
-    _i20.Key? key,
+    _i22.Key? key,
     required int roadId,
-    List<_i19.PageRouteInfo>? children,
+    List<_i21.PageRouteInfo>? children,
   }) : super(
           SingleRoadRoute.name,
           args: SingleRoadRouteArgs(
@@ -441,8 +457,8 @@ class SingleRoadRoute extends _i19.PageRouteInfo<SingleRoadRouteArgs> {
 
   static const String name = 'SingleRoadRoute';
 
-  static const _i19.PageInfo<SingleRoadRouteArgs> page =
-      _i19.PageInfo<SingleRoadRouteArgs>(name);
+  static const _i21.PageInfo<SingleRoadRouteArgs> page =
+      _i21.PageInfo<SingleRoadRouteArgs>(name);
 }
 
 class SingleRoadRouteArgs {
@@ -451,7 +467,7 @@ class SingleRoadRouteArgs {
     required this.roadId,
   });
 
-  final _i20.Key? key;
+  final _i22.Key? key;
 
   final int roadId;
 
@@ -463,8 +479,8 @@ class SingleRoadRouteArgs {
 
 /// generated route for
 /// [_i15.RoadmapRouterScreen]
-class BlockRouter extends _i19.PageRouteInfo<void> {
-  const BlockRouter({List<_i19.PageRouteInfo>? children})
+class BlockRouter extends _i21.PageRouteInfo<void> {
+  const BlockRouter({List<_i21.PageRouteInfo>? children})
       : super(
           BlockRouter.name,
           initialChildren: children,
@@ -472,13 +488,13 @@ class BlockRouter extends _i19.PageRouteInfo<void> {
 
   static const String name = 'BlockRouter';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i16.ComunidadRouterScreen]
-class ComunidadRouter extends _i19.PageRouteInfo<void> {
-  const ComunidadRouter({List<_i19.PageRouteInfo>? children})
+class ComunidadRouter extends _i21.PageRouteInfo<void> {
+  const ComunidadRouter({List<_i21.PageRouteInfo>? children})
       : super(
           ComunidadRouter.name,
           initialChildren: children,
@@ -486,13 +502,13 @@ class ComunidadRouter extends _i19.PageRouteInfo<void> {
 
   static const String name = 'ComunidadRouter';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i17.MisRoadmapsRouterScreen]
-class MisRoadmapsRouter extends _i19.PageRouteInfo<void> {
-  const MisRoadmapsRouter({List<_i19.PageRouteInfo>? children})
+class MisRoadmapsRouter extends _i21.PageRouteInfo<void> {
+  const MisRoadmapsRouter({List<_i21.PageRouteInfo>? children})
       : super(
           MisRoadmapsRouter.name,
           initialChildren: children,
@@ -500,13 +516,13 @@ class MisRoadmapsRouter extends _i19.PageRouteInfo<void> {
 
   static const String name = 'MisRoadmapsRouter';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i18.WelcomeRouterScreen]
-class WelcomeRouter extends _i19.PageRouteInfo<void> {
-  const WelcomeRouter({List<_i19.PageRouteInfo>? children})
+class WelcomeRouter extends _i21.PageRouteInfo<void> {
+  const WelcomeRouter({List<_i21.PageRouteInfo>? children})
       : super(
           WelcomeRouter.name,
           initialChildren: children,
@@ -514,5 +530,33 @@ class WelcomeRouter extends _i19.PageRouteInfo<void> {
 
   static const String name = 'WelcomeRouter';
 
-  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i19.HomeRouterScreen]
+class HomeRouter extends _i21.PageRouteInfo<void> {
+  const HomeRouter({List<_i21.PageRouteInfo>? children})
+      : super(
+          HomeRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRouter';
+
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i20.ConfigRouterScreen]
+class ConfigRouter extends _i21.PageRouteInfo<void> {
+  const ConfigRouter({List<_i21.PageRouteInfo>? children})
+      : super(
+          ConfigRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ConfigRouter';
+
+  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
 }

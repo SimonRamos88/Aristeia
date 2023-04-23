@@ -1,6 +1,7 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
+import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
@@ -46,9 +47,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
-               alignment: WrapAlignment.center,
-               spacing: 8,
-               runSpacing: 8,
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                runSpacing: 8,
                 children: [
                   for (var i = 0; i < 5; i++)
                     Etiqueta.large(
@@ -65,11 +66,18 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text('Soy la descripción de la Roadmap'),
-                  Row(children: [
-                    Icon(Icons.star_rounded,size:32, color: colors.blueColor),
-                    Text('4,5', style: heading2bStyle.copyWith(color: colors.blueColor),),
-                  ],)
-                ],),
+                  Row(
+                    children: [
+                      Icon(Icons.star_rounded,
+                          size: 32, color: colors.blueColor),
+                      Text(
+                        '4,5',
+                        style: heading2bStyle.copyWith(color: colors.blueColor),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -77,9 +85,11 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Estado:', style: heading2bStyle.copyWith(color: colors.blueColor)),
-                  StateWidget(large:  true,),
-                  
+                  Text('Estado:',
+                      style: heading2bStyle.copyWith(color: colors.blueColor)),
+                  StateWidget(
+                    large: true,
+                  ),
                 ],
               ),
             ),
@@ -91,13 +101,55 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   SingleBlockRoute(blockId: i),
                 ),
               ),
+            SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                MyButton(buttonText: 'copiar', large: false, outlined: true, colorText: colors.mainColor,),
-                MyButton(buttonText: 'calificar', large: false),
-              ],),
+                MyButton(
+                  buttonText: 'copiar',
+                  large: false,
+                  outlined: true,
+                  width: 130,
+                  colorText: colors.mainColor,
+                  onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: ((context) => AlertDialogWidget(
+                              message: '¿Esta seguro de copiar este roadmap?',
+                              leftText: 'Copiar',
+                              rightText: 'Cancelar',
+                              onTapLeft: () {},
+                              onTapRight: () {
+                                Navigator.of(context).pop();
+                              },
+                            )),
+                      );
+                    }),
+      
+                SizedBox(width: 24),
+                MyButton(
+                    buttonText: 'calificar',
+                    large: false,
+                    width: 130,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: ((context) => AlertDialogWidget(
+                              message: 'Calificar',
+                              leftText: 'Cerrar',
+                              rightText: 'Cancelar',
+                              onTapLeft: () {},
+                              onTapRight: () {
+                                Navigator.of(context).pop();
+                              },
+                            )),
+                      );
+                    }),
+                    
+              ],
+            ),
+            SizedBox(height: 24),
           ],
         ),
       ),

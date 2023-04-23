@@ -1,6 +1,5 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
-import 'package:aristeia_app/core/widgets/but.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';

@@ -2,6 +2,7 @@ import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
+import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
@@ -12,27 +13,26 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 @RoutePage()
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
+
 class _HomeScreenState extends State<HomeScreen> {
   static final gradients = AppGradients();
 
   final User? user = Auth().currentUser;
-  String usertag= 'usertag';
-  String usernames= 'nombres';
+  String usertag = 'usertag';
+  String usernames = 'nombres';
 
-
-
-  Future<void> readUserData() async{
-    final docUser= FirebaseFirestore.instance.collection('usuarios').doc(user?.uid);
+  Future<void> readUserData() async {
+    final docUser =
+        FirebaseFirestore.instance.collection('usuarios').doc(user?.uid);
     final queryU = await docUser.get();
     setState(() {
-      usertag= queryU.get('usertag');
-      usernames= queryU.get('nombres');
+      usertag = queryU.get('usertag');
+      usernames = queryU.get('nombres');
     });
     print('funciono');
   }
@@ -43,11 +43,30 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBarWidget(
         title: 'RoadmapTo',
         type: 2,
+        onPressedLeading: () {
+          context.router.push(ConfigRouter());
+          //context.router.replace(const ConfigurationRoute());
+        },
         onPressedAction: () {
-          print("nono");
-          Auth().signOut();
-          print("papaya");
-          context.router.replace(const WelcomeRouter());
+          showDialog(
+            context: context,
+            builder: ((context) => AlertDialogWidget(
+              message: '¿Estas seguro de cerrar sesión?',
+                  leftText: 'Cerrar',
+                  rightText: 'Cancelar',
+                  onTapLeft: () {
+                    Auth().signOut();
+                    context.router.replace(const WelcomeRouter());
+                  },
+                  onTapRight: () {
+                    Navigator.of(context).pop();
+                  },
+                )),
+          );
+          //print("nono");
+          //Auth().signOut();
+          //print("papaya");
+          //context.router.replace(const WelcomeRouter());
         },
       ),
       body: SingleChildScrollView(
