@@ -1,10 +1,15 @@
+import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/etiqueta.dart';
+import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
 class RoadmapCard extends StatelessWidget {
+
+static final colors = AppColors();
+
   static final gradients = AppGradients();
   static final effects = AppEffects();
   final void Function()? onTap;
@@ -48,7 +53,7 @@ class RoadmapCard extends StatelessWidget {
                         color: Theme.of(context).primaryColor),
                   ),
                   myRoadmap
-                      ? Text('Estado')
+                      ? StateWidget()
                       : const SizedBox(
                           width: 0,
                           height: 0,
@@ -105,13 +110,13 @@ class RoadmapCard extends StatelessWidget {
                     Etiqueta(text: 'etiqueta 1'),
                   ]),
                   Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.star_rounded,
                         size: 24,
-                        color: Colors.black,
+                        color: colors.mainColor,
                       ),
-                      Text('4,3'),
+                      Text('4,3', style: heading3bStyle.copyWith(color: colors.mainColor),),
                     ],
                   )
                 ],

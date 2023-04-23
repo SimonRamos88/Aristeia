@@ -37,13 +37,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
            email: _controllerEmail.text,
            password: _controllerPassword.text
        );
-     } on FirebaseAuthException catch (e) {
+       await sendUserData();
+       context.router.push(const LoggedWrapperRoute());
+     } on FirebaseAuthException 
+     catch (e) {
        setState(() {
            errorMessage = e.message;
        });
      }
+   }else{
+    setState(() {
+           errorMessage = 'La contraseñas no coinciden';
+       });
    }
-     await sendUserData();
+     
   }
 
   Future<void> sendUserData() async {
@@ -88,8 +95,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               buttonText: 'Registrarse',
                onTap: (){
                  createUserWithEmailAndPassword();
-                 context.router.push(const LoggedWrapperRoute());
-      
       
                 },
               ),
