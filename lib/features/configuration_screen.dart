@@ -31,13 +31,13 @@ class ConfigurationScreen extends StatelessWidget {
               context.router.push(const EditProfileRoute());
             },
           ),
-          CajaOpcion(
+          const CajaOpcion(
             texto: 'Cambiar contraseña',
           ),
-          CajaOpcion(
+          const CajaOpcion(
             texto: 'Terminos y condiciones',
           ),
-          CajaOpcion(
+          const CajaOpcion(
             texto: 'Más sobre Aristeia',
           ),
           CajaOpcion(

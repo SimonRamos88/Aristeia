@@ -38,7 +38,7 @@ class _InputFieldState extends State<InputField> {
 
   final circularBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
-    borderSide: BorderSide(width: 0.5, style: BorderStyle.none),
+    borderSide: const BorderSide(width: 0.5, style: BorderStyle.none),
   );
 
   @override

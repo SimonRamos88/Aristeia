@@ -85,9 +85,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             InputField(hintText: 'Contraseña', isPassword: true,controller: _controllerPassword),
             InputField(hintText: 'Confirmar contraseña', isPassword: true, controller: _controllerConfPassword,),
             Container(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
-                      errorMessage == '' ? '' : 'Algo salio mal... $errorMessage',
+                      errorMessage == '' ? '' : 'Algo salió mal... $errorMessage',
                       style: bodyStyle,
                       textAlign: TextAlign.center,
                     )),

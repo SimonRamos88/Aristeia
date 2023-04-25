@@ -23,7 +23,7 @@ class LoggedWrapperScreen extends StatelessWidget {
     //     // appBarBuilder: (_, tabsRouter) => AppBarWidget(type: tabsRouter.activeIndex),
         bottomNavigationBuilder: (_, tabsRouter) {
         return SalomonBottomBar(
-          unselectedItemColor: Color.fromARGB(255, 200, 185, 250),
+          unselectedItemColor: const Color.fromARGB(255, 200, 185, 250),
           selectedItemColor: Colors.white,
           backgroundColor: colors.mainColor,
           margin: const EdgeInsets.symmetric(

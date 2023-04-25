@@ -44,7 +44,8 @@ class CustomGradient extends CustomPainter {
 
 class CustomGradientContainer extends StatelessWidget {
   CustomGradientContainer({
-    @required gradient,
+    super.key,
+    required gradient,
     required this.child,
     this.strokeWidth = 0,
     this.bRadius = 1,
@@ -68,7 +69,6 @@ class CustomGradientContainer extends StatelessWidget {
 }
 
 class MyButton extends StatelessWidget {
-
   static final gradients = AppGradients();
   static final colors = AppColors();
 
@@ -87,7 +87,7 @@ class MyButton extends StatelessWidget {
     Key? key,
     this.outlined = false,
     this.large = true,
-    required this.buttonText,
+    this.buttonText = '',
     this.width = 200,
     this.shadow = 0,
     this.blue = false,
@@ -120,17 +120,24 @@ class MyButton extends StatelessWidget {
     return Center(
       // Background button
       child: Container(
-        margin:
-            large ? EdgeInsets.symmetric(horizontal: 24, vertical: 16) : null,
-        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+        margin: large
+            ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+            : null,
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
-          gradient: outlined ? null : blue? gradients.blueGradient : backgroundGradient,
+          gradient: outlined
+              ? null
+              : blue
+                  ? gradients.blueGradient
+                  : backgroundGradient,
           //gradient: backgroundGradient,
           border: Border.all(
             color: outlined
-                ? blue? colors.blueColor :Theme.of(context).primaryColor
-                : Color.fromRGBO(109, 76, 228, 0.329),
+                ? blue
+                    ? colors.blueColor
+                    : Theme.of(context).primaryColor
+                : const Color.fromRGBO(109, 76, 228, 0.329),
             width: 3,
             //strokeAlign: BorderSide.strokeAlignOutside
           ),
@@ -165,7 +172,8 @@ class MyButton extends StatelessWidget {
             // Animation border
             borderRadius: BorderRadius.circular(22),
             child: Container(
-              padding: large ? null : EdgeInsets.symmetric(horizontal: 24),
+              padding:
+                  large ? null : const EdgeInsets.symmetric(horizontal: 24),
               // Size widget
               alignment: Alignment.center,
               height: 48,
@@ -175,7 +183,9 @@ class MyButton extends StatelessWidget {
               child: Text(buttonText,
                   style: heading3bStyle.copyWith(
                     color: (outlined && colorText == Colors.white)
-                        ? blue? colors.blueColor: Theme.of(context).primaryColor
+                        ? blue
+                            ? colors.blueColor
+                            : Theme.of(context).primaryColor
                         : colorText,
                   )),
             ),

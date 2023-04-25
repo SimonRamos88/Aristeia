@@ -2,7 +2,6 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/etiqueta.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -33,10 +32,10 @@ class BlockCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         width: MediaQuery.of(context).size.width,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           decoration: BoxDecoration(
             gradient: gradients.bluecardGradient,
             borderRadius: BorderRadius.circular(20),
@@ -51,8 +50,7 @@ class BlockCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        nombreBloque,
+                    Text(nombreBloque,
                         softWrap: true,
                         style:
                             heading3bStyle.copyWith(color: colors.blueColor)),
@@ -91,11 +89,11 @@ class BlockCard extends StatelessWidget {
                           onPressed: onDelete,
                           icon: Icon(
                             Icons.delete,
-                            size: 24,
-                            color: colors.blueColor,
+                            size: 30,
+                            color: colors.blueColor.withOpacity(0.8),
                           ),
                         )
-                      : StateWidget(large:false, estado:0)
+                      : const StateWidget(large: false, estado: 0)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),

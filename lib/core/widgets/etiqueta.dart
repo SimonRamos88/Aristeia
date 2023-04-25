@@ -12,12 +12,14 @@ class Etiqueta extends StatelessWidget {
 
 
   const Etiqueta({
+    super.key, 
     required this.text, 
     this.size = 1,
     this.color = 0,
     });
 
   const Etiqueta.large({
+    super.key, 
     required this.text, 
     this.size = 2,
     this.color = 0,});

@@ -55,14 +55,14 @@ class _CreateScreenState extends State<CreateScreen> {
               child: DropdownButtonFormField(
                 items: const [
                   DropdownMenuItem(
+                    value: '1',
                     child: Text(
                       'Público',
                     ),
-                    value: '1',
                   ),
                   DropdownMenuItem(
-                    child: Text('Privado'),
                     value: '2',
+                    child: Text('Privado'),
                   )
                 ],
                 onChanged: (value) {

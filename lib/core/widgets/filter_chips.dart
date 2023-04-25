@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 
 class FilterChips {
   static final all = <FilterChipData>[
-    FilterChipData(
+    const FilterChipData(
       label: 'Ciencias',
       isSelected: false,
 
     ),
-    FilterChipData(
+    const FilterChipData(
       label: 'Ingeniería',
       isSelected: false,
 
     ),
-    FilterChipData(
+    const FilterChipData(
       label: 'Música',
       isSelected: false,
 
     ),
-    FilterChipData(
-      label: 'Avg. Customer Review',
+    const FilterChipData(
+      label: 'Arte',
       isSelected: false,
 
     ),
-    FilterChipData(
-      label: 'Sort By Relevance',
+    const FilterChipData(
+      label: 'Deporte',
       isSelected: false,
 
     ),
