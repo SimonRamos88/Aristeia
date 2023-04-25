@@ -1,14 +1,20 @@
+import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class AlertDialogWidget extends StatelessWidget {
+
+static final gradients = AppGradients();
+
   final Function()? onTapLeft;
   final Function()? onTapRight;
   final String leftText;
   final String rightText;
   final String message;
   final Widget tituloPersonalizado;
+  final bool tituloGeneral;
+  final int color;
   final Widget more;
 
   const AlertDialogWidget({
@@ -18,6 +24,8 @@ class AlertDialogWidget extends StatelessWidget {
     this.leftText = '',
     this.rightText = 'Cancelar',
     this.message = '¿Estas seguro de esto?',
+    this.tituloGeneral = true,
+    this.color = 0,
     this.tituloPersonalizado = const SizedBox(
       width: 0,
       height: 0,
@@ -43,11 +51,7 @@ class AlertDialogWidget extends StatelessWidget {
 
       //title: Text('Esta seguro '),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: (tituloPersonalizado ==
-              const SizedBox(
-                width: 0,
-                height: 0,
-              ))
+      content: tituloGeneral
           ? Text(
               message,
               style: interHeading3Style.copyWith(fontWeight: FontWeight.bold),
@@ -80,7 +84,10 @@ class AlertDialogWidget extends StatelessWidget {
                     outlined: true,
                     large: false,
                     width: 150,
-                    onTap: onTapLeft)
+                    onTap: onTapLeft,
+                    pink: (color==2)? true: false,
+                    blue: (color==1)? true: false,
+                    )
                 : const SizedBox(
                     width: 0,
                     height: 0,
@@ -92,7 +99,10 @@ class AlertDialogWidget extends StatelessWidget {
                 buttonText: rightText,
                 large: false,
                 width: 150,
-                onTap: onTapRight),
+                onTap: onTapRight,
+                pink: (color==2)?true: false,
+                blue: (color==1)?true: false,
+                ),
           ],
         )
       ],

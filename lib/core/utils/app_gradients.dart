@@ -33,16 +33,18 @@ class AppGradients {
     stops: [0.0, 0.9323, 1.0],
   );
 
-  final pinkGradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
+  final pinkGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
-      colors.pinkColor,
-      colors.pinkColor50,
+      Color(0xffC743F0),
+      Color.fromARGB(122, 200, 67, 240),
+      Color.fromARGB(44, 200, 67, 240),
     ],
+    stops: [0.0, 0.9323, 1.0],
   );
 
-  final infoGradient = LinearGradient(
+  final infoGradient = const LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
@@ -51,7 +53,7 @@ class AppGradients {
     ],
   );
 
-  final cardGradient = LinearGradient(
+  final cardGradient = const LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
@@ -60,7 +62,7 @@ class AppGradients {
     ],
   );
 
-  final bluecardGradient = LinearGradient(
+  final bluecardGradient =  const LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
@@ -69,15 +71,14 @@ class AppGradients {
     ],
   );
 
-   final pinkcardGradient = LinearGradient(
+  final pinkcardGradient =  const  LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
-       Color.fromARGB(255, 247, 221, 255),
+      Color.fromARGB(255, 247, 221, 255),
       Color.fromARGB(255, 253, 245, 255),
     ],
   );
-
 }
 
 //static final gradients = AppGradients();
