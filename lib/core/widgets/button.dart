@@ -1,3 +1,5 @@
+import 'package:aristeia_app/core/utils/app_colors.dart';
+import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -66,6 +68,10 @@ class CustomGradientContainer extends StatelessWidget {
 }
 
 class MyButton extends StatelessWidget {
+
+  static final gradients = AppGradients();
+  static final colors = AppColors();
+
   final String buttonText;
   final double width;
   final double shadow;
@@ -74,6 +80,7 @@ class MyButton extends StatelessWidget {
   final Color colorText;
   final bool outlined;
   final bool large;
+  final bool blue;
   final Function()? onTap;
 
   const MyButton({
@@ -83,6 +90,7 @@ class MyButton extends StatelessWidget {
     required this.buttonText,
     this.width = 200,
     this.shadow = 0,
+    this.blue = false,
     this.backgroundGradient = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
@@ -97,7 +105,7 @@ class MyButton extends StatelessWidget {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-Color(0xff6D4CE4),
+        Color(0xff6D4CE4),
         Color(0xff6D4CE4),
         Color.fromRGBO(109, 76, 228, 0.75),
       ],
@@ -112,17 +120,20 @@ Color(0xff6D4CE4),
     return Center(
       // Background button
       child: Container(
-        margin: large ? EdgeInsets.symmetric(horizontal: 24, vertical: 16) : null,
+        margin:
+            large ? EdgeInsets.symmetric(horizontal: 24, vertical: 16) : null,
         padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
-          gradient: outlined? null: backgroundGradient,
+          gradient: outlined ? null : blue? gradients.blueGradient : backgroundGradient,
           //gradient: backgroundGradient,
           border: Border.all(
-            color: outlined? Theme.of(context).primaryColor:Color.fromRGBO(109, 76, 228, 0.329), 
+            color: outlined
+                ? blue? colors.blueColor :Theme.of(context).primaryColor
+                : Color.fromRGBO(109, 76, 228, 0.329),
             width: 3,
             //strokeAlign: BorderSide.strokeAlignOutside
-            ),
+          ),
         ),
         // Gradient border
         // child: CustomGradientContainer(
@@ -138,39 +149,39 @@ Color(0xff6D4CE4),
         //         )
         //       : borderGradient,
         //   strokeWidth: outlined ? 25 : 0,
-          // Button content
-          child: Material(
-            color: Colors.transparent,
-            elevation: shadow,
-            // Widget border
+        // Button content
+        child: Material(
+          color: Colors.transparent,
+          elevation: shadow,
+          // Widget border
+          borderRadius: BorderRadius.circular(22),
+          // Splash animation when the button is clicked
+          child: InkWell(
+            // focusColor: Colors.transparent,
+            // hoverColor: Colors.transparent,
+            // highlightColor: Colors.transparent,
+            onTap: onTap,
+            splashColor: const Color.fromRGBO(109, 76, 228, 0.85),
+            // Animation border
             borderRadius: BorderRadius.circular(22),
-            // Splash animation when the button is clicked
-            child: InkWell(
-              // focusColor: Colors.transparent,
-              // hoverColor: Colors.transparent,
-              // highlightColor: Colors.transparent,
-              onTap: onTap,
-              splashColor: const Color.fromRGBO(109, 76, 228, 0.85),
-              // Animation border
-              borderRadius: BorderRadius.circular(22),
-              child: Container(
-                padding: large ? null : EdgeInsets.symmetric(horizontal: 24),
-                // Size widget
-                alignment: Alignment.center ,
-                height: 48,
-                //margin: EdgeInsets.symmetric(horizontal: 20),
-                width: large? null: width,
+            child: Container(
+              padding: large ? null : EdgeInsets.symmetric(horizontal: 24),
+              // Size widget
+              alignment: Alignment.center,
+              height: 48,
+              //margin: EdgeInsets.symmetric(horizontal: 20),
+              width: large ? null : width,
 
-                child:  Text(buttonText,
-                     
-                      style: heading3bStyle.copyWith(
-                        color: (outlined && colorText== Colors.white)? Theme.of(context).primaryColor: colorText,
-                      )),
-              
-              ),
+              child: Text(buttonText,
+                  style: heading3bStyle.copyWith(
+                    color: (outlined && colorText == Colors.white)
+                        ? blue? colors.blueColor: Theme.of(context).primaryColor
+                        : colorText,
+                  )),
             ),
           ),
         ),
+      ),
       // ),
     );
   }

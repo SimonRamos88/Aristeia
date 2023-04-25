@@ -26,7 +26,8 @@ class EditProfileScreen extends StatelessWidget {
         },),
       
       body: Column(children: [
-         InputField(hintText: 'Nombre', controller: TextEditingController())
+         InputField(hintText: 'Nombre', controller: TextEditingController()),
+         InputField(hintText: 'Usuario', controller: TextEditingController()),
       ]),
     );
   }

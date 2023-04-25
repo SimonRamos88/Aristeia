@@ -10,6 +10,7 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        type: 1,
+        type: 3,
         onPressedLeading: () {
           context.router.pop();
         },
@@ -107,16 +108,16 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MyButton(
-                  buttonText: 'copiar',
-                  large: false,
-                  outlined: true,
-                  width: 130,
-                  colorText: colors.mainColor,
-                  onTap: () {
+                    buttonText: 'copiar',
+                    blue:true,
+                    large: false,
+                    outlined: true,
+                    width: 130,
+                    onTap: () {
                       showDialog(
                         context: context,
                         builder: ((context) => AlertDialogWidget(
-                              message: '¿Esta seguro de copiar este roadmap?',
+                              message: '¿Estas seguro de copiar este Roadmap?',
                               leftText: 'Copiar',
                               rightText: 'Cancelar',
                               onTapLeft: () {},
@@ -126,27 +127,44 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                             )),
                       );
                     }),
-      
                 SizedBox(width: 24),
                 MyButton(
                     buttonText: 'calificar',
+                    blue: true,
                     large: false,
                     width: 130,
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: ((context) => AlertDialogWidget(
-                              message: 'Calificar',
-                              leftText: 'Cerrar',
+                              message: 'Califica este Roadmap de 1 a 5 estrellas',
+                              leftText: 'Calificar',
                               rightText: 'Cancelar',
                               onTapLeft: () {},
                               onTapRight: () {
                                 Navigator.of(context).pop();
                               },
+                              more: RatingBar.builder(
+                                  glow: false,
+                                  initialRating: 1,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star_rounded,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                )
                             )),
+                        
                       );
                     }),
-                    
               ],
             ),
             SizedBox(height: 24),

@@ -23,39 +23,44 @@ class ConfigurationScreen extends StatelessWidget {
           context.router.replace(LoggedWrapperRoute());
         },
       ),
-      body: Column(children: [
-        CajaOpcion(
-          texto: 'Editar datos',
-          onTap: () {
-            context.router.push(const EditProfileRoute());
-          },
-        ),
-        CajaOpcion(
-          texto: 'Terminos y condiciones',
-        ),
-        CajaOpcion(
-          texto: 'Más sobre Aristeia',
-        ),
-        CajaOpcion(
-          texto: 'Eliminar Cuenta',
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: ((context) => AlertDialogWidget(
-                    message: '¿Estás seguro de que quieres eliminar tu cuenta?',
-                    leftText: 'Eliminar',
-                    onTapLeft: () {
-                      // Meter aqui funcion para eliminar cuenta
-                    },
-                    rightText: 'Cancelar',
-                    onTapRight: () {
-                      Navigator.of(context).pop();
-                    },
-                  )),
-            );
-          },
-        ),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          CajaOpcion(
+            texto: 'Editar datos',
+            onTap: () {
+              context.router.push(const EditProfileRoute());
+            },
+          ),
+          CajaOpcion(
+            texto: 'Cambiar contraseña',
+          ),
+          CajaOpcion(
+            texto: 'Terminos y condiciones',
+          ),
+          CajaOpcion(
+            texto: 'Más sobre Aristeia',
+          ),
+          CajaOpcion(
+            texto: 'Eliminar Cuenta',
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: ((context) => AlertDialogWidget(
+                      message: '¿Estás seguro de que quieres eliminar tu cuenta?',
+                      leftText: 'Eliminar',
+                      onTapLeft: () {
+                        // Meter aqui funcion para eliminar cuenta
+                      },
+                      rightText: 'Cancelar',
+                      onTapRight: () {
+                        Navigator.of(context).pop();
+                      },
+                    )),
+              );
+            },
+          ),
+        ]),
+      ),
     );
   }
 }
@@ -74,7 +79,7 @@ class CajaOpcion extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24),
         alignment: Alignment.centerLeft,
         width: MediaQuery.of(context).size.width,
-        height: 50,
+        height: 55,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(

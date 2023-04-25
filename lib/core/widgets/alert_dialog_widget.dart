@@ -11,20 +11,22 @@ class AlertDialogWidget extends StatelessWidget {
   final String leftText;
   final String rightText;
   final String message;
+  final Widget more;
 
   const AlertDialogWidget({
     super.key,
     this.onTapLeft,
     this.onTapRight,
-    this.leftText = 'Aceptar',
+    this.leftText = '',
     this.rightText = 'Cancelar',
     this.message = '¿Estas seguro de esto?',
+    this.more = const SizedBox(width: 0,height: 0,),
   });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.symmetric(horizontal: 32, vertical: 50),
+      contentPadding: more == SizedBox(width: 0,height: 0,)? EdgeInsets.symmetric(horizontal: 32, vertical: 32) :EdgeInsets.symmetric(horizontal: 32, vertical: 32),
       actionsPadding: EdgeInsets.only(right: 32, left: 32, bottom: 32),
       alignment: Alignment.center,
 
@@ -37,23 +39,27 @@ class AlertDialogWidget extends StatelessWidget {
       ),
       actionsAlignment: MainAxisAlignment.center,
       actions: [
-        Row(
+        
+        Container(child: more, alignment: Alignment.center,),
+        more == SizedBox(width: 0,height: 0,)? SizedBox(width: 0,height: 0,): SizedBox(height: 32),
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            MyButton(
+            
+            (leftText != '')? MyButton(
                 buttonText: leftText,
                 outlined: true,
                 large: false,
-                width: 120,
-                onTap: onTapLeft),
+                width: 150,
+                onTap: onTapLeft):SizedBox(width: 0,height: 0,),
             SizedBox(
-              width: 12,
+              height: 16,
             ),
             MyButton(
                 buttonText: rightText,
                 large: false,
-                width: 120,
+                width: 150,
                 onTap: onTapRight),
           ],
         )
