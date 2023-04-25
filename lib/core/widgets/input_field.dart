@@ -12,6 +12,7 @@ class InputField extends StatefulWidget {
   final double width;
   final bool isPassword;
   final int lengthText;
+  final int maxLines;
 
   InputField(
       {Key? key,
@@ -22,7 +23,9 @@ class InputField extends StatefulWidget {
       this.isPassword = false,
       this.lengthText = 100,
       this.height = 70,
-      this.width = 284});
+      this.width = 284,
+      this.maxLines = 1,
+      });
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -52,7 +55,8 @@ class _InputFieldState extends State<InputField> {
               ]),
               width: 3),
         ),
-        child: TextField(
+        child: TextFormField(
+          maxLines: widget.maxLines,
           controller: widget.controller,
           cursorColor: const Color.fromRGBO(70, 80, 250, 0.7),
           textAlignVertical: TextAlignVertical.center,

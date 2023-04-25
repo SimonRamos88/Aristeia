@@ -26,7 +26,14 @@ class AppRouter extends $AppRouter {
       page: LoggedWrapperRoute.page,
       //guards: [AuthGuard()],
       children: [
-        AutoRoute(path: '', page: HomeRoute.page),
+        AutoRoute(
+          path: '', 
+          page: HomeRoute.page,
+          // children: [
+          //   AutoRoute(path: '', page: HomeRoute.page),
+          //   AutoRoute(path: '/config', page: ConfigurationRoute.page),
+          // ]
+        ),
         AutoRoute(
           path: 'comunidad',
           page: ComunidadRouter.page,
@@ -56,11 +63,24 @@ class AppRouter extends $AppRouter {
               ),
           ],
         ),
-        AutoRoute(path: 'crear', page: CreateRoute.page),
-        AutoRoute(path: 'configuracion', page: ConfigurationRoute.page),
+        AutoRoute(path: 'crear', page: CreateRouter.page,
+          children: [
+            AutoRoute(path: '', page: CreateRoute.page),
+            AutoRoute(path: '2', page: Create2Route.page),
+          ]
+        ),
+        
     
       ],
     ),
+    AutoRoute(
+          path: '/config', 
+          page: ConfigRouter.page,
+          children: [
+            AutoRoute(path: '', page: ConfigurationRoute.page),
+            AutoRoute(path: 'edit', page: EditProfileRoute.page),
+          ]
+          ),
   
   ];
 }    

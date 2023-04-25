@@ -1,4 +1,5 @@
 import 'package:aristeia_app/core/utils/text_styles.dart';
+import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -55,12 +56,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                         icon: Icon(Icons.logout,
                             color: Theme.of(context).primaryColor),
                       )
-                    : (type == 4)
-                        ? IconButton(
-                            onPressed: onPressedAction,
-                            icon: Icon(Icons.notifications,
-                                color: Theme.of(context).primaryColor),
-                          )
+                    : (type == 3)
+                        ? const PopUpMenu()
                         : (type == 5 || type == 6 || type == 7)
                             ? IconButton(
                                 onPressed: onPressedAction,
