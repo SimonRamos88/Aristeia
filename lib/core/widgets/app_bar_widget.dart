@@ -8,7 +8,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onPressedLeading;
   final void Function()? onPressedAction;
 
-
   const AppBarWidget({
     super.key,
     this.title = '',
@@ -17,14 +16,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedAction,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 2,
-      backgroundColor: Colors.white,
-      //toolbarHeight: 45,
-      centerTitle: true,
+        elevation: 2,
+        backgroundColor: Colors.white,
+        //toolbarHeight: 45,
+        centerTitle: true,
         title: Text(
           title,
           style: heading2bStyle.copyWith(color: Theme.of(context).primaryColor),
@@ -74,7 +72,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   //Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

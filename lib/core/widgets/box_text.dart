@@ -17,7 +17,7 @@ class BoxText extends StatelessWidget {
       this.color = Colors.black,
       this.centered = true})
       : style = heading1Style.copyWith(color: color),
-      padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16);
+        padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16);
 
   BoxText.section(
       {super.key,
@@ -25,7 +25,7 @@ class BoxText extends StatelessWidget {
       this.color = Colors.black,
       this.centered = true})
       : style = heading2bStyle.copyWith(color: color, fontSize: 20),
-      padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+        padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
   // const BoxText.span(this.text) : style = spanStyle;
 
   // BoxText.body(this.text, {Color color = const Color(0xffED7D43)})
@@ -36,7 +36,7 @@ class BoxText extends StatelessWidget {
     return Container(
       //color: Colors. green,
       width: MediaQuery.of(context).size.width,
-      alignment: centered ? Alignment.center: Alignment.centerLeft,
+      alignment: centered ? Alignment.center : Alignment.centerLeft,
       padding: padding,
       child: Text(
         textAlign: centered ? TextAlign.center : TextAlign.start,

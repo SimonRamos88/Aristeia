@@ -8,7 +8,8 @@ class StateWidget extends StatelessWidget {
   final bool large;
   final Function()? onTap;
 
-  const StateWidget({super.key, this.estado = 0, this.large = false, this.onTap});
+  const StateWidget(
+      {super.key, this.estado = 0, this.large = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,8 @@ class StateWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: large
-            ? EdgeInsets.symmetric(horizontal: 12, vertical: 10)
-            : EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            ? const EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+            : const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
           color: estado == 0
               ? const Color(0xffEEF4FC)
@@ -37,13 +38,13 @@ class StateWidget extends StatelessWidget {
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 1,
-                    offset: Offset(0, 1), // changes position of shadow
+                    offset: const Offset(0, 1), // changes position of shadow
                   )
                 : BoxShadow(
-                    color: Color.fromARGB(43, 0, 0, 0).withOpacity(0.1),
+                    color: const Color.fromARGB(43, 0, 0, 0).withOpacity(0.1),
                     spreadRadius: 0.5,
                     blurRadius: 0.5,
-                    offset: Offset(0, 1), // changes position of shadow
+                    offset: const Offset(0, 1), // changes position of shadow
                   ),
           ],
         ),

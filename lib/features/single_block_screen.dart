@@ -53,17 +53,21 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                         builder: ((context) => AlertDialogWidget(
                               message: 'Cambiar el estado del bloque',
                               more: Column(
-                                children: [
+                                children: const [
                                   StateWidget(
                                     large: true,
                                     estado: 0,
                                   ),
-                                  SizedBox(height: 16,),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
                                   StateWidget(
                                     large: true,
                                     estado: 1,
                                   ),
-                                  SizedBox(height: 16,),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
                                   StateWidget(
                                     large: true,
                                     estado: 2,
@@ -84,8 +88,23 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
             ),
             for (var i = 0; i < 10; i++)
               ResourceCard(
-                nombreRecurso: 'recurso $i',
-              ),
+                  nombreRecurso: 'recurso $i',
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: ((context) => AlertDialogWidget(
+                            tituloPersonalizado: Text('Información recurso  $i', style: heading2bStyle.copyWith(color: colors.pinkColor)),
+                            more: Column(children: [
+                              Text('Links'),
+                              Text('Imagen'),
+                              Text('data')]),
+                            rightText: 'Cerrar',
+                            onTapRight: () {
+                              Navigator.of(context).pop();
+                            },
+                          )),
+                    );
+                  }),
           ],
         ),
       ),

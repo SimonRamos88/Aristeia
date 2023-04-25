@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 8,
               ),
               Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     errorMessage == '' ? '' : 'Hey... ? $errorMessage',
                     style: bodyStyle,

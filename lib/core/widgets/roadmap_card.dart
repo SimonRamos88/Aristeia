@@ -7,8 +7,7 @@ import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
 class RoadmapCard extends StatelessWidget {
-
-static final colors = AppColors();
+  static final colors = AppColors();
 
   static final gradients = AppGradients();
   static final effects = AppEffects();
@@ -22,7 +21,7 @@ static final colors = AppColors();
     this.onTap,
     this.myRoadmap = false,
     this.nombreRoadmap = 'Nombre del roadmap',
-    this.descripcionRoadmap = 'Descripción del roadmap',
+    this.descripcionRoadmap = 'Descripción del roadmapd ',
   });
 
   @override
@@ -30,10 +29,10 @@ static final colors = AppColors();
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         width: MediaQuery.of(context).size.width,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           decoration: BoxDecoration(
             gradient: gradients.cardGradient,
             borderRadius: BorderRadius.circular(20),
@@ -47,13 +46,18 @@ static final colors = AppColors();
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    nombreRoadmap,
-                    style: heading3bStyle.copyWith(
-                        color: Theme.of(context).primaryColor),
+                  Expanded(
+                    child: Text(
+                      softWrap:true,
+                      maxLines:2,
+                      overflow: TextOverflow.ellipsis,
+                      nombreRoadmap,
+                      style: heading3bStyle.copyWith(
+                          color: Theme.of(context).primaryColor),
+                    ),
                   ),
                   myRoadmap
-                      ? StateWidget()
+                      ? const StateWidget()
                       : const SizedBox(
                           width: 0,
                           height: 0,
@@ -68,9 +72,14 @@ static final colors = AppColors();
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    descripcionRoadmap,
-                    style: bodyStyle.copyWith(color: Colors.black),
+                  Expanded(
+                    child: Text(
+                      softWrap:true,
+                      maxLines:4,
+                      overflow: TextOverflow.ellipsis,
+                      descripcionRoadmap,
+                      style: bodyStyle.copyWith(color: Colors.black),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -98,17 +107,21 @@ static final colors = AppColors();
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(children: [
-                    Etiqueta(text: 'etiqueta 1'),
-                    SizedBox(
-                      width: 4,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                        for (var i = 0; i < 5; i++)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Etiqueta(
+                            text: 'etiqueta $i',
+                          ), ),
+                         
+                      ]),
                     ),
-                    Etiqueta(text: 'etiqueta 1'),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Etiqueta(text: 'etiqueta 1'),
-                  ]),
+                  ),
                   Row(
                     children: [
                       Icon(
@@ -116,7 +129,10 @@ static final colors = AppColors();
                         size: 24,
                         color: colors.mainColor,
                       ),
-                      Text('4,3', style: heading3bStyle.copyWith(color: colors.mainColor),),
+                      Text(
+                        '4,3',
+                        style: heading3bStyle.copyWith(color: colors.mainColor),
+                      ),
                     ],
                   )
                 ],

@@ -2,7 +2,6 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/etiqueta.dart';
 import 'package:flutter/material.dart';
 
 class ResourceCard extends StatelessWidget {
@@ -32,10 +31,10 @@ class ResourceCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         width: MediaQuery.of(context).size.width,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           decoration: BoxDecoration(
             gradient: gradients.pinkcardGradient,
             borderRadius: BorderRadius.circular(20),

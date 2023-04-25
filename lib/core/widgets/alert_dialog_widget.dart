@@ -1,8 +1,5 @@
-import 'package:aristeia_app/core/network/auth.dart';
-import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class AlertDialogWidget extends StatelessWidget {
@@ -11,6 +8,7 @@ class AlertDialogWidget extends StatelessWidget {
   final String leftText;
   final String rightText;
   final String message;
+  final Widget tituloPersonalizado;
   final Widget more;
 
   const AlertDialogWidget({
@@ -20,40 +18,74 @@ class AlertDialogWidget extends StatelessWidget {
     this.leftText = '',
     this.rightText = 'Cancelar',
     this.message = '¿Estas seguro de esto?',
-    this.more = const SizedBox(width: 0,height: 0,),
+    this.tituloPersonalizado = const SizedBox(
+      width: 0,
+      height: 0,
+    ),
+    this.more = const SizedBox(
+      width: 0,
+      height: 0,
+    ),
   });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: more == SizedBox(width: 0,height: 0,)? EdgeInsets.symmetric(horizontal: 32, vertical: 32) :EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-      actionsPadding: EdgeInsets.only(right: 32, left: 32, bottom: 32),
+      contentPadding: more ==
+              const SizedBox(
+                width: 0,
+                height: 0,
+              )
+          ? const EdgeInsets.symmetric(horizontal: 32, vertical: 32)
+          : const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+      actionsPadding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
       alignment: Alignment.center,
 
       //title: Text('Esta seguro '),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Text(
-        message,
-        style: interHeading3Style.copyWith(fontWeight: FontWeight.bold),
-        textAlign: TextAlign.center,
-      ),
+      content: (tituloPersonalizado ==
+              const SizedBox(
+                width: 0,
+                height: 0,
+              ))
+          ? Text(
+              message,
+              style: interHeading3Style.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            )
+          : tituloPersonalizado,
       actionsAlignment: MainAxisAlignment.center,
       actions: [
-        
-        Container(child: more, alignment: Alignment.center,),
-        more == SizedBox(width: 0,height: 0,)? SizedBox(width: 0,height: 0,): SizedBox(height: 32),
+        Container(
+          alignment: Alignment.center,
+          child: more,
+        ),
+        more ==
+                const SizedBox(
+                  width: 0,
+                  height: 0,
+                )
+            ? const SizedBox(
+                width: 0,
+                height: 0,
+              )
+            : const SizedBox(height: 32),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
-            (leftText != '')? MyButton(
-                buttonText: leftText,
-                outlined: true,
-                large: false,
-                width: 150,
-                onTap: onTapLeft):SizedBox(width: 0,height: 0,),
-            SizedBox(
+            (leftText != '')
+                ? MyButton(
+                    buttonText: leftText,
+                    outlined: true,
+                    large: false,
+                    width: 150,
+                    onTap: onTapLeft)
+                : const SizedBox(
+                    width: 0,
+                    height: 0,
+                  ),
+            const SizedBox(
               height: 16,
             ),
             MyButton(
