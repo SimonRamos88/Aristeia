@@ -36,6 +36,7 @@ class PopUpMenu extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: ((context) => AlertDialogWidget(
+                  color:1,
                       message: '¿Estas seguro de eliminar este roadmap?',
                       leftText: 'Eliminar',
                       rightText: 'Cancelar',

@@ -20,7 +20,7 @@ class MyRoadmapsScreen extends StatelessWidget {
             RoadmapCard(
               myRoadmap: true,
             nombreRoadmap: "Roadmap ${i}",
-             onTap: () => context.router.pushNamed(
+             onTap: () => context.router.navigateNamed(
                 ('/logged/personal/${i}'),
               ),
             ),

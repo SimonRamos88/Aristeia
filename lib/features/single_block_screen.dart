@@ -93,6 +93,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     showDialog(
                       context: context,
                       builder: ((context) => AlertDialogWidget(
+                        color: 2,
+                        tituloGeneral: false,
                             tituloPersonalizado: Text('Información recurso  $i', style: heading2bStyle.copyWith(color: colors.pinkColor)),
                             more: Column(children: [
                               Text('Links'),

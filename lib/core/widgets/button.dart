@@ -81,6 +81,7 @@ class MyButton extends StatelessWidget {
   final bool outlined;
   final bool large;
   final bool blue;
+  final bool pink;
   final Function()? onTap;
 
   const MyButton({
@@ -91,6 +92,7 @@ class MyButton extends StatelessWidget {
     this.width = 200,
     this.shadow = 0,
     this.blue = false,
+    this.pink = false,
     this.backgroundGradient = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
@@ -129,15 +131,17 @@ class MyButton extends StatelessWidget {
           gradient: outlined
               ? null
               : blue
-                  ? gradients.blueGradient
+                  ?gradients.blueGradient: pink
+                      ? gradients.pinkGradient
                   : backgroundGradient,
           //gradient: backgroundGradient,
           border: Border.all(
             color: outlined
                 ? blue
-                    ? colors.blueColor
-                    : Theme.of(context).primaryColor
-                : const Color.fromRGBO(109, 76, 228, 0.329),
+                    ? colors.blueColor : pink
+                        ? colors.pinkColor
+                        : Theme.of(context).primaryColor
+                : pink? colors.pinkColor.withOpacity(0.3) : const Color.fromRGBO(109, 76, 228, 0.329),
             width: 3,
             //strokeAlign: BorderSide.strokeAlignOutside
           ),
@@ -184,7 +188,9 @@ class MyButton extends StatelessWidget {
                   style: heading3bStyle.copyWith(
                     color: (outlined && colorText == Colors.white)
                         ? blue
-                            ? colors.blueColor
+                            ? pink
+                                ? colors.pinkColor
+                                : colors.blueColor
                             : Theme.of(context).primaryColor
                         : colorText,
                   )),

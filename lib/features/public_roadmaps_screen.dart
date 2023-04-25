@@ -17,7 +17,7 @@ class PublicRoadmapsScreen extends StatelessWidget {
           for (var i = 0; i < 10; i++)
             RoadmapCard(
               myRoadmap: false,
-              onTap: () => context.router.pushNamed(
+              onTap: () => context.router.navigateNamed(
                 ('/logged/comunidad/${i}'),
               ),
             ),
