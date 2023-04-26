@@ -102,7 +102,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   SingleBlockRoute(blockId: i),
                 ),
               ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
