@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
-  final backgroundColor = Color.fromARGB(255, 221, 212, 250);
+  final backgroundColor = Color.fromARGB(255, 253, 252, 255);
 
   final mainColor = const Color(0xff6D4CE4);
   final mainColor80 = Color.fromARGB(167, 109, 76, 228);
    final mainColor50 = Color.fromARGB(75, 109, 76, 228);
-  final blueColor = const Color(0xffF7E3DA);
+  final blueColor = const Color(0xff4650FA);
   final blueColor50 = const Color(0xff466CFF);
-  final pinkColor = const Color(0xffF7E3DA);
+  final pinkColor = const Color(0xffC743F0);
   final pinkColor50 = const Color(0xff466CFF);
 
 
@@ -20,3 +20,5 @@ class AppColors {
 
   AppColors();
 }
+
+//static final colors = AppColors();

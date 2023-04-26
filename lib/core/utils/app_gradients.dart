@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppGradients {
-
   static final colors = AppColors();
 
   final mainGradient = LinearGradient(
@@ -14,32 +13,72 @@ class AppGradients {
     ],
   );
 
-   final blueGradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: [
-      colors.blueColor,
-      colors.blueColor50,
-    ],
-  );
-
-  final pinkGradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: [
-      colors.pinkColor,
-      colors.pinkColor50,
-    ],
-  );
-
-  final infoGradient = LinearGradient(
+  final mainBlueGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color.fromARGB(158, 109, 76, 228),
-      Color.fromARGB(57, 109, 76, 228),
+      const Color(0xff4650FA),
+      Color.fromARGB(255, 161, 166, 255),
     ],
   );
 
+  final blueGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xff4650FA),
+      Color.fromRGBO(70, 80, 250, 0.7),
+      Color.fromRGBO(70, 80, 250, 0),
+    ],
+    stops: [0.0, 0.9323, 1.0],
+  );
 
+  final pinkGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xffC743F0),
+      Color.fromARGB(122, 200, 67, 240),
+      Color.fromARGB(44, 200, 67, 240),
+    ],
+    stops: [0.0, 0.9323, 1.0],
+  );
+
+  final infoGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xffEEEAFC),
+      Color(0xffFCFCFF),
+    ],
+  );
+
+  final cardGradient = const LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.center,
+    colors: [
+      Color.fromARGB(255, 242, 230, 252),
+      Color.fromARGB(255, 250, 245, 255),
+    ],
+  );
+
+  final bluecardGradient =  const LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.center,
+    colors: [
+      Color.fromARGB(255, 224, 225, 255),
+      Color.fromARGB(255, 245, 245, 255),
+    ],
+  );
+
+  final pinkcardGradient =  const  LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.center,
+    colors: [
+      Color.fromARGB(255, 247, 221, 255),
+      Color.fromARGB(255, 253, 245, 255),
+    ],
+  );
 }
+
+//static final gradients = AppGradients();

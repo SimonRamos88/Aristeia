@@ -21,12 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'MyUnify',
+      title: 'Aristeia',
       theme: ThemeData(
         primaryColor:  colors.mainColor,
-        textTheme: TextTheme(
-
-        ), 
+        dividerColor: Theme.of(context).primaryColor,
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
           backgroundColor: colors.backgroundColor,
@@ -34,5 +33,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routerConfig: _appRouter.config(),);
+    
   }
 }
