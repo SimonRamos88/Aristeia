@@ -5,7 +5,6 @@ import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
-import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/info_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';

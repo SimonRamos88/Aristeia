@@ -1,17 +1,11 @@
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
-import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
-import 'package:aristeia_app/core/widgets/box_text.dart';
-import 'package:aristeia_app/core/widgets/button.dart';
-import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
-import 'package:aristeia_app/core/widgets/filter_chips.dart';
-import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+
+// Esta es la pagina para ver las listads de los bloques creados
 
 @RoutePage()
 class Create2Screen extends StatefulWidget {
@@ -52,8 +46,17 @@ class _Create2ScreenState extends State<Create2Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(title: 'Crear roadmap', type: 1, onPressedLeading: (){context.router.pop();},),
-      body: ReorderableListView(
-        
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            myTiles.add('E');
+          });
+        },
+        child:const Icon(Icons.add),
+      ),
+      body: 
+       ReorderableListView(
         children: [
           for (final tile in myTiles)
             Padding(
@@ -67,6 +70,7 @@ class _Create2ScreenState extends State<Create2Screen> {
               // ),
               child: BlockCard(nombreBloque: tile.toString(), edit:true) ,
             ),
+          
         ],
         onReorder: (oldIndex, newIndex) {
           updateMyTiles(oldIndex, newIndex);
