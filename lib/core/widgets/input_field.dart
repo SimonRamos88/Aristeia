@@ -11,8 +11,10 @@ class InputField extends StatefulWidget {
   final double height;
   final double width;
   final bool isPassword;
+  final bool textInDefined;
   final int lengthText;
   final int maxLines;
+  final String textIn;
 
   InputField(
       {Key? key,
@@ -25,14 +27,14 @@ class InputField extends StatefulWidget {
       this.height = 70,
       this.width = 284,
       this.maxLines = 1,
-      });
+      this.textInDefined = false,
+      this.textIn = 'Ingrese el Texto:'});
 
   @override
   State<InputField> createState() => _InputFieldState();
 }
 
 class _InputFieldState extends State<InputField> {
-
   static final colors = AppColors();
   bool _obscurepassword = true;
 
@@ -83,6 +85,7 @@ class _InputFieldState extends State<InputField> {
                   color: Color.fromARGB(97, 157, 70, 250)),
             ),
             counterText: "",
+            hintText: widget.textInDefined ? widget.textIn : widget.hintText,
             labelText: widget.hintText,
             labelStyle: heading3bStyle.copyWith(
                 backgroundColor: colors.backgroundColor,

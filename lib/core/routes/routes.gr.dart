@@ -67,7 +67,7 @@ abstract class $AppRouter extends _i23.RootStackRouter {
     EditProfileRoute.name: (routeData) {
       return _i23.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.EditProfileScreen(),
+        child: _i4.EditProfileScreen(),
       );
     },
     HomeRoute.name: (routeData) {
