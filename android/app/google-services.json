@@ -29,6 +29,13 @@
             {
               "client_id": "217158479906-1rpfje5i535v8pq5pu870oi244lf2h1p.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "217158479906-rjmkmgoie4qjkbjt72rql6dp9373aisq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aristeiaApp"
+              }
             }
           ]
         }
