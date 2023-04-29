@@ -1,10 +1,14 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
+import 'package:aristeia_app/features/Recurso/domain/repositories/deleteRecurso.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../core/utils/app_gradients.dart';
+import 'Recurso/domain/repositories/getAllRecursos.dart';
+import 'Recurso/domain/repositories/getRecurso.dart';
+import 'Recurso/domain/repositories/updateRecurso.dart';
 
 @RoutePage()
 class WelcomeScreen extends StatelessWidget {
@@ -17,14 +21,13 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: 1,
-              height: MediaQuery.of(context).size.height/6,
+              height: MediaQuery.of(context).size.height / 6,
             ),
             const Image(image: AssetImage('assets/images/welcomeImage.png')),
             const SizedBox(
@@ -44,19 +47,19 @@ class WelcomeScreen extends StatelessWidget {
               width: 1,
               height: 24,
             ),
-             MyButton(
+            MyButton(
               buttonText: "Iniciar sesión",
               onTap: () {
-                  context.router.push(LoginRoute());
-                },
+                context.router.push(LoginRoute());
+              },
             ),
             MyButton(
               buttonText: "Registrarse",
               colorText: Theme.of(context).primaryColor,
               outlined: true,
               onTap: () {
-                  context.router.push(RegisterRoute());
-                },
+                context.router.push(RegisterRoute());
+              },
             ),
             const SizedBox(
               width: 1,
