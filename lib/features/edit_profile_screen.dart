@@ -28,7 +28,6 @@ class _EditProfileScreen extends State<EditProfileScreen> {
   final TextEditingController _controllerName = TextEditingController();
 
   Future<void> updateUserData() async {
-    print(_controllerUsertag.text);
     await FirebaseFirestore.instance
         .collection('usuarios')
         .doc(Auth().currentUser?.uid)
@@ -40,7 +39,6 @@ class _EditProfileScreen extends State<EditProfileScreen> {
           ? usernames
           : _controllerName.text.trim(),
     });
-    print("Operacion exitosa");
   }
 
   Future<void> readUserData() async {
