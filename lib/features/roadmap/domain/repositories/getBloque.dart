@@ -12,59 +12,33 @@ Future<int> totalRecursos(String? roadmapID, String? bloqueID) async {
   return size;
 }
 
-Widget getBlock() {
-  return StreamBuilder<QuerySnapshot>(
-    // Reemplazar 1 con el id del roadmap
-    stream: FirebaseFirestore.instance.collection('roadmap').doc('1').collection('bloques').snapshots(),
-    builder: ((context, snapshot){
-      var doc = snapshot.data?.docs;
-      if (snapshot.hasData) {
-        return Expanded(
-          child:ListView.builder(
-            itemCount: doc?.length,
-            itemBuilder: (context, index){
-              return FutureBuilder<int>(
-                future: totalRecursos('1', doc?[index].id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return BlockCard(
-                      fechaFin: DateFormat('yyyy-MM-dd – kk:mm').format(doc?[index]['fechaFin'].toDate()),
-                      fechaInicio: DateFormat('yyyy-MM-dd – kk:mm').format(doc?[index]['fechaInicio'].toDate()), 
-                      nombreBloque: doc?[index]['titulo'],
-                      onDelete:  () async {
-                        await deleteBloque(
-                            // Cambiar 1 por el id del roadmap
-                            '1',
-                            doc?[index].id,
-                          );
-                      },
-                      cantidadRecursos: snapshot.data!,
-                      onTap: () => context.router.navigate(
-                        // BlockRouter()
-                        SingleBlockRoute(blockId: index),
-                      ),
-                    );
-                  } else {
-                    return BlockCard(
-                      nombreBloque: doc?[index]['titulo'],
-                      cantidadRecursos: 0,
-                      onTap: () => context.router.navigate(
-                        // BlockRouter()
-                        SingleBlockRoute(blockId: index),
-                      ),
-                    );
-                  }
-                },
-              );
-            },
-          )
-        );
-      } else {
-        return const Center(
-          // Pantalla de carga
-          child: CircularProgressIndicator(),
-        );
-      }
-    }),
-  );
+Future<Map<String, dynamic>> getBlockId(String idRoad, String idBlock) async {
+  Map<String, dynamic> respuesta = {};
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  //instanciamos la db y buscamos la coleccion
+  CollectionReference collectionReferenceRoadmap = db.collection('roadmap').doc(idRoad).collection('bloques');
+  //antes que nada, verificamos que la informacion esté correcta
+  DocumentSnapshot query = await collectionReferenceRoadmap.doc(idBlock).get();
+
+  if (query.exists) {
+    respuesta = query.data() as Map<String, dynamic>;    
+  }
+
+  return respuesta;
+}
+
+Future<List> getBlocks(String idRoad) async {
+
+  List list = [];
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  CollectionReference collectionReferenceRoadmap = db.collection('roadmap').doc(idRoad).collection('bloques');
+
+  QuerySnapshot query = await collectionReferenceRoadmap.get();
+
+  query.docs.forEach( (doc) { 
+    list.add(doc);
+  });
+
+  return list;
+
 }
