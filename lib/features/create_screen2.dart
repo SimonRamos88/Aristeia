@@ -5,6 +5,8 @@ import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'create_block_screen.dart';
+
 // Esta es la pagina para ver las listads de los bloques creados
 
 @RoutePage()
@@ -19,7 +21,7 @@ class Create2Screen extends StatefulWidget {
 }
 
 class _Create2ScreenState extends State<Create2Screen> {
-   // list of tiles
+  // list of tiles
   final List myTiles = [
     'A',
     'B',
@@ -45,18 +47,31 @@ class _Create2ScreenState extends State<Create2Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Crear roadmap', type: 1, onPressedLeading: (){context.router.pop();},),
+      appBar: AppBarWidget(
+        title: 'Crear roadmap',
+        type: 1,
+        onPressedLeading: () {
+          context.router.pop();
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            myTiles.add('E');
+            //myTiles.add('E');
+            print('y que jefferson me perdone');
+            /* */
+            //Navigator.push(context, )
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateBlockScreen()),
+            );
           });
         },
-        child:const Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
-      body: 
-       ReorderableListView(
+      body: ReorderableListView(
         children: [
           for (final tile in myTiles)
             Padding(
@@ -68,9 +83,8 @@ class _Create2ScreenState extends State<Create2Screen> {
               //     title: Text(tile.toString()),
               //   ),
               // ),
-              child: BlockCard(nombreBloque: tile.toString(), edit:true) ,
+              child: BlockCard(nombreBloque: tile.toString(), edit: true),
             ),
-          
         ],
         onReorder: (oldIndex, newIndex) {
           updateMyTiles(oldIndex, newIndex);
@@ -78,5 +92,4 @@ class _Create2ScreenState extends State<Create2Screen> {
       ),
     );
   }
-
 }
