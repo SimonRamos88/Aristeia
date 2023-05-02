@@ -2,6 +2,8 @@ import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 class PopUpMenu extends StatelessWidget {
@@ -21,7 +23,7 @@ class PopUpMenu extends StatelessWidget {
         itemBuilder: (context) => [
           PopupMenuItem<int>(
             onTap: () => print('Editar roadmap'),
-            textStyle: subheadingbStyle.copyWith(color:Colors.black),
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
             value: 1,
             child: Row(
               children: const [
@@ -36,12 +38,32 @@ class PopUpMenu extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: ((context) => AlertDialogWidget(
-                  color:1,
+                      color: 1,
                       message: '¿Estas seguro de eliminar este roadmap?',
                       leftText: 'Eliminar',
                       rightText: 'Cancelar',
                       onTapLeft: () {
-                        context.router.popUntilRoot();
+                        context.router.pop();
+                        context.showFlash<bool>(
+                          barrierDismissible: true,
+                          duration: const Duration(seconds: 5),
+                          builder: (context, controller) => FlashBar(
+                            controller: controller,
+                            forwardAnimationCurve: Curves.easeInCirc,
+                            reverseAnimationCurve: Curves.bounceIn,
+                            position: FlashPosition.bottom,
+                            indicatorColor: Theme.of(context).primaryColor,
+                            icon: const Icon(Icons.check),
+                            //title: const Text('Flash Title'),
+                            content: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: Text(
+                                  'Roadmap eliminado exitosamente',
+                                  textAlign: TextAlign.center,
+                                  style: heading3bStyle,
+                                )),
+                          ),
+                        );
                       },
                       onTapRight: () {
                         Navigator.of(context).pop();
@@ -49,7 +71,7 @@ class PopUpMenu extends StatelessWidget {
                     )),
               );
             },
-            textStyle: subheadingbStyle.copyWith(color:Colors.black),
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
             value: 1,
             child: Row(
               children: const [

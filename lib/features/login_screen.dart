@@ -91,9 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               MyButton(
                 buttonText: 'Iniciar sesión',
-                onTap: signInWithEmailAndPassword
-                //context.router.push(const LoggedWrapperRoute());
-                ,
+                onTap: signInWithEmailAndPassword,
               ),
               const SizedBox(
                 width: 1,

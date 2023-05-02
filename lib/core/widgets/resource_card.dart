@@ -94,8 +94,8 @@ class ResourceCard extends StatelessWidget {
                       onPressed: onDelete,
                       icon: Icon(
                         Icons.delete,
-                        size: 24,
-                        color: colors.blueColor,
+                        size: 30,
+                        color: colors.pinkColor.withOpacity(0.8),
                       ),
                     )
                   : const SizedBox(height: 0, width: 0),
