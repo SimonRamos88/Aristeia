@@ -2,7 +2,6 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
 class BlockCard extends StatelessWidget {
@@ -13,18 +12,24 @@ class BlockCard extends StatelessWidget {
   final void Function()? onTap;
   final bool myRoadmap;
   final String nombreBloque;
-  final String cantidadRecursos;
+  final int cantidadRecursos;
   final bool edit;
-  final void Function()? onDelete;
+  final Function()? onDelete;
+  final Function()? update;
+  final String fechaInicio;
+  final String fechaFin;
 
   const BlockCard({
     super.key,
     this.onTap,
     this.onDelete,
+    this.update,
     this.myRoadmap = true,
     this.nombreBloque = 'Nombre del bloque',
-    this.cantidadRecursos = 'Descripción del roadmap',
-    this.edit = false,
+    this.fechaInicio = "2000/00/00",
+    this.fechaFin = "2000/00/00",
+    this.cantidadRecursos = 0, 
+    this.edit = true,
   });
 
   @override
@@ -50,21 +55,22 @@ class BlockCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(nombreBloque,
+                    Text(
+                        nombreBloque,
                         softWrap: true,
                         style:
                             heading3bStyle.copyWith(color: colors.blueColor)),
                     const SizedBox(
                       height: 5,
                     ),
-                    Text('32 recursos',
+                    Text('${cantidadRecursos.toString()} recursos',
                         softWrap: true,
                         style: bodyStyle.copyWith(color: Colors.black)),
                     const SizedBox(
                       height: 5,
                     ),
                     myRoadmap
-                        ? Text('Inicio:',
+                        ? Text('Inicio: ' + fechaInicio,
                             softWrap: true,
                             style: subheadingbStyle.copyWith(
                                 color: Theme.of(context).primaryColor))
@@ -75,7 +81,7 @@ class BlockCard extends StatelessWidget {
                           )
                         : const SizedBox(height: 0, width: 0),
                     myRoadmap
-                        ? Text('Fin:',
+                        ? Text('Fin: ' + fechaFin,
                             softWrap: true,
                             style: subheadingbStyle.copyWith(
                                 color: Theme.of(context).primaryColor))
@@ -89,11 +95,16 @@ class BlockCard extends StatelessWidget {
                           onPressed: onDelete,
                           icon: Icon(
                             Icons.delete,
-                            size: 30,
-                            color: colors.blueColor.withOpacity(0.8),
+                            size: 24,
+                            color: colors.blueColor,
                           ),
                         )
-                      : const StateWidget(large: false, estado: 0)
+                      : Text('estado',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: subheadingbStyle.copyWith(
+                              color: Theme.of(context).primaryColor))
                   : const SizedBox(height: 0, width: 0),
             ],
           ),

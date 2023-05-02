@@ -58,7 +58,7 @@ class ConfigurationScreen extends StatelessWidget {
           CajaOpcion(
             texto: 'Editar datos',
             onTap: () {
-              context.router.push(const EditProfileRoute());
+              context.router.push(EditProfileRoute());
             },
           ),
           const CajaOpcion(
