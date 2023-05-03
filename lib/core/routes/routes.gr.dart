@@ -8,36 +8,36 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:aristeia_app/features/configuration_screen.dart' as _i1;
-import 'package:aristeia_app/features/create_block_screen.dart' as _i2;
-import 'package:aristeia_app/features/create_resource_screen.dart' as _i3;
-import 'package:aristeia_app/features/create_roadmap_screen.dart' as _i4;
-import 'package:aristeia_app/features/edit_profile_screen.dart' as _i5;
-import 'package:aristeia_app/features/home_screen.dart' as _i6;
-import 'package:aristeia_app/features/logged_wrapper_screen.dart' as _i7;
-import 'package:aristeia_app/features/login_screen.dart' as _i8;
-import 'package:aristeia_app/features/my_roadmaps_screen.dart' as _i9;
-import 'package:aristeia_app/features/public_roadmaps_screen.dart' as _i10;
-import 'package:aristeia_app/features/register_screen.dart' as _i11;
-import 'package:aristeia_app/features/router_pages/block_router_screen.dart'
+import 'package:aristeia_app/features/usuario/presentation/pages/configuration_screen.dart' as _i1;
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_block_screen.dart' as _i2;
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_resource_screen.dart' as _i3;
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart' as _i4;
+import 'package:aristeia_app/features/usuario/presentation/pages/edit_profile_screen.dart' as _i5;
+import 'package:aristeia_app/features/estadistica/presentation/pages/home_screen.dart' as _i6;
+import 'package:aristeia_app/features/autenticacion/presentation/pages/logged_wrapper_screen.dart' as _i7;
+import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart' as _i8;
+import 'package:aristeia_app/features/roadmap/presentation/pages/my_roadmaps_screen.dart' as _i9;
+import 'package:aristeia_app/features/roadmap/presentation/pages/public_roadmaps_screen.dart' as _i10;
+import 'package:aristeia_app/features/autenticacion/presentation/pages/register_screen.dart' as _i11;
+import 'package:aristeia_app/core/utils/router_pages/block_router_screen.dart'
     as _i12;
-import 'package:aristeia_app/features/router_pages/comunidad_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/comunidad_router_screen.dart'
     as _i13;
-import 'package:aristeia_app/features/router_pages/config_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/config_router_screen.dart'
     as _i14;
-import 'package:aristeia_app/features/router_pages/create_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/create_router_screen.dart'
     as _i15;
-import 'package:aristeia_app/features/router_pages/home_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/home_router_screen.dart'
     as _i16;
-import 'package:aristeia_app/features/router_pages/roadmap_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/roadmap_router_screen.dart'
     as _i17;
-import 'package:aristeia_app/features/router_pages/welcome_router_screen.dart'
+import 'package:aristeia_app/core/utils/router_pages/welcome_router_screen.dart'
     as _i18;
-import 'package:aristeia_app/features/single_block_screen.dart' as _i19;
-import 'package:aristeia_app/features/single_road_screen.dart' as _i20;
-import 'package:aristeia_app/features/splash_screen.dart' as _i21;
-import 'package:aristeia_app/features/unnavailable_roadmap_screen.dart' as _i22;
-import 'package:aristeia_app/features/welcome_screen.dart' as _i23;
+import 'package:aristeia_app/features/roadmap/presentation/pages/single_block_screen.dart' as _i19;
+import 'package:aristeia_app/features/roadmap/presentation/pages/single_road_screen.dart' as _i20;
+import 'package:aristeia_app/features/autenticacion/presentation/pages/splash_screen.dart' as _i21;
+import 'package:aristeia_app/features/roadmap/presentation/pages/unnavailable_roadmap_screen.dart' as _i22;
+import 'package:aristeia_app/features/autenticacion/presentation/pages/welcome_screen.dart' as _i23;
 import 'package:auto_route/auto_route.dart' as _i24;
 import 'package:flutter/material.dart' as _i25;
 
