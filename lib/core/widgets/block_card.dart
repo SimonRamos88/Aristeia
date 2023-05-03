@@ -2,7 +2,6 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/etiqueta.dart';
 import 'package:flutter/material.dart';
 
 class BlockCard extends StatelessWidget {

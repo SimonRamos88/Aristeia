@@ -1,18 +1,20 @@
+import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
+import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
-import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
-import 'package:aristeia_app/core/widgets/filter_chips.dart';
+import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+
+// Esta es la pagina para ver las listads de los bloques creados
 
 @RoutePage()
 class CreateBlockScreen extends StatefulWidget {
@@ -26,12 +28,11 @@ class CreateBlockScreen extends StatefulWidget {
 }
 
 class _CreateBlockScreenState extends State<CreateBlockScreen> {
-   // list of tiles
+  final colors = AppColors();
+  // list of tiles
+
   final List myTiles = [
-    'A',
-    'B',
-    'C',
-    'D',
+    'Nombre del bloque',
   ];
 
   // reorder method
@@ -49,24 +50,184 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     });
   }
 
+  void agregarBloque() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        tituloGeneral: false,
+        color: 1,
+        tituloPersonalizado: Text(
+          'Crear bloque',
+          style: heading2bStyle.copyWith(color: colors.blueColor),
+          textAlign: TextAlign.center,
+        ),
+        //message: 'Si te sales sin guardar perderas toda la información del bloque',
+        more: Column(
+          children: [
+            InputField(
+                hintText: 'Titulo bloque', controller: _controllerTitulo),
+            InputField(
+              hintText: 'Descripcion',
+              controller: _controllerDescripcion,
+            ),
+            InputField(
+                hintText: 'Importancia (1-5)',
+                controller: _controllerImportancia),
+            InputField(
+                hintText: 'Fecha inicio (YYYY-MM-DD)',
+                controller: _controllerFechaInicio),
+            InputField(
+              hintText: 'Fecha fin (YYYY-MM-DD)',
+              controller: _controllerFechaFin,
+            ),
+          ],
+        ),
+        leftText: 'Crear',
+        rightText: 'Cancelar',
+        onTapLeft: () async {
+          await addBlock(
+              '1',
+              _controllerTitulo.text,
+              _controllerDescripcion.text,
+              int.parse(_controllerImportancia.text),
+              DateTime.parse(_controllerFechaInicio.text + ' 00:00:00.000'),
+              DateTime.parse(_controllerFechaFin.text + ' 00:00:00.000'));
+          Navigator.of(context).pop();
+          context.router.navigateNamed(
+            ('/logged/crear/1'),
+          );
+        },
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
+  void eliminarBloque() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        color: 1,
+        message: '¿Estas seguro que deseas eliminar este bloque?',
+        leftText: 'Eliminar',
+        rightText: 'Cancelar',
+        onTapLeft: () {
+          //funcion para eliminar el bloque
+        },
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
+  final TextEditingController _controllerDescripcion = TextEditingController();
+  final TextEditingController _controllerFechaFin = TextEditingController();
+  final TextEditingController _controllerFechaInicio = TextEditingController();
+  final TextEditingController _controllerTitulo = TextEditingController();
+  final TextEditingController _controllerImportancia = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'Crear roadmap', type: 1, onPressedLeading: (){context.router.pop();},),
+      appBar: AppBarWidget(
+        title: 'Crear bloques',
+        type: 1,
+        color: 1,
+        onPressedLeading: () {
+          context.router.pop();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: colors.blueColor.withOpacity(0.7),
+        label: const Text('Agregar bloque', style: heading3bStyle),
+        icon: const Icon(Icons.add),
+        onPressed: agregarBloque,
+      ),
       body: ReorderableListView(
-        
+        header: Column(children: [
+          BoxText.tituloPagina(
+              text: 'Nombre del Roadmap', color: colors.blueColor),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (var i = 0; i < 5; i++)
+                  Etiqueta.large(
+                    text: 'etiqueta ${i}',
+                    color: 1,
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Hola soy la descripción del roadmap',
+                    style: heading3Style,
+                    softWrap: true,
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Tipo:',
+                          style:
+                              heading3bStyle.copyWith(color: colors.blueColor)),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text('Público',
+                          style: heading3Style.copyWith(color: Colors.black)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Arrastra los bloques para ordenarlos',
+            style: bodyStyle.copyWith(color: colors.blueColor),
+          ),
+        ]),
+        footer: Column(children: const [
+          MyButton(
+            buttonText: 'Terminar roadmap',
+            blue: true,
+          ),
+          SizedBox(height: 70),
+        ]),
         children: [
           for (final tile in myTiles)
             Padding(
               key: ValueKey(tile),
               padding: const EdgeInsets.all(0),
-              // child: Container(
-              //   color: Colors.grey[200],
-              //   child: ListTile(
-              //     title: Text(tile.toString()),
-              //   ),
-              // ),
-              child: ResourceCard(nombreRecurso: tile.toString(), edit:true) ,
+              child: BlockCard(
+                nombreBloque: tile.toString(),
+                edit: true,
+                onDelete: eliminarBloque,
+                onTap: () {
+                  context.router.navigateNamed(
+                    ('/logged/crear/1'),
+                  );
+                },
+              ),
             ),
         ],
         onReorder: (oldIndex, newIndex) {
@@ -75,5 +236,4 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       ),
     );
   }
-
 }

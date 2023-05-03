@@ -93,16 +93,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-// @override
-// Widget build(BuildContext context) {
-//   return AnimatedSplashScreen(
-//     backgroundColor: colors.mainColor,
-//       pageTransitionType: PageTransitionType.fade,
-//       animationDuration: const Duration(seconds: 2),
-//       centered: true,
-//       splashIconSize: 300,
-//       splash: Image.asset('assets/images/splashLogo.png'),
-//       nextScreen:  RedirectRoute(path: '', redirectTo: 'users'),
-//     );
-// }

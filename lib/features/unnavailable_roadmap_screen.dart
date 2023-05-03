@@ -14,19 +14,9 @@ class UnnavailableRoadmapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: '', type: 1),
+      appBar: const AppBarWidget(title: '', type: 1),
       body: Column(children: [
-        MyButton(
-          large: false,
-          buttonText: "Roadmap no disponible",
-          width: 301,
-          backgroundGradient: gradients.blueGradient,
-          onTap: () {
-            context.router.push(
-              HomeRoute(),
-            );
-          },
-        ),
+        Text('Este roadmap no está disponible', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),),
       ]),
     );
   }
