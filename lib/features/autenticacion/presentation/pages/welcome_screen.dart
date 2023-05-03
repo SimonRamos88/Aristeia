@@ -1,14 +1,14 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
-import 'package:aristeia_app/features/Recurso/domain/repositories/deleteRecurso.dart';
+import 'package:aristeia_app/features/recurso/domain/repositories/deleteRecurso.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../core/utils/app_gradients.dart';
-import 'Recurso/domain/repositories/getAllRecursos.dart';
-import 'Recurso/domain/repositories/getRecurso.dart';
-import 'Recurso/domain/repositories/updateRecurso.dart';
+import '../../../../core/utils/app_gradients.dart';
+import '../../../recurso/domain/repositories/getAllRecursos.dart';
+import '../../../recurso/domain/repositories/getRecurso.dart';
+import '../../../recurso/domain/repositories/updateRecurso.dart';
 
 @RoutePage()
 class WelcomeScreen extends StatelessWidget {
