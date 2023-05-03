@@ -12,8 +12,8 @@ void main() async {
   );
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
 
+class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   static final colors = AppColors();
   final _appRouter = AppRouter();
@@ -23,16 +23,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Aristeia',
       theme: ThemeData(
-        primaryColor:  colors.mainColor,
+        primaryColor: colors.mainColor,
         dividerColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
           backgroundColor: colors.backgroundColor,
-          ),
+        ),
       ),
       debugShowCheckedModeBanner: false,
-      routerConfig: _appRouter.config(),);
-    
+      routerConfig: _appRouter.config(),
+    );
   }
 }

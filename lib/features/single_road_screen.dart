@@ -5,7 +5,7 @@ import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
-import 'package:aristeia_app/core/widgets/etiqueta.dart';
+import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,11 +27,59 @@ class SingleRoadScreen extends StatefulWidget {
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
 
+  void calificar() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+          message: 'Califica este Roadmap de 1 a 5 estrellas',
+          rightText: 'Calificar',
+          leftText: 'Cancelar',
+          color: 1,
+          onTapRight: () {},
+          onTapLeft: () {
+            Navigator.of(context).pop();
+          },
+          more: RatingBar.builder(
+            glow: false,
+            initialRating: 1,
+            minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star_rounded,
+              color: Theme.of(context).primaryColor,
+            ),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
+          ))),
+    );
+  }
+
+  void copiarRoadmap() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+            message: '¿Estas seguro de copiar este Roadmap?',
+            color: 1,
+            leftText: 'Copiar',
+            rightText: 'Cancelar',
+            onTapLeft: () {},
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
         type: 3,
+        color: 1,
         onPressedLeading: () {
           context.router.pop();
         },
@@ -42,11 +90,11 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             BoxText.tituloPagina(
-              text: 'Roadmap ${widget.roadId}',
+              text: 'Roadmap  ${widget.roadId}',
               color: colors.blueColor,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 8,
@@ -60,13 +108,22 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Soy la descripción de la Roadmap'),
+                  Expanded(
+                    child: Text(
+                      'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+                      softWrap: true,
+                      style: heading3Style.copyWith(color: Colors.black),
+                    ),
+                  ),
                   Row(
                     children: [
                       Icon(Icons.star_rounded,
@@ -80,19 +137,48 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Estado:',
-                      style: heading2bStyle.copyWith(color: colors.blueColor)),
-                  StateWidget(
-                    large: true,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Estado:',
+                          style:
+                              heading2bStyle.copyWith(color: colors.blueColor)),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      StateWidget(
+                        large: true,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Tipo:',
+                          style:
+                              heading3bStyle.copyWith(color: colors.blueColor)),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text('Público',
+                          style: heading3Style.copyWith(color: Colors.black)),
+                    ],
+                  ),
+                ),
+              ],
             ),
             for (var i = 0; i < 10; i++)
               BlockCard(
@@ -109,65 +195,22 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               children: [
                 MyButton(
                     buttonText: 'copiar',
-                    blue:true,
+                    blue: true,
                     large: false,
                     outlined: true,
                     width: 130,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: ((context) => AlertDialogWidget(
-                              message: '¿Estas seguro de copiar este Roadmap?',
-                              leftText: 'Copiar',
-                              rightText: 'Cancelar',
-                              onTapLeft: () {},
-                              onTapRight: () {
-                                Navigator.of(context).pop();
-                              },
-                            )),
-                      );
-                    }),
-                SizedBox(width: 24),
+                    onTap: copiarRoadmap),
+                const SizedBox(width: 24),
                 MyButton(
-                    buttonText: 'calificar',
-                    blue: true,
-                    large: false,
-                    width: 130,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: ((context) => AlertDialogWidget(
-                              message: 'Califica este Roadmap de 1 a 5 estrellas',
-                              leftText: 'Calificar',
-                              rightText: 'Cancelar',
-                              onTapLeft: () {},
-                              onTapRight: () {
-                                Navigator.of(context).pop();
-                              },
-                              more: RatingBar.builder(
-                                  glow: false,
-                                  initialRating: 1,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star_rounded,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                )
-                            )),
-                        
-                      );
-                    }),
+                  buttonText: 'calificar',
+                  blue: true,
+                  large: false,
+                  width: 130,
+                  onTap: calificar,
+                ),
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
           ],
         ),
       ),

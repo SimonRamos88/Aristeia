@@ -44,7 +44,7 @@ static final gradients = AppGradients();
                 width: 0,
                 height: 0,
               )
-          ? const EdgeInsets.symmetric(horizontal: 32, vertical: 32)
+          ? const EdgeInsets.symmetric(horizontal: 32, vertical: 50)
           : const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
       actionsPadding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
       alignment: Alignment.center,
@@ -54,7 +54,7 @@ static final gradients = AppGradients();
       content: tituloGeneral
           ? Text(
               message,
-              style: interHeading3Style.copyWith(fontWeight: FontWeight.bold),
+              style: interHeading3Style.copyWith(fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             )
           : tituloPersonalizado,
@@ -64,16 +64,16 @@ static final gradients = AppGradients();
           alignment: Alignment.center,
           child: more,
         ),
-        more ==
-                const SizedBox(
+        more.runtimeType ==
+                 const SizedBox(
                   width: 0,
                   height: 0,
-                )
+                ).runtimeType
             ? const SizedBox(
                 width: 0,
                 height: 0,
               )
-            : const SizedBox(height: 32),
+            : const SizedBox(height: 34),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

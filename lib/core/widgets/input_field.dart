@@ -85,7 +85,7 @@ class _InputFieldState extends State<InputField> {
                   color: Color.fromARGB(97, 157, 70, 250)),
             ),
             counterText: "",
-            hintText: widget.textInDefined ? widget.textIn : widget.hintText,
+            hintText: widget.textInDefined ? widget.textIn : '',
             labelText: widget.hintText,
             labelStyle: heading3bStyle.copyWith(
                 backgroundColor: colors.backgroundColor,
