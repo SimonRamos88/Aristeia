@@ -12,6 +12,7 @@ import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../core/network/auth.dart';
+import '../core/widgets/alert_dialog_widget.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {
@@ -112,11 +113,32 @@ class _EditProfileScreen extends State<EditProfileScreen> {
             controller: _controllerUsertag,
             textIn: usertag,
             textInDefined: true),
-        MyButton(
-          buttonText: 'Guardar',
-          onTap: () {
-            updateUserData();
-          },
+        const SizedBox(height: 15),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MyButton(
+              buttonText: 'Cancelar',
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              outlined: true,
+              large: false,
+              width: 150,
+              pink: false,
+              blue: false,
+            ),
+            const SizedBox(width: 10),
+            MyButton(
+              buttonText: 'Guardar',
+              onTap: () {
+                updateUserData();
+                Navigator.of(context).pop();
+              },
+              large: false,
+              width: 150,
+            ),
+          ],
         )
       ]),
     );
