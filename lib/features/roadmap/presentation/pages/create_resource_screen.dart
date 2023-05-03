@@ -11,7 +11,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-import '../core/widgets/box_text.dart';
+import '../../../../core/widgets/box_text.dart';
 
 @RoutePage()
 class CreateResourceScreen extends StatefulWidget {

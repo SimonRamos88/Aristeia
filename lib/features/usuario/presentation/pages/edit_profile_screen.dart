@@ -11,8 +11,8 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
-import '../core/network/auth.dart';
-import '../core/widgets/alert_dialog_widget.dart';
+import '../../../../core/network/auth.dart';
+import '../../../../core/widgets/alert_dialog_widget.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {
