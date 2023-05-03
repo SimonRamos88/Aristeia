@@ -23,8 +23,8 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreen extends State<EditProfileScreen> {
-  late TextEditingController _controllerUsertag = TextEditingController();
-  late TextEditingController _controllerName = TextEditingController();
+  late final TextEditingController _controllerUsertag = TextEditingController();
+  late final TextEditingController _controllerName = TextEditingController();
 
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
