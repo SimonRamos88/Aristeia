@@ -1,6 +1,6 @@
 # aristeia_app
 
-A new Flutter project.
+Aristeia is a flutter app created for designing roadmaps. A roadmap is a tool that can be used to get easier the learning process of anything. Our app aims to a general public who wants to learn any topic.
 
 ## Getting Started
 

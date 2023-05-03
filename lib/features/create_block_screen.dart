@@ -9,6 +9,8 @@ import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
+import 'package:aristeia_app/core/widgets/resource_card.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -28,15 +30,9 @@ class CreateBlockScreen extends StatefulWidget {
 class _CreateBlockScreenState extends State<CreateBlockScreen> {
   final colors = AppColors();
   // list of tiles
+
   final List myTiles = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
+    'Nombre del bloque',
   ];
 
   // reorder method
@@ -67,15 +63,40 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         ),
         //message: 'Si te sales sin guardar perderas toda la información del bloque',
         more: Column(
-          children: [
-            InputField(
-                hintText: 'Nombre Bloque', controller: TextEditingController()),
-            InputField(
-                hintText: 'Fecha Inicio', controller: TextEditingController()),
-            InputField(
-                hintText: 'Fecha fin', controller: TextEditingController()),
-          ],
-        ),
+            children: [
+              InputField(
+                  hintText: 'Titulo bloque', controller: _controllerTitulo),
+              InputField(
+                hintText: 'Descripcion',
+                controller: _controllerDescripcion,
+              ),
+              InputField(
+                  hintText: 'Importancia (1-5)',
+                  controller: _controllerImportancia),
+              InputField(
+                  hintText: 'Fecha inicio (YYYY-MM-DD)',
+                  controller: _controllerFechaInicio),
+              InputField(
+                hintText: 'Fecha fin (YYYY-MM-DD)',
+                controller: _controllerFechaFin,
+              ),
+              MyButton(
+                buttonText: "Crear Bloque",
+                onTap: () async {
+                  await addBlock(
+                      '1',
+                      _controllerTitulo.text,
+                      _controllerDescripcion.text,
+                      int.parse(_controllerImportancia.text),
+                      DateTime.parse(
+                          _controllerFechaInicio.text + ' 00:00:00.000'),
+                      DateTime.parse(
+                          _controllerFechaFin.text + ' 00:00:00.000'));
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         leftText: 'Crear',
         rightText: 'Cancelar',
         onTapLeft: () {
@@ -108,6 +129,11 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       ),
     );
   }
+  final TextEditingController _controllerDescripcion = TextEditingController();
+  final TextEditingController _controllerFechaFin = TextEditingController();
+  final TextEditingController _controllerFechaInicio = TextEditingController();
+  final TextEditingController _controllerTitulo = TextEditingController();
+  final TextEditingController _controllerImportancia = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
