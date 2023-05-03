@@ -87,10 +87,10 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     TextSpan(
                         text: 'Descripción: ',
                         style:
-                            heading2bStyle.copyWith(color: colors.pinkColor)),
+                            heading3bStyle.copyWith(color: colors.pinkColor)),
                     TextSpan(
                         text: 'Soy la descripción del recurso',
-                        style: heading2Style.copyWith(color: Colors.black)),
+                        style: heading3Style.copyWith(color: Colors.black)),
                   ])),
               const SizedBox(
                 height: 8,
@@ -101,10 +101,10 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     TextSpan(
                         text: 'Link: ',
                         style:
-                            heading2bStyle.copyWith(color: colors.pinkColor)),
+                            heading3bStyle.copyWith(color: colors.pinkColor)),
                     TextSpan(
                         text: 'url',
-                        style: heading2Style.copyWith(
+                        style: heading3Style.copyWith(
                             color: Colors.black,
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()

@@ -55,7 +55,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 (type == 2)
                     ? IconButton(
                         onPressed: onPressedAction,
-                        icon: Icon(Icons.logout, color: colorAll),
+                        icon: Icon(Icons.logout, color: colorAll, weight: 100,),
                       )
                     : (type == 3)
                         ? const PopUpMenu()

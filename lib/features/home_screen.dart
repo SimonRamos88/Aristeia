@@ -9,6 +9,8 @@ import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/info_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -59,6 +61,24 @@ class _HomeScreenState extends State<HomeScreen>
             rightText: 'Cancelar',
             onTapLeft: () {
               Auth().signOut();
+              context.showFlash<bool>(
+                  barrierDismissible: true,
+                  duration: const Duration(seconds: 5),
+                  builder: (context, controller) => FlashBar(
+                        controller: controller,
+                        forwardAnimationCurve: Curves.easeInCirc,
+                        reverseAnimationCurve: Curves.bounceIn,
+                        position: FlashPosition.bottom,
+                        indicatorColor: Theme.of(context).primaryColor,
+                        icon: const Icon(Icons.check),
+                        content: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              'Sesión cerrada exitosamente',
+                              textAlign: TextAlign.center,
+                              style: heading3bStyle,
+                            )),
+                      ));
               context.router.replace(const WelcomeRouter());
             },
             onTapRight: () {
