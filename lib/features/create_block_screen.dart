@@ -63,43 +63,35 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         ),
         //message: 'Si te sales sin guardar perderas toda la información del bloque',
         more: Column(
-            children: [
-              InputField(
-                  hintText: 'Titulo bloque', controller: _controllerTitulo),
-              InputField(
-                hintText: 'Descripcion',
-                controller: _controllerDescripcion,
-              ),
-              InputField(
-                  hintText: 'Importancia (1-5)',
-                  controller: _controllerImportancia),
-              InputField(
-                  hintText: 'Fecha inicio (YYYY-MM-DD)',
-                  controller: _controllerFechaInicio),
-              InputField(
-                hintText: 'Fecha fin (YYYY-MM-DD)',
-                controller: _controllerFechaFin,
-              ),
-              MyButton(
-                buttonText: "Crear Bloque",
-                onTap: () async {
-                  await addBlock(
-                      '1',
-                      _controllerTitulo.text,
-                      _controllerDescripcion.text,
-                      int.parse(_controllerImportancia.text),
-                      DateTime.parse(
-                          _controllerFechaInicio.text + ' 00:00:00.000'),
-                      DateTime.parse(
-                          _controllerFechaFin.text + ' 00:00:00.000'));
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
+          children: [
+            InputField(
+                hintText: 'Titulo bloque', controller: _controllerTitulo),
+            InputField(
+              hintText: 'Descripcion',
+              controller: _controllerDescripcion,
+            ),
+            InputField(
+                hintText: 'Importancia (1-5)',
+                controller: _controllerImportancia),
+            InputField(
+                hintText: 'Fecha inicio (YYYY-MM-DD)',
+                controller: _controllerFechaInicio),
+            InputField(
+              hintText: 'Fecha fin (YYYY-MM-DD)',
+              controller: _controllerFechaFin,
+            ),
+          ],
+        ),
         leftText: 'Crear',
         rightText: 'Cancelar',
-        onTapLeft: () {
+        onTapLeft: () async {
+          await addBlock(
+              '1',
+              _controllerTitulo.text,
+              _controllerDescripcion.text,
+              int.parse(_controllerImportancia.text),
+              DateTime.parse(_controllerFechaInicio.text + ' 00:00:00.000'),
+              DateTime.parse(_controllerFechaFin.text + ' 00:00:00.000'));
           Navigator.of(context).pop();
           context.router.navigateNamed(
             ('/logged/crear/1'),
@@ -129,6 +121,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       ),
     );
   }
+
   final TextEditingController _controllerDescripcion = TextEditingController();
   final TextEditingController _controllerFechaFin = TextEditingController();
   final TextEditingController _controllerFechaInicio = TextEditingController();
