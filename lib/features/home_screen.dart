@@ -25,24 +25,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  Map<String, dynamic> respuesta = {"": ""};
 
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
 
   Future<void> readUserData() async {
-    final docUser =
-        FirebaseFirestore.instance.collection('usuarios').doc(user?.uid);
+    final docUser = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc((Auth().currentUser?.uid));
     final queryU = await docUser.get();
-    setState(() {
-      usertag = queryU.get('usertag');
-      usernames = queryU.get('nombres');
-    });
+    if (mounted) {
+      setState(() {
+        respuesta = queryU.data() as Map<String, dynamic>;
+        usertag = respuesta['usertag'];
+        usernames = respuesta['nombres'];
+      });
+    }
   }
+
+
 
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
+    readUserData();
     super.initState();
   }
 
