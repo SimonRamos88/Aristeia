@@ -1,11 +1,13 @@
+import 'package:aristeia_app/core/widgets/roadmap_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/calcularPromedio.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/totalBloques.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:aristeia_app/core/widgets/roadmap_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Widget getRoadmapPublico() {
+Widget getRoadmapPrivado() {
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
   return StreamBuilder<QuerySnapshot>(
     stream: FirebaseFirestore.instance.collection('roadmap').snapshots(),
     builder: ((context, snapshot){
@@ -14,7 +16,7 @@ Widget getRoadmapPublico() {
         return ListView.builder(
           itemCount: doc?.length,
           itemBuilder: (context, index){
-            if (doc?[index]['publico'] == true){
+            if (doc?[index]['creador'] == uid){
               return FutureBuilder<double>(
                 future: calcularPromedio(doc?[index].id),
                 builder: (context, snapshot) {
