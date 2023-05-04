@@ -99,10 +99,10 @@ class RoadmapCard extends StatelessWidget {
                             color: Theme.of(context).primaryColor),
                       ),
                       Text(
-                        'Bloques',
+                        cantidadBloques == 1 ? 'Bloque' : 'Bloques',
                         style: bodyStyle.copyWith(
                             color: Theme.of(context).primaryColor),
-                      ),
+                      )
                     ],
                   ),
                 ],
