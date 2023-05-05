@@ -44,27 +44,26 @@ class _EditProfileScreen extends State<EditProfileScreen> {
           : _controllerName.text.trim(),
     }).then((value) {
       context.showFlash<bool>(
-      barrierDismissible: true,
-      duration: const Duration(seconds: 5),
-      builder: (context, controller) => FlashBar(
-        controller: controller,
-        forwardAnimationCurve: Curves.easeInCirc,
-        reverseAnimationCurve: Curves.bounceIn,
-        position: FlashPosition.bottom,
-        indicatorColor: Theme.of(context).primaryColor,
-        icon: const Icon(Icons.check),
-        content: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Text(
-              'Datos actualizados correctamente',
-              textAlign: TextAlign.center,
-              style: heading3bStyle,
-            )),
-      ),
-    );
+        barrierDismissible: true,
+        duration: const Duration(seconds: 5),
+        builder: (context, controller) => FlashBar(
+          controller: controller,
+          forwardAnimationCurve: Curves.easeInCirc,
+          reverseAnimationCurve: Curves.bounceIn,
+          position: FlashPosition.bottom,
+          indicatorColor: Theme.of(context).primaryColor,
+          icon: const Icon(Icons.check),
+          content: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'Datos actualizados correctamente',
+                textAlign: TextAlign.center,
+                style: heading3bStyle,
+              )),
+        ),
+      );
       context.router.popAndPush(ConfigurationRoute());
-    }
-    );
+    });
   }
 
   Future<void> readUserData() async {
@@ -78,7 +77,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
         usertag = respuesta['usertag'];
         usernames = respuesta['nombres'];
         _controllerUsertag.text = usertag;
-      _controllerName.text = usernames;
+        _controllerName.text = usernames;
       });
     }
   }
@@ -86,14 +85,12 @@ class _EditProfileScreen extends State<EditProfileScreen> {
   @override
   void initState() {
     readUserData();
-    
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Editar datos',

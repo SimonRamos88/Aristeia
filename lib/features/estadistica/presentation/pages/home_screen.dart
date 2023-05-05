@@ -13,6 +13,7 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:app_usage/app_usage.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen>
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
+  List<AppUsageInfo> _infos = [];
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -45,12 +47,11 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-
-
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
     readUserData();
+    getUsageStats();
     super.initState();
   }
 
@@ -94,6 +95,22 @@ class _HomeScreenState extends State<HomeScreen>
             },
           )),
     );
+  }
+
+  void getUsageStats() async {
+    try {
+      DateTime endDate = DateTime.now();
+      DateTime startDate = endDate.subtract(Duration(hours: 1));
+      List<AppUsageInfo> infoList =
+          await AppUsage().getAppUsage(startDate, endDate);
+      setState(() => _infos = infoList);
+
+      for (var info in infoList) {
+        print(info.toString());
+      }
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
   }
 
   @override
@@ -194,6 +211,15 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ],
               ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: _infos.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                        title: Text(_infos[index].appName),
+                        trailing: Text(_infos[index].usage.toString()));
+                  }),
             ),
           ],
         ));
