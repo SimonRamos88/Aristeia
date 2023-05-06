@@ -7,6 +7,7 @@ import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
+import 'package:aristeia_app/core/widgets/date_picker.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
@@ -62,26 +63,30 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           textAlign: TextAlign.center,
         ),
         //message: 'Si te sales sin guardar perderas toda la información del bloque',
-        more: Column(
-          children: [
-            InputField(
-                hintText: 'Titulo bloque', controller: _controllerTitulo),
-            InputField(
-              hintText: 'Descripcion',
-              controller: _controllerDescripcion,
-            ),
-            InputField(
-                hintText: 'Importancia (1-5)',
-                controller: _controllerImportancia),
-            InputField(
-                hintText: 'Fecha inicio (YYYY-MM-DD)',
-                controller: _controllerFechaInicio),
-            InputField(
-              hintText: 'Fecha fin (YYYY-MM-DD)',
-              controller: _controllerFechaFin,
-            ),
-          ],
+        more: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              InputField(
+                  hintText: 'Titulo bloque', controller: _controllerTitulo),
+              InputField(
+                hintText: 'Descripcion',
+                controller: _controllerDescripcion,
+              ),
+              InputField(
+                  hintText: 'Importancia (1-5)',
+                  controller: _controllerImportancia),
+              DatePicker(
+                  hintText: "fecha inicial",
+                  controller: _controllerFechaInicio),
+              DatePicker(
+                hintText: 'fecha final',
+                controller: _controllerFechaFin,
+              ),
+            ],
+          ),
         ),
+
         leftText: 'Crear',
         rightText: 'Cancelar',
         onTapLeft: () async {
@@ -90,8 +95,8 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
               _controllerTitulo.text,
               _controllerDescripcion.text,
               int.parse(_controllerImportancia.text),
-              DateTime.parse(_controllerFechaInicio.text + ' 00:00:00.000'),
-              DateTime.parse(_controllerFechaFin.text + ' 00:00:00.000'));
+              DateTime.parse(_controllerFechaInicio.text),
+              DateTime.parse(_controllerFechaFin.text));
           Navigator.of(context).pop();
           context.router.navigateNamed(
             ('/logged/crear/1'),
@@ -131,6 +136,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
         title: 'Crear bloques',
         type: 1,
