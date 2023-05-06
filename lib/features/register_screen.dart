@@ -37,8 +37,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
            email: _controllerEmail.text,
            password: _controllerPassword.text
        );
+       await Auth().currentUser?.sendEmailVerification();
        await sendUserData();
-       context.router.push(const LoggedWrapperRoute());
+       context.router.push(const WelcomeRouter());
      } on FirebaseAuthException 
      catch (e) {
        setState(() {

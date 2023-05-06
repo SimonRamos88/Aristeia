@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage = '';
-
+  bool? isVerified= false;
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
@@ -31,7 +31,18 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Auth().signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
-          context.router.replace(const LoggedWrapperRoute());
+          isVerified= Auth().currentUser?.emailVerified;
+          if(isVerified==true){
+            context.router.replace(const LoggedWrapperRoute());
+          }
+          else{
+            setState(() {
+              errorMessage= "Usuario no verificado, Verifique su correo porfavor";
+            });
+
+          }
+
+
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
