@@ -5,6 +5,7 @@ import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
@@ -13,9 +14,14 @@ import 'package:url_launcher/url_launcher.dart';
 @RoutePage()
 class SingleBlockScreen extends StatefulWidget {
   final int blockId;
+  final int roadId;
+  final bool isMyRoadmap;
+
   const SingleBlockScreen({
     Key? key,
     @PathParam() required this.blockId,
+    required this.roadId,
+    this.isMyRoadmap = false,
   }) : super(key: key);
 
   @override
@@ -121,6 +127,33 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     );
   }
 
+  Map<String, dynamic> bloqueCreado = {};
+
+  Future<void> traerBloque(String roadmapId, String bloqueId) async {
+    print(roadmapId);
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //instanciamos la db y buscamos la coleccion
+    CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
+    //antes que nada, verificamos que la informacion esté correcta
+    DocumentSnapshot query = await collectionReferenceRoadmap
+        .doc(roadmapId)
+        .collection('bloques')
+        .doc(bloqueId)
+        .get();
+    print("existo");
+    setState(() {
+      bloqueCreado = query.data() as Map<String, dynamic>;
+      print(bloqueCreado);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    traerBloque(widget.roadId.toString(), widget.blockId.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,24 +168,41 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
         child: Column(
           children: [
             BoxText.tituloPagina(
-              text: 'Bloque ${widget.blockId}',
+              text: bloqueCreado["titulo"] == null
+                  ? "cargando"
+                  : bloqueCreado["titulo"],
               color: colors.pinkColor,
             ),
-            Container(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Estado:',
-                      style: heading2bStyle.copyWith(color: colors.pinkColor)),
-                  StateWidget(
-                    onTap: cambiarEstado,
-                    large: true,
-                  ),
-                ],
+              child: Text(
+                bloqueCreado["descripcion"] == null
+                    ? "cargando"
+                    : bloqueCreado["descripcion"],
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: heading3Style.copyWith(color: Colors.black),
               ),
             ),
+            widget.isMyRoadmap
+                ? Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Estado:',
+                            style: heading2bStyle.copyWith(
+                                color: colors.pinkColor)),
+                        StateWidget(
+                          onTap: cambiarEstado,
+                          large: true,
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(),
             for (var i = 0; i < 10; i++)
               ResourceCard(
                 nombreRecurso: 'recurso $i',
