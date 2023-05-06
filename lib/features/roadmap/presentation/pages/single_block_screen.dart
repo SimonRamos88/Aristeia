@@ -5,6 +5,7 @@ import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
@@ -126,6 +127,33 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     );
   }
 
+  Map<String, dynamic> bloqueCreado = {};
+
+  Future<void> traerBloque(String roadmapId, String bloqueId) async {
+    print(roadmapId);
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //instanciamos la db y buscamos la coleccion
+    CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
+    //antes que nada, verificamos que la informacion esté correcta
+    DocumentSnapshot query = await collectionReferenceRoadmap
+        .doc(roadmapId)
+        .collection('bloques')
+        .doc(bloqueId)
+        .get();
+    print("existo");
+    setState(() {
+      bloqueCreado = query.data() as Map<String, dynamic>;
+      print(bloqueCreado);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    traerBloque(widget.roadId.toString(), widget.blockId.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,13 +168,17 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
         child: Column(
           children: [
             BoxText.tituloPagina(
-              text: 'Bloque ${widget.blockId}',
+              text: bloqueCreado["titulo"] == null
+                  ? "cargando"
+                  : bloqueCreado["titulo"],
               color: colors.pinkColor,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               child: Text(
-                'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+                bloqueCreado["descripcion"] == null
+                    ? "cargando"
+                    : bloqueCreado["descripcion"],
                 softWrap: true,
                 textAlign: TextAlign.center,
                 style: heading3Style.copyWith(color: Colors.black),

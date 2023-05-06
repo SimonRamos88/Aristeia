@@ -5,12 +5,10 @@ import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
-
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-
 import '../../../../core/widgets/box_text.dart';
 
 @RoutePage()
@@ -18,9 +16,11 @@ class CreateResourceScreen extends StatefulWidget {
   static final gradients = AppGradients();
 
   final int blockId;
+  final int roadId;
 
   const CreateResourceScreen({
     super.key,
+    required this.roadId,
     @PathParam() required this.blockId,
   });
 
@@ -83,6 +83,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         rightText: 'Agregar',
         leftText: 'Cancelar',
         onTapRight: () {
+          print('creado');
           Navigator.of(context).pop();
         },
         onTapLeft: () {
@@ -132,15 +133,15 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         header: Column(children: [
           BoxText.tituloPagina(
               text: 'Nombre del Bloque', color: colors.pinkColor),
-              Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Text(
-                'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
-                softWrap: true,
-                textAlign: TextAlign.center,
-                style: heading3Style.copyWith(color: Colors.black),
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: Text(
+              'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+              softWrap: true,
+              textAlign: TextAlign.center,
+              style: heading3Style.copyWith(color: Colors.black),
             ),
+          ),
         ]),
         children: [
           for (final tile in myTiles)
