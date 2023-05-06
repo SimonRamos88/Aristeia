@@ -62,6 +62,17 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+  Future<void> addAppUsage(DateTime startTime, DateTime finishTime) async {
+    final docUser = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(Auth().currentUser?.uid);
+    final appUsageRef = docUser.collection('usoAplicacion');
+    await appUsageRef.add({
+      'tiempoEntrada': _startTime.toUtc(),
+      'tiempoSalida': _finishTime.toUtc(),
+    });
+  }
+
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
@@ -105,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen>
       _finishTime = DateTime.now();
       print(_finishTime);
       print(_lastLifecyleState);
+      addAppUsage(_startTime, _finishTime);
     }
   }
 
