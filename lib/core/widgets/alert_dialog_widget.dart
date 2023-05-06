@@ -4,8 +4,7 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class AlertDialogWidget extends StatelessWidget {
-
-static final gradients = AppGradients();
+  static final gradients = AppGradients();
 
   final Function()? onTapLeft;
   final Function()? onTapRight;
@@ -65,7 +64,7 @@ static final gradients = AppGradients();
           child: more,
         ),
         more.runtimeType ==
-                 const SizedBox(
+                const SizedBox(
                   width: 0,
                   height: 0,
                 ).runtimeType
@@ -85,9 +84,9 @@ static final gradients = AppGradients();
                     large: false,
                     width: 150,
                     onTap: onTapLeft,
-                    pink: (color==2)? true: false,
-                    blue: (color==1)? true: false,
-                    )
+                    pink: (color == 2) ? true : false,
+                    blue: (color == 1) ? true : false,
+                  )
                 : const SizedBox(
                     width: 0,
                     height: 0,
@@ -96,13 +95,13 @@ static final gradients = AppGradients();
               height: 16,
             ),
             MyButton(
-                buttonText: rightText,
-                large: false,
-                width: 150,
-                onTap: onTapRight,
-                pink: (color==2)?true: false,
-                blue: (color==1)?true: false,
-                ),
+              buttonText: rightText,
+              large: false,
+              width: 150,
+              onTap: onTapRight,
+              pink: (color == 2) ? true : false,
+              blue: (color == 1) ? true : false,
+            ),
           ],
         )
       ],
