@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
+  bool isDone= false;
 
   Future<void> readUserData() async {
     final docUser =
@@ -32,12 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       usertag = queryU.get('usertag');
       usernames = queryU.get('nombres');
+      isDone=true;
     });
-    print('funciono');
   }
 
   @override
   Widget build(BuildContext context) {
+    if(!isDone){
+      readUserData();
+    }
     return Scaffold(
       appBar: AppBarWidget(
         title: 'RoadmapTo',
@@ -62,10 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 )),
           );
-          //print("nono");
-          //Auth().signOut();
-          //print("papaya");
-          //context.router.replace(const WelcomeRouter());
         },
       ),
       body: SingleChildScrollView(
