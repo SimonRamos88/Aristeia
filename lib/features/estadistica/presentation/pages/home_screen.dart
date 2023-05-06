@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
@@ -13,7 +14,10 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app_usage/app_usage.dart';
+import 'dart:core';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -24,14 +28,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late TabController tabController;
   Map<String, dynamic> respuesta = {"": ""};
+  DateTime fechaActual = DateTime.now().toLocal();
+  DateTime _startTime = DateTime.now().toLocal();
+  DateTime _finishTime = DateTime.now().toLocal();
+  Duration _totalUsageDuration = Duration.zero;
+  int _timeInSeconds = 0;
+  Timer? _timer;
 
+  final AppLifecycleObserver observer = AppLifecycleObserver();
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
-  List<AppUsageInfo> _infos = [];
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -51,14 +61,61 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     tabController = TabController(length: 3, vsync: this);
     readUserData();
-    getUsageStats();
+    print("Prueba Yen 1");
+    //getUsageStats();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    print("Prueba Yen 2");
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     tabController.dispose();
     super.dispose();
+  }
+
+  void _updateFirestore() async {
+    final firestore = FirebaseFirestore.instance;
+    final user = "userId"; // Replace with the actual user ID
+
+    final currentWeek = "Week21"; // Replace with the current week
+    final currentDoc = firestore.collection("UsoSemanales").doc(user);
+
+    final currentData = await currentDoc.get();
+    int currentUsage = currentData.data()?[currentWeek] ?? 0;
+
+    await currentDoc.update({
+      currentWeek: currentUsage + _timeInSeconds,
+    });
+
+    setState(() {
+      _timeInSeconds = 0;
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    print('Nuevo estado NO clase de la aplicación: $state');
+    if (state == AppLifecycleState.resumed) {
+      print('La aplicación se ha reanudado');
+      _startTime = DateTime.now();
+      print(_startTime);
+    } else {
+      print('La aplicación se ha pausado');
+      _totalUsageDuration += DateTime.now().difference(_startTime);
+      _finishTime = DateTime.now();
+      print(_finishTime);
+    }
+  }
+
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
   void cerrarSesion() {
@@ -97,22 +154,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  void getUsageStats() async {
-    try {
-      DateTime endDate = DateTime.now();
-      DateTime startDate = endDate.subtract(Duration(hours: 1));
-      List<AppUsageInfo> infoList =
-          await AppUsage().getAppUsage(startDate, endDate);
-      setState(() => _infos = infoList);
-
-      for (var info in infoList) {
-        print(info.toString());
-      }
-    } on AppUsageException catch (exception) {
-      print(exception);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             InfoRow(
                 description: 'Tiempo dedicado a RoadmapTo esta semana:',
-                info: '24 horas 30 minutos'),
+                info: _startTime.toString()),
             const SizedBox(
               height: 16,
             ),
@@ -211,15 +252,6 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: _infos.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                        title: Text(_infos[index].appName),
-                        trailing: Text(_infos[index].usage.toString()));
-                  }),
             ),
           ],
         ));
@@ -318,5 +350,19 @@ class InfoRow extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class AppLifecycleObserver extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      default:
+        break;
+    }
   }
 }
