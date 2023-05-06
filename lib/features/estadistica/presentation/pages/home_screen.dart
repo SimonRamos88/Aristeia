@@ -37,11 +37,12 @@ class _HomeScreenState extends State<HomeScreen>
   Duration _totalUsageDuration = Duration.zero;
   int _timeInSeconds = 0;
   Timer? _timer;
-
+  AppLifecycleState? _lastLifecyleState;
   final AppLifecycleObserver observer = AppLifecycleObserver();
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
+  Map<String, dynamic> appUsage = Map<String, dynamic>.from({});
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -53,6 +54,10 @@ class _HomeScreenState extends State<HomeScreen>
         respuesta = queryU.data() as Map<String, dynamic>;
         usertag = respuesta['usertag'];
         usernames = respuesta['nombres'];
+        if (respuesta['usoAplicacion'] != null) {
+          appUsage = respuesta['usoAplicacion'];
+        }
+        print(appUsage);
       });
     }
   }
@@ -61,11 +66,18 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     tabController = TabController(length: 3, vsync: this);
     readUserData();
-    print("Prueba Yen 1");
-    //getUsageStats();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    print("Prueba Yen 2");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_lastLifecyleState == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        didChangeAppLifecycleState(AppLifecycleState.resumed);
+      });
+    }
   }
 
   @override
@@ -73,6 +85,27 @@ class _HomeScreenState extends State<HomeScreen>
     WidgetsBinding.instance.removeObserver(this);
     tabController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    setState(() {
+      _lastLifecyleState = state;
+    });
+    if (state == AppLifecycleState.resumed) {
+      print('La aplicación se ha reanudado');
+      _startTime = DateTime.now();
+      print(_startTime);
+      print(_lastLifecyleState);
+    }
+    if (state == AppLifecycleState.paused) {
+      print('La aplicación se ha pausado');
+      _totalUsageDuration += DateTime.now().difference(_startTime);
+      _finishTime = DateTime.now();
+      print(_finishTime);
+      print(_lastLifecyleState);
+    }
   }
 
   void _updateFirestore() async {
@@ -94,23 +127,6 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    print('Nuevo estado NO clase de la aplicación: $state');
-    if (state == AppLifecycleState.resumed) {
-      print('La aplicación se ha reanudado');
-      _startTime = DateTime.now();
-      print(_startTime);
-    } else {
-      print('La aplicación se ha pausado');
-      _totalUsageDuration += DateTime.now().difference(_startTime);
-      _finishTime = DateTime.now();
-      print(_finishTime);
-    }
-  }
-
   String formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -126,7 +142,9 @@ class _HomeScreenState extends State<HomeScreen>
             leftText: 'Cerrar',
             rightText: 'Cancelar',
             onTapLeft: () {
-              Auth().signOut();
+              Auth().signOut().then((_) {
+                didChangeAppLifecycleState(AppLifecycleState.paused);
+              });
               context.showFlash<bool>(
                   barrierDismissible: true,
                   duration: const Duration(seconds: 5),
