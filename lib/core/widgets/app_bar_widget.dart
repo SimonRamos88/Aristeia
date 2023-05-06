@@ -9,6 +9,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onPressedLeading;
   final void Function()? onPressedAction;
   final int color;
+  final Widget rightWidget;
 
   const AppBarWidget({
     super.key,
@@ -17,6 +18,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedLeading,
     this.onPressedAction,
     this.color = 0,
+    this.rightWidget = const SizedBox(),
   });
 
   @override
@@ -58,7 +60,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                         icon: Icon(Icons.logout, color: colorAll, weight: 100,),
                       )
                     : (type == 3)
-                        ? const PopUpMenu()
+                        ? rightWidget
                         : (type == 5 || type == 6 || type == 7)
                             ? IconButton(
                                 onPressed: onPressedAction,

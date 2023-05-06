@@ -21,7 +21,10 @@ class CreateBlockScreen extends StatefulWidget {
   static final gradients = AppGradients();
   static final colors = AppColors();
 
-  const CreateBlockScreen({super.key});
+  const CreateBlockScreen({
+    super.key,
+    
+  });
 
   @override
   State<CreateBlockScreen> createState() => _CreateBlockScreenState();
@@ -52,6 +55,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
 
   void agregarBloque() {
     showDialog(
+      
       context: context,
       builder: (BuildContext context) => AlertDialogWidget(
         tituloGeneral: false,

@@ -21,7 +21,7 @@ class MyRoadmapsScreen extends StatelessWidget {
               myRoadmap: true,
               nombreRoadmap: "Roadmap ${i}",
               descripcionRoadmap: 'Esta es la descricpión del roadmap ${i}',
-              estadoRoadmap: 0,
+              estadoRoadmap: 1,
               etiquetas: ['etiqueta 1', 'etiqueta 2', 'etiqueta 3'],
               cantidadBloques: 10,
               calificacion: 4.5,
