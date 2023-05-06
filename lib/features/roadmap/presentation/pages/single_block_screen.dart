@@ -13,9 +13,14 @@ import 'package:url_launcher/url_launcher.dart';
 @RoutePage()
 class SingleBlockScreen extends StatefulWidget {
   final int blockId;
+  final int roadId;
+  final bool isMyRoadmap;
+
   const SingleBlockScreen({
     Key? key,
     @PathParam() required this.blockId,
+    required this.roadId,
+    this.isMyRoadmap = false,
   }) : super(key: key);
 
   @override
@@ -138,21 +143,34 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
               text: 'Bloque ${widget.blockId}',
               color: colors.pinkColor,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Estado:',
-                      style: heading2bStyle.copyWith(color: colors.pinkColor)),
-                  StateWidget(
-                    onTap: cambiarEstado,
-                    large: true,
-                  ),
-                ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: heading3Style.copyWith(color: Colors.black),
               ),
             ),
+            widget.isMyRoadmap
+                ? Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Estado:',
+                            style: heading2bStyle.copyWith(
+                                color: colors.pinkColor)),
+                        StateWidget(
+                          onTap: cambiarEstado,
+                          large: true,
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(),
             for (var i = 0; i < 10; i++)
               ResourceCard(
                 nombreRecurso: 'recurso $i',

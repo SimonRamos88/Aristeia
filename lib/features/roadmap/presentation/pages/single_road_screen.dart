@@ -7,15 +7,21 @@ import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
+import 'package:aristeia_app/core/widgets/input_field.dart';
+import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
   final int roadId;
-  const SingleRoadScreen({
+  late bool isMyRoadmap;
+
+  SingleRoadScreen({
     Key? key,
     @PathParam() required this.roadId,
   }) : super(key: key);
@@ -27,7 +33,13 @@ class SingleRoadScreen extends StatefulWidget {
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
 
-  void calificar() {
+  @override
+  void initState() {
+    widget.isMyRoadmap = context.router.currentPath.contains('personal');
+    super.initState();
+  }
+
+  void calificarRoadmap() {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -74,12 +86,97 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
+  void eliminarRoadmap() {
+              showDialog(
+                context: context,
+                builder: ((context) => AlertDialogWidget(
+                      color: 1,
+                      message: '¿Estas seguro de eliminar este roadmap?',
+                      leftText: 'Eliminar',
+                      rightText: 'Cancelar',
+                      onTapLeft: () {
+                        context.router.pop();
+                        context.showFlash<bool>(
+                          barrierDismissible: true,
+                          duration: const Duration(seconds: 5),
+                          builder: (context, controller) => FlashBar(
+                            controller: controller,
+                            forwardAnimationCurve: Curves.easeInCirc,
+                            reverseAnimationCurve: Curves.bounceIn,
+                            position: FlashPosition.bottom,
+                            indicatorColor: Theme.of(context).primaryColor,
+                            icon: const Icon(Icons.check),
+                            //title: const Text('Flash Title'),
+                            content: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: Text(
+                                  'Roadmap eliminado exitosamente',
+                                  textAlign: TextAlign.center,
+                                  style: heading3bStyle,
+                                )),
+                          ),
+                        );
+                      },
+                      onTapRight: () {
+                        Navigator.of(context).pop();
+                      },
+                    )),
+              );
+          }
+
+ void editarRoadmap() {
+    showDialog(
+      
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        tituloGeneral: false,
+        color: 1,
+        tituloPersonalizado: Text(
+          'Editar Roadmap',
+          style: heading2bStyle.copyWith(color: colors.blueColor),
+          textAlign: TextAlign.center,
+        ),
+        //message: 'Si te sales sin guardar perderas toda la información del bloque',
+        more: Column(
+          children: [
+            InputField(hintText: 'hintText', controller: TextEditingController())
+          ],
+        ),
+        leftText: 'Crear',
+        rightText: 'Cancelar',
+        onTapLeft: (){},
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
+  void eliminarBloque() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        color: 1,
+        message: '¿Estas seguro que deseas eliminar este bloque?',
+        leftText: 'Eliminar',
+        rightText: 'Cancelar',
+        onTapLeft: () {
+          //funcion para eliminar el bloque
+        },
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        type: 3,
+        type: widget.isMyRoadmap? 3:1,
         color: 1,
+        rightWidget: PopUpMenu(onTap1: editarRoadmap,onTap2: eliminarRoadmap,),
         onPressedLeading: () {
           context.router.pop();
         },
@@ -137,18 +234,18 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            widget.isMyRoadmap? Row(
+              mainAxisAlignment: widget.isMyRoadmap? MainAxisAlignment.spaceBetween:MainAxisAlignment.start ,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
+                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Estado:',
+                       Text('Estado:',
                           style:
                               heading2bStyle.copyWith(color: colors.blueColor)),
                       const SizedBox(
@@ -179,17 +276,22 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   ),
                 ),
               ],
-            ),
+            ): SizedBox(),
             for (var i = 0; i < 10; i++)
               BlockCard(
                 nombreBloque: "Bloque ${i}",
+                myRoadmap: widget.isMyRoadmap,
                 onTap: () => context.router.navigate(
                   // BlockRouter()
-                  SingleBlockRoute(blockId: i),
+                  SingleBlockRoute(
+                    blockId: i,
+                    roadId: widget.roadId,
+                    isMyRoadmap: widget.isMyRoadmap,
+                  ),
                 ),
               ),
             const SizedBox(height: 24),
-            Row(
+            widget.isMyRoadmap? SizedBox():Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -206,7 +308,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   blue: true,
                   large: false,
                   width: 130,
-                  onTap: calificar,
+                  onTap: calificarRoadmap,
                 ),
               ],
             ),

@@ -132,6 +132,15 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         header: Column(children: [
           BoxText.tituloPagina(
               text: 'Nombre del Bloque', color: colors.pinkColor),
+              Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: heading3Style.copyWith(color: Colors.black),
+              ),
+            ),
         ]),
         children: [
           for (final tile in myTiles)
