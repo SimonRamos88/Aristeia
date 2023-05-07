@@ -102,8 +102,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             rightText: 'Cancelar',
             onTapLeft: () async {
               await deleteRoadbyId(widget.roadId.toString());
+              // ignore: use_build_context_synchronously
               context.router.pop();
-              context.router.pushNamed('logged/personal');
+              context.router.navigateNamed('/logged/personal');
               context.showFlash<bool>(
                 barrierDismissible: true,
                 duration: const Duration(seconds: 5),

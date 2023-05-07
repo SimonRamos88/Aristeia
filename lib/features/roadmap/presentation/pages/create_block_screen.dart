@@ -16,6 +16,8 @@ import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 // Esta es la pagina para ver las listads de los bloques creados
@@ -105,45 +107,41 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                   DateTime.parse(_controllerFechaFin.text));
               Navigator.of(context).pop();
               //borrar los controllers:
-              _controllerTitulo.text = '';
-              _controllerDescripcion.text = '';
-              _controllerFechaFin.text = '';
-              _controllerFechaInicio.text = '';
-              _controllerImportancia.text = '';
+              _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
             } else {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialogWidget(
-                        tituloGeneral: false,
-                        color: 1,
-                        tituloPersonalizado: Text(
-                          ' ',
-                          style:
-                              heading2bStyle.copyWith(color: colors.blueColor),
-                          textAlign: TextAlign.center,
-                        ),
-                        more: Text(
-                          'Algunos datos no han sido llenados. Revisalos por favor',
-                          style:
-                              heading2bStyle.copyWith(color: colors.blueColor),
-                          textAlign: TextAlign.center,
-                        ),
-                        leftText: 'Aceptar',
-                        onTapLeft: () {
-                          Navigator.of(context).pop();
-                        },
-                        onTapRight: () {
-                          Navigator.of(context).pop();
-                        },
-                      ));
+              context.showFlash<bool>(
+                barrierDismissible: true,
+                duration: const Duration(seconds: 5),
+                builder: (context, controller) => FlashBar(
+                  controller: controller,
+                  forwardAnimationCurve: Curves.easeInCirc,
+                  reverseAnimationCurve: Curves.bounceIn,
+                  position: FlashPosition.bottom,
+                  indicatorColor: Theme.of(context).primaryColor,
+                  icon: const Icon(Icons.dangerous_rounded),
+                  //title: const Text('Flash Title'),
+                  content: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        'No todos los datos han sido diligenciados aún',
+                        textAlign: TextAlign.center,
+                        style: heading3bStyle,
+                      )),
+                ),
+              );
             }
-            /*
-            context.router.navigateNamed(
-              ('/logged/crear/' + bloqueId),
-            );
-            */
+
           },
           onTapRight: () {
+            _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
             Navigator.of(context).pop();
           },
         ),
@@ -197,7 +195,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
-        title: 'Crear bloques',
+        title: 'Editar bloques',
         type: 0,
         color: 1,
         onPressedLeading: () {

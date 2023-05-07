@@ -218,9 +218,11 @@ abstract class $AppRouter extends _i24.RootStackRouter {
       );
     },
     ConfigurationRoute.name: (routeData) {
+      final args = routeData.argsAs<ConfigurationRouteArgs>(
+          orElse: () => const ConfigurationRouteArgs());
       return _i24.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i22.ConfigurationScreen(),
+        child: _i22.ConfigurationScreen(key: args.key),
       );
     },
     EditProfileRoute.name: (routeData) {
@@ -675,16 +677,31 @@ class UnnavailableRoadmapRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i22.ConfigurationScreen]
-class ConfigurationRoute extends _i24.PageRouteInfo<void> {
-  const ConfigurationRoute({List<_i24.PageRouteInfo>? children})
-      : super(
+class ConfigurationRoute extends _i24.PageRouteInfo<ConfigurationRouteArgs> {
+  ConfigurationRoute({
+    _i25.Key? key,
+    List<_i24.PageRouteInfo>? children,
+  }) : super(
           ConfigurationRoute.name,
+          args: ConfigurationRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'ConfigurationRoute';
 
-  static const _i24.PageInfo<void> page = _i24.PageInfo<void>(name);
+  static const _i24.PageInfo<ConfigurationRouteArgs> page =
+      _i24.PageInfo<ConfigurationRouteArgs>(name);
+}
+
+class ConfigurationRouteArgs {
+  const ConfigurationRouteArgs({this.key});
+
+  final _i25.Key? key;
+
+  @override
+  String toString() {
+    return 'ConfigurationRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for

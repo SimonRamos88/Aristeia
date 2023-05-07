@@ -83,43 +83,47 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
   void agregarRecurso(){
     showDialog(
       context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 2,
-        tituloGeneral: false,
-        tituloPersonalizado: Text(
-          'Agregar recurso',
-          style: heading2bStyle.copyWith(color: colors.pinkColor),
-          textAlign: TextAlign.center,
+      builder: (BuildContext context) => SingleChildScrollView(
+        child: AlertDialogWidget(
+          insetPadding: true,
+            width: MediaQuery.of(context).size.width,
+          color: 2,
+          tituloGeneral: false,
+          tituloPersonalizado: Text(
+            'Agregar recurso',
+            style: heading2bStyle.copyWith(color: colors.pinkColor),
+            textAlign: TextAlign.center,
+          ),
+          more: Column(
+            children: [
+              InputField(
+                  hintText: 'Nombre recurso',
+                  controller: nombreController),
+              InputField(
+                  hintText: 'Descripción',
+                  maxLines: 3,
+                  controller: descripcionController),
+              InputField(
+                  hintText: 'Links',
+                  maxLines: 2,
+                  controller: linksController),
+            ],
+          ),
+          rightText: 'Agregar',
+          leftText: 'Cancelar',
+          onTapRight: () async {
+            int recursoId = await getRecursoAmount(widget.roadId.toString(), widget.blockId.toString()) + 1;
+            createRecurso({'nombre' : nombreController.text,
+                          'descripcion': descripcionController.text,
+                          'links_relacionados':StringToList(linksController.text),
+                          'autor': 'autorX',
+                          'imagen': '123'}, widget.roadId.toString(), widget.blockId.toString(), recursoId.toString());    
+            Navigator.of(context).pop();
+          },
+          onTapLeft: () {
+            Navigator.of(context).pop();
+          },
         ),
-        more: Column(
-          children: [
-            InputField(
-                hintText: 'Nombre recurso',
-                controller: nombreController),
-            InputField(
-                hintText: 'Descripción',
-                maxLines: 3,
-                controller: descripcionController),
-            InputField(
-                hintText: 'Links',
-                maxLines: 2,
-                controller: linksController),
-          ],
-        ),
-        rightText: 'Agregar',
-        leftText: 'Cancelar',
-        onTapRight: () async {
-          int recursoId = await getRecursoAmount(widget.roadId.toString(), widget.blockId.toString()) + 1;
-          createRecurso({'nombre' : nombreController.text,
-                        'descripcion': descripcionController.text,
-                        'links_relacionados':StringToList(linksController.text),
-                        'autor': 'autorX',
-                        'imagen': '123'}, widget.roadId.toString(), widget.blockId.toString(), recursoId.toString());    
-          Navigator.of(context).pop();
-        },
-        onTapLeft: () {
-          Navigator.of(context).pop();
-        },
       ),
     );
   }
@@ -154,7 +158,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     
     return Scaffold(
       appBar: AppBarWidget(
-        title: 'Crear Recurso',
+        title: 'Editar recursos',
         type: 1,
         color: 2,
         onPressedLeading: () {
