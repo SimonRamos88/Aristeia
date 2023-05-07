@@ -37,8 +37,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       try {
         await Auth().createUserWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPassword.text);
+        await Auth().currentUser?.sendEmailVerification();
         await sendUserData();
-        //context.router.push(const LoggedWrapperRoute());
         context.router.push(LoginRoute());
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool passwordConfirmed() {
     if (_controllerPassword.text.trim() ==
-      _controllerConfPassword.text.trim()) {
+        _controllerConfPassword.text.trim()) {
       return true;
     }
     return false;
