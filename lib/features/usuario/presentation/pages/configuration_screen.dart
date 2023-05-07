@@ -3,8 +3,12 @@ import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
+import 'package:aristeia_app/core/widgets/input_field.dart';
+import 'package:aristeia_app/features/usuario/domain/repositories/deleteUsuario.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:aristeia_app/core/network/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 @RoutePage()
 class ConfigurationScreen extends StatelessWidget {
@@ -34,9 +38,15 @@ class ConfigurationScreen extends StatelessWidget {
                 ),
               ]),
               leftText: 'Eliminar',
-              onTapLeft: () {
-                // Meter aqui funcion para eliminar cuenta
-              },
+               onTapLeft: () async {
+                        String? temp=Auth().currentUser?.uid;
+                        try{
+                          await deleteUsuariobyId(temp ?? '');
+                          await Auth().currentUser?.delete();
+                          context.router.replace(const WelcomeRouter());
+                        } on FirebaseAuthException catch (e){
+                          print('No se pudo borrar el usuario...');
+                        } },
               rightText: 'Cancelar',
               onTapRight: () {
                 Navigator.of(context).pop();
@@ -45,6 +55,9 @@ class ConfigurationScreen extends StatelessWidget {
       );
     }
 
+
+    final TextEditingController _controllerPassword =TextEditingController();
+    final TextEditingController _controllerConfPassword =TextEditingController();
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Configuración',
@@ -61,8 +74,40 @@ class ConfigurationScreen extends StatelessWidget {
               context.router.push(EditProfileRoute());
             },
           ),
-          const CajaOpcion(
-            texto: 'Cambiar contraseña',
+          CajaOpcion(
+            texto: 'Cambiar contraseña',onTap: () {
+            showDialog(
+              context: context,
+              builder: ((context) => AlertDialog(
+                title: Text('Ingresa tu nueva contraseña :'),
+                content: Column(
+                  children: [
+                    InputField(hintText: 'Contraseña', isPassword:true,controller:_controllerPassword ),
+                    InputField(hintText:'Confirmar' , isPassword: true,controller: _controllerConfPassword),
+                    ElevatedButton(onPressed: (){
+                      if(_controllerConfPassword.text.trim()==_controllerPassword.text.trim()){
+                        print("Valido");
+                        Auth().currentUser?.updatePassword(_controllerPassword.text.trim());
+                        context.router.push(const WelcomeRouter());
+                      }
+                      else{
+                        print("Invalido");
+                      }
+                    }, child: Text("Enviar"),
+                      style: const ButtonStyle(
+
+                      ),
+                    )
+                    ,
+                    Text("en cuanto envies la solicitud deberas iniciar sesion de nuevo")
+                  ],
+
+
+                ),
+
+              )),
+            );
+          },
           ),
           const CajaOpcion(
             texto: 'Terminos y condiciones',

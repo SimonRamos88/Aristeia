@@ -37,8 +37,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       try {
         await Auth().createUserWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPassword.text);
+        await Auth().currentUser?.sendEmailVerification();
         await sendUserData();
-        //context.router.push(const LoggedWrapperRoute());
         context.router.push(LoginRoute());
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Cuenta creada exitosamente',
+              'Cuenta creada exitosamente, por favor confirma tu correo para poder ingresar',
               textAlign: TextAlign.center,
               style: heading3bStyle,
             )),
