@@ -19,7 +19,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app_usage/app_usage.dart';
 import 'dart:core';
 
-
 @RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,6 +56,17 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+  Future<void> addAppUsage(DateTime startTime, DateTime finishTime) async {
+    final docUser = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(Auth().currentUser?.uid);
+    final appUsageRef = docUser.collection('usoAplicacion');
+    await appUsageRef.add({
+      'tiempoEntrada': _startTime.toUtc(),
+      'tiempoSalida': _finishTime.toUtc(),
+    });
+  }
+
   Future<Duration> sumUseLastWeek() async {
     final now = DateTime.now();
     final lastWeek = now.subtract(const Duration(days: 7));
@@ -81,17 +91,6 @@ class _HomeScreenState extends State<HomeScreen>
       }
     }
     return totalUsage;
-  }
-
-  Future<void> addAppUsage(DateTime startTime, DateTime finishTime) async {
-    final docUser = FirebaseFirestore.instance
-        .collection('usuarios')
-        .doc(Auth().currentUser?.uid);
-    final appUsageRef = docUser.collection('usoAplicacion');
-    await appUsageRef.add({
-      'tiempoEntrada': _startTime.toUtc(),
-      'tiempoSalida': _finishTime.toUtc(),
-    });
   }
 
   @override
