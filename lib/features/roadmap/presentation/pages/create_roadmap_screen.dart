@@ -108,6 +108,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
               ),
             ),
             DatePicker(
+
               hintText: "Fecha Inicio",
               controller: fechaInicio,
             ),
@@ -123,7 +124,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
               child: buildFilterChips(),
             ),
             MyButton(
-                buttonText: 'Continuar',
+                buttonText: 'Crear roadmap',
                 onTap: () async {
                   String idRoadmap = await createRoadmap({
                     'creador': Auth().currentUser!.uid,
@@ -137,7 +138,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   print(idRoadmap);
                   int id = int.parse(idRoadmap);
                   print(id);
-                  context.router.push(CreateBlockRoute(roadId: id));
+                  context.router.navigate(CreateBlockRoute(roadId: id));
                 }),
           ]),
         ),

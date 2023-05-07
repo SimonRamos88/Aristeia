@@ -13,7 +13,9 @@ class AlertDialogWidget extends StatelessWidget {
   final String message;
   final Widget tituloPersonalizado;
   final bool tituloGeneral;
+  final bool insetPadding;
   final int color;
+   final double width;
   final Widget more;
 
   const AlertDialogWidget({
@@ -24,7 +26,9 @@ class AlertDialogWidget extends StatelessWidget {
     this.rightText = 'Cancelar',
     this.message = '¿Estas seguro de esto?',
     this.tituloGeneral = true,
+    this.insetPadding = false,
     this.color = 0,
+    this.width = 0,
     this.tituloPersonalizado = const SizedBox(
       width: 0,
       height: 0,
@@ -38,6 +42,13 @@ class AlertDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      clipBehavior: Clip.hardEdge,
+      actionsOverflowDirection: VerticalDirection.down,
+      insetPadding: insetPadding? const EdgeInsets.symmetric(horizontal: 0, vertical: 0): const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      scrollable: true,
+      alignment: Alignment.center,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      actionsAlignment: MainAxisAlignment.center,
       contentPadding: more ==
               const SizedBox(
                 width: 0,
@@ -46,10 +57,7 @@ class AlertDialogWidget extends StatelessWidget {
           ? const EdgeInsets.symmetric(horizontal: 32, vertical: 50)
           : const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
       actionsPadding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
-      alignment: Alignment.center,
-
       //title: Text('Esta seguro '),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: tituloGeneral
           ? Text(
               message,
@@ -57,9 +65,9 @@ class AlertDialogWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             )
           : tituloPersonalizado,
-      actionsAlignment: MainAxisAlignment.center,
       actions: [
         Container(
+          width: width==0? null:width,
           alignment: Alignment.center,
           child: more,
         ),

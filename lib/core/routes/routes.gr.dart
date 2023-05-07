@@ -208,7 +208,6 @@ abstract class $AppRouter extends _i24.RootStackRouter {
         child: _i20.SingleRoadScreen(
           key: args.key,
           roadId: args.roadId,
-          isMyRoadmap: args.isMyRoadmap,
         ),
       );
     },
@@ -627,14 +626,12 @@ class SingleRoadRoute extends _i24.PageRouteInfo<SingleRoadRouteArgs> {
   SingleRoadRoute({
     _i25.Key? key,
     required int roadId,
-    bool isMyRoadmap = false,
     List<_i24.PageRouteInfo>? children,
   }) : super(
           SingleRoadRoute.name,
           args: SingleRoadRouteArgs(
             key: key,
             roadId: roadId,
-            isMyRoadmap: isMyRoadmap,
           ),
           rawPathParams: {'roadId': roadId},
           initialChildren: children,
@@ -650,18 +647,15 @@ class SingleRoadRouteArgs {
   const SingleRoadRouteArgs({
     this.key,
     required this.roadId,
-    this.isMyRoadmap = false,
   });
 
   final _i25.Key? key;
 
   final int roadId;
 
-  final bool isMyRoadmap;
-
   @override
   String toString() {
-    return 'SingleRoadRouteArgs{key: $key, roadId: $roadId, isMyRoadmap: $isMyRoadmap}';
+    return 'SingleRoadRouteArgs{key: $key, roadId: $roadId}';
   }
 }
 
