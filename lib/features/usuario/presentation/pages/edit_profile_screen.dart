@@ -43,7 +43,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
           ? usernames
           : _controllerName.text.trim(),
     }).then((value) {
-      context.router.popAndPush(const ConfigurationRoute());
+      context.router.popAndPush(ConfigurationRoute());
     });
   }
 

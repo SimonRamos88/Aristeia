@@ -87,7 +87,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
               ),
             ),
           ),
-      
+
           leftText: 'Crear',
           rightText: 'Cancelar',
           onTapLeft: () async {
@@ -98,6 +98,12 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                 int.parse(_controllerImportancia.text),
                 DateTime.parse(_controllerFechaInicio.text),
                 DateTime.parse(_controllerFechaFin.text));
+            _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
+
             Navigator.of(context).pop();
             /*
             context.router.navigateNamed(
@@ -106,6 +112,11 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
             */
           },
           onTapRight: () {
+            _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
             Navigator.of(context).pop();
           },
         ),
@@ -159,7 +170,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
-        title: 'Crear bloques',
+        title: 'Editar bloques',
         type: 0,
         color: 1,
         onPressedLeading: () {
