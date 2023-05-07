@@ -1,6 +1,7 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
+import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:aristeia_app/features/recurso/domain/repositories/deleteRecurso.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

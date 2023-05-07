@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
@@ -6,6 +8,7 @@ import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
+import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -17,10 +20,12 @@ class CreateResourceScreen extends StatefulWidget {
 
   final int blockId;
   final int roadId;
+  final int numeroRecursos;
 
   const CreateResourceScreen({
     super.key,
     required this.roadId,
+    required this.numeroRecursos,
     @PathParam() required this.blockId,
   });
 
@@ -30,6 +35,9 @@ class CreateResourceScreen extends StatefulWidget {
 
 class _CreateResourceScreenState extends State<CreateResourceScreen> {
   final colors = AppColors();
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController descripcionController = TextEditingController();
+  final TextEditingController linksController = TextEditingController();
 
   // list of tiles
   final List myTiles = [
@@ -54,7 +62,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     });
   }
 
-  void agregarRecurso() {
+  void agregarRecurso(){
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialogWidget(
@@ -69,21 +77,28 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
           children: [
             InputField(
                 hintText: 'Nombre recurso',
-                controller: TextEditingController()),
+                controller: nombreController),
             InputField(
                 hintText: 'Descripción',
                 maxLines: 3,
-                controller: TextEditingController()),
+                controller: descripcionController),
             InputField(
                 hintText: 'Links',
                 maxLines: 2,
-                controller: TextEditingController()),
+                controller: linksController),
           ],
         ),
         rightText: 'Agregar',
         leftText: 'Cancelar',
-        onTapRight: () {
-          print('creado');
+        onTapRight: () async {
+          int recursoId = widget.numeroRecursos + 1;
+          int xd = await getRecursoAmount(widget.roadId.toString(), widget.blockId.toString());
+          log(xd.toString());
+          createRecurso({'nombre' : nombreController.text,
+                        'descripcion': descripcionController.text,
+                        'links_relacionados':StringToList(linksController.text),
+                        'autor': 'autorX',
+                        'imagen': '123'}, widget.roadId.toString(), widget.blockId.toString(), recursoId.toString());    
           Navigator.of(context).pop();
         },
         onTapLeft: () {
@@ -113,6 +128,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Crear bloque',
@@ -127,7 +143,12 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         backgroundColor: colors.pinkColor.withOpacity(0.7),
         label: const Text('Agregar recurso', style: heading3bStyle),
         icon: const Icon(Icons.add),
-        onPressed: agregarRecurso,
+        onPressed: (){ 
+          agregarRecurso();
+          nombreController.clear();
+          descripcionController.clear();
+          linksController.clear(); 
+        },
       ),
       body: ReorderableListView(
         header: Column(children: [
