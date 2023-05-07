@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Cuenta creada exitosamente',
+              'Cuenta creada exitosamente, por favor confirma tu correo para poder ingresar',
               textAlign: TextAlign.center,
               style: heading3bStyle,
             )),
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool passwordConfirmed() {
     if (_controllerPassword.text.trim() ==
-        _controllerConfPassword.text.trim()) {
+      _controllerConfPassword.text.trim()) {
       return true;
     }
     return false;
