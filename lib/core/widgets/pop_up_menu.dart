@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 class PopUpMenu extends StatelessWidget {
 final Function()? onTap1;
 final Function()? onTap2;
+final Function()? onTap3;
 
   PopUpMenu({
     super.key,
     this.onTap1, 
     this.onTap2,
+    this.onTap3,
     });
 
   @override
@@ -42,6 +44,18 @@ final Function()? onTap2;
           ),
           PopupMenuItem<int>(
             onTap: onTap2,
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
+            value: 1,
+            child: Row(
+              children: const [
+                Icon(Icons.edit_document, size: 16),
+                SizedBox(width: 8),
+                Text('Editar Bloques'),
+              ],
+            ),
+          ),
+          PopupMenuItem<int>(
+            onTap: onTap3,
             textStyle: subheadingbStyle.copyWith(color: Colors.black),
             value: 1,
             child: Row(

@@ -27,7 +27,7 @@ Widget getRoadmapPrivado() {
                   builder: (context, snapshot) {
                     int cantidadBloques = snapshot.data ?? 0;
                     return RoadmapCard(
-                        myRoadmap: false,
+                        myRoadmap: true,
                         nombreRoadmap: doc?[index]['nombre'],
                         descripcionRoadmap: doc?[index]['descripcion'],
                         estadoRoadmap: doc?[index]['publico'] == true ? 0 : 1,
@@ -35,7 +35,7 @@ Widget getRoadmapPrivado() {
                         cantidadBloques: cantidadBloques,
                         calificacion: promedio,
                         onTap: () => {
-                              context.router.pushNamed(
+                              context.router.navigateNamed(
                                 ('/logged/personal/${doc?[index].id}'),
                               ),
                             });

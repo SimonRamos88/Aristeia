@@ -3,7 +3,6 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
-import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
@@ -21,12 +20,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
   final int roadId;
-  late bool isMyRoadmap;
-
   SingleRoadScreen({
     Key? key,
     @PathParam() required this.roadId,
-    this.isMyRoadmap = false,
   }) : super(key: key);
 
   @override
@@ -35,10 +31,14 @@ class SingleRoadScreen extends StatefulWidget {
 
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
+  Map<String, dynamic> roadmapCreado = {};
+  bool isMyRoad = false;
 
   @override
   void initState() {
     traerRoadmap();
+    isMyRoad = context.router.currentPath.contains('personal');
+    //print(context.router.currentPath.contains('personal'));
     super.initState();
   }
 
@@ -155,6 +155,24 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
+  void editarBloques() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+            message: '¿Estas seguro de editar los bloques de este Roadmap?',
+            color: 1,
+            leftText: 'Confirmar',
+            rightText: 'Cancelar',
+            onTapLeft: () {
+              context.router.push(CreateBlockRoute(roadId: widget.roadId));
+            },
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
+    );
+  }
+
   void eliminarBloque() {
     showDialog(
       context: context,
@@ -172,8 +190,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
       ),
     );
   }
-
-  Map<String, dynamic> roadmapCreado = {};
 
   Future<void> traerRoadmap() async {
     print('ejecutando');
@@ -195,11 +211,12 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        type: widget.isMyRoadmap ? 3 : 1,
+        type: isMyRoad ? 3 : 1,
         color: 1,
         rightWidget: PopUpMenu(
           onTap1: editarRoadmap,
-          onTap2: eliminarRoadmap,
+          onTap2: editarBloques,
+          onTap3: eliminarRoadmap,
         ),
         onPressedLeading: () {
           context.router.pop();
@@ -261,11 +278,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               ],
             ),
           ),
-          widget.isMyRoadmap
+          isMyRoad
               ? Row(
-                  mainAxisAlignment: widget.isMyRoadmap
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
@@ -281,7 +296,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                           const SizedBox(
                             width: 4,
                           ),
-                          StateWidget(
+                          const StateWidget(
                             large: true,
                           ),
                         ],
@@ -301,9 +316,12 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                             width: 4,
                           ),
                           Text(
+                              //roadmapCreado["publico"] ? ?? "cargando...",
                               roadmapCreado["publico"] == null
-                                  ? "cargando..."
-                                  : roadmapCreado["publico"],
+                                  ? "..."
+                                  : roadmapCreado["publico"]
+                                      ? "Público"
+                                      : "Privado",
                               style:
                                   heading3Style.copyWith(color: Colors.black)),
                         ],
@@ -311,17 +329,16 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                     ),
                   ],
                 )
-              : SizedBox(),
-
+              : const SizedBox(),
           // Mostrar bloques
           BloqueRoad(
             roadmapId: widget.roadId.toString(),
             nav: true,
+            isMyRoad: isMyRoad,
           ),
-
-          const SizedBox(height: 24),
-          widget.isMyRoadmap
-              ? SizedBox()
+          isMyRoad? const SizedBox() :const SizedBox(height: 24),
+          isMyRoad
+              ? const SizedBox()
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -343,7 +360,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                     ),
                   ],
                 ),
-          const SizedBox(height: 24),
+          isMyRoad? const SizedBox():const SizedBox(height: 24),
         ],
       ),
     );

@@ -11,7 +11,6 @@ class DatePicker extends StatefulWidget {
   //final Function(String) onSaved;
   final double height;
   final double width;
-  final bool isPassword;
   final bool textInDefined;
   final int lengthText;
   final int maxLines;
@@ -23,7 +22,6 @@ class DatePicker extends StatefulWidget {
       required this.controller,
       // required this.validator,
       // required this.onSaved,
-      this.isPassword = false,
       this.lengthText = 100,
       this.height = 70,
       this.width = 284,
@@ -38,7 +36,6 @@ class DatePicker extends StatefulWidget {
 class _DatePickerState extends State<DatePicker> {
   DateTime today = DateTime.now();
   static final colors = AppColors();
-  bool _obscurepassword = true;
 
   final circularBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
@@ -60,14 +57,20 @@ class _DatePickerState extends State<DatePicker> {
               width: 3),
         ),
         child: TextFormField(
+  
           maxLines: widget.maxLines,
           controller: widget.controller,
-          cursorColor: const Color.fromRGBO(70, 80, 250, 0.7),
+          cursorColor: colors.mainColor,
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.left,
           maxLength: widget.lengthText,
           style: interHeading3Style.copyWith(color: Colors.black),
           decoration: InputDecoration(
+            
+            prefixIcon: Icon(
+              Icons.calendar_today_outlined,
+              color: Theme.of(context).primaryColor,
+            ) ,
             enabledBorder: circularBorder,
             focusedBorder: circularBorder.copyWith(
               borderSide: const BorderSide(
@@ -88,10 +91,22 @@ class _DatePickerState extends State<DatePicker> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
           ),
-          obscureText: widget.isPassword ? _obscurepassword : false,
           onTap: () async {
             DateTime? newDate = await showDatePicker(
+                builder: (context, child) => Theme(
+                    data: ThemeData().copyWith(
+                        colorScheme: ColorScheme.light(
+                            primary: Theme.of(context).primaryColor,
+                            onPrimary: Colors.white,
+                            surface: Colors.black,
+                            onSurface: Colors.black,
+                            ),
+                            
+                            ),
+                    child: child!),
                 context: context,
+                cancelText: 'Cancelar',
+                confirmText: 'Guardar',
                 initialDate: today,
                 firstDate: DateTime(1950),
                 lastDate: DateTime(2040));

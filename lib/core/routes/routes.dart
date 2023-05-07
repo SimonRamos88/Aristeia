@@ -67,6 +67,10 @@ class AppRouter extends $AppRouter {
       AutoRoute(path: '', page: ConfigurationRoute.page),
       AutoRoute(path: 'edit', page: EditProfileRoute.page),
     ]),
+    // AutoRoute(path: '/nuevo', page: ConfigRouter.page, children: [
+    //   AutoRoute(path: 'bloque', page: ConfigurationRoute.page),
+    //   AutoRoute(path: 'edit', page: EditProfileRoute.page),
+    // ]),
   ];
 }    
 // flutter pub run build_runner build --delete-conflicting-outputs

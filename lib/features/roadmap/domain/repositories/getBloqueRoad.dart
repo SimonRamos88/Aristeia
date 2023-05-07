@@ -22,6 +22,7 @@ class BloqueRoad extends StatelessWidget {
   final String roadmapId;
   final bool edit;
   final bool nav;
+  final bool isMyRoad;
   final void Function()? onDelete;
 
   const BloqueRoad({
@@ -30,6 +31,7 @@ class BloqueRoad extends StatelessWidget {
     this.edit = false,
     this.nav = false,
     this.onDelete,
+    this.isMyRoad=false,
   }) : super(key: key);
 
   @override
@@ -54,6 +56,7 @@ class BloqueRoad extends StatelessWidget {
                 builder: (context, snapshot) {
                   int cantidadRecursos = snapshot.data ?? 0;
                   return BlockCard(
+                    myRoadmap: isMyRoad,
                       edit: edit,
                       cantidadRecursos: cantidadRecursos,
                       nombreBloque: doc?[index]['titulo'],
