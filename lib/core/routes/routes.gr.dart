@@ -22,7 +22,6 @@ import 'package:aristeia_app/core/utils/router_pages/roadmap_router_screen.dart'
     as _i6;
 import 'package:aristeia_app/core/utils/router_pages/welcome_router_screen.dart'
     as _i7;
-import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/logged_wrapper_screen.dart'
     as _i8;
 import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart'
@@ -59,8 +58,7 @@ import 'package:auto_route/auto_route.dart' as _i24;
 import 'package:flutter/material.dart' as _i25;
 
 abstract class $AppRouter extends _i24.RootStackRouter {
-  $AppRouter([_i25.GlobalKey<_i25.NavigatorState>? navigatorKey])
-      : super();
+  $AppRouter({super.navigatorKey});
 
   @override
   final Map<String, _i24.PageFactory> pagesMap = {
@@ -166,8 +164,8 @@ abstract class $AppRouter extends _i24.RootStackRouter {
         child: _i15.CreateResourceScreen(
           key: args.key,
           roadId: args.roadId,
+          numeroRecursos: args.numeroRecursos,
           blockId: args.blockId,
-          numeroRecursos: 0,
         ),
       );
     },
@@ -495,6 +493,7 @@ class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
   CreateResourceRoute({
     _i25.Key? key,
     required int roadId,
+    required int numeroRecursos,
     required int blockId,
     List<_i24.PageRouteInfo>? children,
   }) : super(
@@ -502,6 +501,7 @@ class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
           args: CreateResourceRouteArgs(
             key: key,
             roadId: roadId,
+            numeroRecursos: numeroRecursos,
             blockId: blockId,
           ),
           rawPathParams: {'blockId': blockId},
@@ -518,6 +518,7 @@ class CreateResourceRouteArgs {
   const CreateResourceRouteArgs({
     this.key,
     required this.roadId,
+    required this.numeroRecursos,
     required this.blockId,
   });
 
@@ -525,11 +526,13 @@ class CreateResourceRouteArgs {
 
   final int roadId;
 
+  final int numeroRecursos;
+
   final int blockId;
 
   @override
   String toString() {
-    return 'CreateResourceRouteArgs{key: $key, roadId: $roadId, blockId: $blockId}';
+    return 'CreateResourceRouteArgs{key: $key, roadId: $roadId, numeroRecursos: $numeroRecursos, blockId: $blockId}';
   }
 }
 
