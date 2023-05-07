@@ -58,8 +58,7 @@ import 'package:auto_route/auto_route.dart' as _i24;
 import 'package:flutter/material.dart' as _i25;
 
 abstract class $AppRouter extends _i24.RootStackRouter {
-  $AppRouter([_i25.GlobalKey<_i25.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  $AppRouter({super.navigatorKey});
 
   @override
   final Map<String, _i24.PageFactory> pagesMap = {
@@ -146,20 +145,26 @@ abstract class $AppRouter extends _i24.RootStackRouter {
       );
     },
     CreateBlockRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CreateBlockRouteArgs>(
+          orElse: () =>
+              CreateBlockRouteArgs(roadId: pathParams.getInt('roadId')));
       return _i24.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i14.CreateBlockScreen(),
+        child: _i14.CreateBlockScreen(
+          key: args.key,
+          roadId: args.roadId,
+        ),
       );
     },
     CreateResourceRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<CreateResourceRouteArgs>(
-          orElse: () =>
-              CreateResourceRouteArgs(blockId: pathParams.getInt('blockId')));
+      final args = routeData.argsAs<CreateResourceRouteArgs>();
       return _i24.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i15.CreateResourceScreen(
           key: args.key,
+          roadId: args.roadId,
+          numeroRecursos: args.numeroRecursos,
           blockId: args.blockId,
         ),
       );
@@ -204,6 +209,7 @@ abstract class $AppRouter extends _i24.RootStackRouter {
         child: _i20.SingleRoadScreen(
           key: args.key,
           roadId: args.roadId,
+          isMyRoadmap: args.isMyRoadmap,
         ),
       );
     },
@@ -444,16 +450,41 @@ class HomeRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.CreateBlockScreen]
-class CreateBlockRoute extends _i24.PageRouteInfo<void> {
-  const CreateBlockRoute({List<_i24.PageRouteInfo>? children})
-      : super(
+class CreateBlockRoute extends _i24.PageRouteInfo<CreateBlockRouteArgs> {
+  CreateBlockRoute({
+    _i25.Key? key,
+    required int roadId,
+    List<_i24.PageRouteInfo>? children,
+  }) : super(
           CreateBlockRoute.name,
+          args: CreateBlockRouteArgs(
+            key: key,
+            roadId: roadId,
+          ),
+          rawPathParams: {'roadId': roadId},
           initialChildren: children,
         );
 
   static const String name = 'CreateBlockRoute';
 
-  static const _i24.PageInfo<void> page = _i24.PageInfo<void>(name);
+  static const _i24.PageInfo<CreateBlockRouteArgs> page =
+      _i24.PageInfo<CreateBlockRouteArgs>(name);
+}
+
+class CreateBlockRouteArgs {
+  const CreateBlockRouteArgs({
+    this.key,
+    required this.roadId,
+  });
+
+  final _i25.Key? key;
+
+  final int roadId;
+
+  @override
+  String toString() {
+    return 'CreateBlockRouteArgs{key: $key, roadId: $roadId}';
+  }
 }
 
 /// generated route for
@@ -461,12 +492,16 @@ class CreateBlockRoute extends _i24.PageRouteInfo<void> {
 class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
   CreateResourceRoute({
     _i25.Key? key,
+    required int roadId,
+    required int numeroRecursos,
     required int blockId,
     List<_i24.PageRouteInfo>? children,
   }) : super(
           CreateResourceRoute.name,
           args: CreateResourceRouteArgs(
             key: key,
+            roadId: roadId,
+            numeroRecursos: numeroRecursos,
             blockId: blockId,
           ),
           rawPathParams: {'blockId': blockId},
@@ -482,16 +517,22 @@ class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
 class CreateResourceRouteArgs {
   const CreateResourceRouteArgs({
     this.key,
+    required this.roadId,
+    required this.numeroRecursos,
     required this.blockId,
   });
 
   final _i25.Key? key;
 
+  final int roadId;
+
+  final int numeroRecursos;
+
   final int blockId;
 
   @override
   String toString() {
-    return 'CreateResourceRouteArgs{key: $key, blockId: $blockId}';
+    return 'CreateResourceRouteArgs{key: $key, roadId: $roadId, numeroRecursos: $numeroRecursos, blockId: $blockId}';
   }
 }
 
@@ -544,7 +585,7 @@ class SingleBlockRoute extends _i24.PageRouteInfo<SingleBlockRouteArgs> {
     _i25.Key? key,
     required int blockId,
     required int roadId,
-    required bool isMyRoadmap,
+    bool isMyRoadmap = false,
     List<_i24.PageRouteInfo>? children,
   }) : super(
           SingleBlockRoute.name,
@@ -569,7 +610,7 @@ class SingleBlockRouteArgs {
     this.key,
     required this.blockId,
     required this.roadId,
-    required this.isMyRoadmap,
+    this.isMyRoadmap = false,
   });
 
   final _i25.Key? key;
@@ -592,12 +633,14 @@ class SingleRoadRoute extends _i24.PageRouteInfo<SingleRoadRouteArgs> {
   SingleRoadRoute({
     _i25.Key? key,
     required int roadId,
+    bool isMyRoadmap = false,
     List<_i24.PageRouteInfo>? children,
   }) : super(
           SingleRoadRoute.name,
           args: SingleRoadRouteArgs(
             key: key,
             roadId: roadId,
+            isMyRoadmap: isMyRoadmap,
           ),
           rawPathParams: {'roadId': roadId},
           initialChildren: children,
@@ -613,15 +656,18 @@ class SingleRoadRouteArgs {
   const SingleRoadRouteArgs({
     this.key,
     required this.roadId,
+    this.isMyRoadmap = false,
   });
 
   final _i25.Key? key;
 
   final int roadId;
 
+  final bool isMyRoadmap;
+
   @override
   String toString() {
-    return 'SingleRoadRouteArgs{key: $key, roadId: $roadId}';
+    return 'SingleRoadRouteArgs{key: $key, roadId: $roadId, isMyRoadmap: $isMyRoadmap}';
   }
 }
 

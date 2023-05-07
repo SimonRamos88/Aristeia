@@ -12,7 +12,10 @@ import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // Esta es la pagina para ver las listads de los bloques creados
@@ -21,9 +24,11 @@ import 'package:flutter/material.dart';
 class CreateBlockScreen extends StatefulWidget {
   static final gradients = AppGradients();
   static final colors = AppColors();
+  final int roadId;
 
   const CreateBlockScreen({
     super.key,
+    @PathParam() required this.roadId,
   });
 
   @override
@@ -32,30 +37,10 @@ class CreateBlockScreen extends StatefulWidget {
 
 class _CreateBlockScreenState extends State<CreateBlockScreen> {
   final colors = AppColors();
-  // list of tiles
-
-  final List myTiles = [
-    'Nombre del bloque',
-  ];
-
-  // reorder method
-  void updateMyTiles(int oldIndex, int newIndex) {
-    setState(() {
-      // this adjustment is needed when moving down the list
-      if (oldIndex < newIndex) {
-        newIndex -= 1;
-      }
-
-      // get the tile we are moving
-      final String tile = myTiles.removeAt(oldIndex);
-      // place the tile in new position
-      myTiles.insert(newIndex, tile);
-    });
-  }
 
   void agregarBloque() {
+    print(widget.roadId);
     showDialog(
-      
       context: context,
       builder: (BuildContext context) => AlertDialogWidget(
         tituloGeneral: false,
@@ -93,17 +78,19 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         leftText: 'Crear',
         rightText: 'Cancelar',
         onTapLeft: () async {
-          await addBlock(
-              '1',
+          String bloqueId = await addBlock(
+              widget.roadId.toString(),
               _controllerTitulo.text,
               _controllerDescripcion.text,
               int.parse(_controllerImportancia.text),
               DateTime.parse(_controllerFechaInicio.text),
               DateTime.parse(_controllerFechaFin.text));
           Navigator.of(context).pop();
+          /*
           context.router.navigateNamed(
-            ('/logged/crear/1'),
+            ('/logged/crear/' + bloqueId),
           );
+          */
         },
         onTapRight: () {
           Navigator.of(context).pop();
@@ -136,8 +123,35 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
   final TextEditingController _controllerTitulo = TextEditingController();
   final TextEditingController _controllerImportancia = TextEditingController();
 
+  Map<String, dynamic> roadmapCreado = {};
+
+  Future<void> traerRoadmap() async {
+    print('ejecutando');
+    print(widget.roadId);
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //instanciamos la db y buscamos la coleccion
+    CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
+    //antes que nada, verificamos que la informacion esté correcta
+    DocumentSnapshot query =
+        await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
+    print("existo");
+    setState(() {
+      roadmapCreado = query.data() as Map<String, dynamic>;
+      print(roadmapCreado);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    traerRoadmap();
+    print(roadmapCreado);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.roadId);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
@@ -155,94 +169,94 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         icon: const Icon(Icons.add),
         onPressed: agregarBloque,
       ),
-      body: ReorderableListView(
-        header: Column(children: [
-          BoxText.tituloPagina(
-              text: 'Nombre del Roadmap', color: colors.blueColor),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (var i = 0; i < 5; i++)
+      body: Column(children: [
+        BoxText.tituloPagina(
+            text: widget.roadId.toString(), color: colors.blueColor),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (roadmapCreado['etiquetas'] != null)
+                for (final etiqueta in roadmapCreado['etiquetas'])
                   Etiqueta.large(
-                    text: 'etiqueta ${i}',
+                    text: etiqueta == null ? "cargando..." : etiqueta,
                     color: 1,
                   ),
-              ],
-            ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Hola soy la descripción del roadmap',
-                    style: heading3Style,
-                    softWrap: true,
-                  ),
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  roadmapCreado['descripcion'] == null
+                      ? "cargando..."
+                      : roadmapCreado['descripcion'],
+                  style: heading3Style,
+                  softWrap: true,
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Tipo:',
-                          style:
-                              heading3bStyle.copyWith(color: colors.blueColor)),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text('Público',
-                          style: heading3Style.copyWith(color: Colors.black)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Arrastra los bloques para ordenarlos',
-            style: bodyStyle.copyWith(color: colors.blueColor),
-          ),
-        ]),
-        footer: Column(children: const [
-          MyButton(
-            buttonText: 'Terminar roadmap',
-            blue: true,
-          ),
-          SizedBox(height: 70),
-        ]),
-        children: [
-          for (final tile in myTiles)
-            Padding(
-              key: ValueKey(tile),
-              padding: const EdgeInsets.all(0),
-              child: BlockCard(
-                nombreBloque: tile.toString(),
-                edit: true,
-                onDelete: eliminarBloque,
-                onTap: () {
-                  context.router.navigateNamed(
-                    ('/logged/crear/1'),
-                  );
-                },
               ),
-            ),
-        ],
-        onReorder: (oldIndex, newIndex) {
-          updateMyTiles(oldIndex, newIndex);
-        },
-      ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Tipo:',
+                        style:
+                            heading3bStyle.copyWith(color: colors.blueColor)),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                        roadmapCreado['publico'] == null
+                            ? "cargando..."
+                            : roadmapCreado['publico'].toString(),
+                        style: heading3Style.copyWith(color: Colors.black)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Mostrar bloques
+        BloqueRoad(
+          edit: true,
+          onDelete: () {},
+          roadmapId: widget.roadId.toString(),
+          nav: false,
+        ),
+
+        MyButton(
+          buttonText: 'Terminar roadmap',
+          blue: true,
+          onTap: () {
+            context.router.navigateNamed(
+              ('/logged/crear'),
+            );
+            context.router.navigateNamed(
+              ('/logged/personal'),
+            );
+          },
+        ),
+        SizedBox(height: 70),
+      ]),
     );
   }
 }
+
+// onTap: () {
+//                 context.router.navigateNamed(
+//                   ('/logged/crear/' + widget.roadId.toString()),
+//                 );
+//               },

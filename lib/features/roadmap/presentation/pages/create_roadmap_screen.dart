@@ -1,3 +1,4 @@
+import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
@@ -12,6 +13,8 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/create_roadmap.dart';
 
 @RoutePage()
 class CreateRoadmapScreen extends StatefulWidget {
@@ -26,23 +29,23 @@ class CreateRoadmapScreen extends StatefulWidget {
 
 class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
   List<FilterChipData> filterChips = FilterChips.all;
+  TextEditingController nombreRoadmap = TextEditingController();
+  TextEditingController descripcion = TextEditingController();
+  TextEditingController tipo_roadmap = TextEditingController();
+  TextEditingController fechaInicio = TextEditingController();
+  List<String> etiquetas = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarWidget(title: 'Crear roadmap', type: 0),
       body: SingleChildScrollView(
-        child: 
-        
-        SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(children: [
             InputField(
-                hintText: 'Nombre del roadmap',
-                controller: TextEditingController()),
+                hintText: 'Nombre del roadmap', controller: nombreRoadmap),
             InputField(
-                hintText: 'Descripción',
-                maxLines: 3,
-                controller: TextEditingController()),
+                hintText: 'Descripción', maxLines: 3, controller: descripcion),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Container(
@@ -70,6 +73,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   ],
                   onChanged: (value) {
                     print(value);
+                    tipo_roadmap.text = value.toString();
                   },
                   focusColor: Colors.transparent,
                   dropdownColor: Colors.white,
@@ -80,14 +84,17 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     hoverColor: Colors.transparent,
                     labelText: 'Tipo de roadmap',
                     labelStyle: heading3bStyle.copyWith(
-                        backgroundColor: CreateRoadmapScreen.colors.backgroundColor,
+                        backgroundColor:
+                            CreateRoadmapScreen.colors.backgroundColor,
                         color: Theme.of(context).primaryColor),
                     floatingLabelStyle: heading2bStyle.copyWith(
-                        backgroundColor: CreateRoadmapScreen.colors.backgroundColor,
+                        backgroundColor:
+                            CreateRoadmapScreen.colors.backgroundColor,
                         color: Theme.of(context).primaryColor),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(width: 0.5, style: BorderStyle.none),
+                      borderSide:
+                          BorderSide(width: 0.5, style: BorderStyle.none),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -100,15 +107,38 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(left:16), child:  BoxText.section(
-                text: 'Etiquetas',
-                centered: false,
-                color: Theme.of(context).primaryColor),),
-           
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16), child:  buildFilterChips(), ),
-              
-           
-            MyButton(buttonText: 'Continuar', onTap: () {context.router.push(CreateBlockRoute());}),
+            DatePicker(
+              hintText: "Fecha Inicio",
+              controller: fechaInicio,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: BoxText.section(
+                  text: 'Etiquetas',
+                  centered: false,
+                  color: Theme.of(context).primaryColor),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: buildFilterChips(),
+            ),
+            MyButton(
+                buttonText: 'Continuar',
+                onTap: () async {
+                  String idRoadmap = await createRoadmap({
+                    'creador': Auth().currentUser!.uid,
+                    'nombre': nombreRoadmap.text,
+                    'descripcion': descripcion.text,
+                    'publico': tipo_roadmap.text == '1' ? true : false,
+                    'etiquetas': etiquetas,
+                    'fechaInicio': fechaInicio.text,
+                  });
+                  print('datos subidos');
+                  print(idRoadmap);
+                  int id = int.parse(idRoadmap);
+                  print(id);
+                  context.router.push(CreateBlockRoute(roadId: id));
+                }),
           ]),
         ),
       ),
@@ -130,7 +160,6 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   ),
                   backgroundColor: filterChip.color.withOpacity(0.1),
                   onSelected: (isSelected) {
-
                     setState(() {
                       filterChips = filterChips.map((otherChip) {
                         return filterChip == otherChip
@@ -139,7 +168,14 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                       }).toList();
                     });
                     print(filterChip.isSelected);
-                    print(filterChip.label);
+                    if (filterChip.isSelected == false) {
+                      etiquetas.add(filterChip.label);
+                    } else {
+                      if (etiquetas.contains(filterChip.label)) {
+                        etiquetas.remove(filterChip.label);
+                      }
+                    }
+                    print(etiquetas);
                   },
                   selected: filterChip.isSelected,
                   checkmarkColor: filterChip.color,
