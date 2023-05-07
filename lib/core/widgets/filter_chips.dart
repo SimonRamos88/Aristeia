@@ -6,27 +6,22 @@ class FilterChips {
     const FilterChipData(
       label: 'Ciencias',
       isSelected: false,
-
     ),
     const FilterChipData(
       label: 'Ingeniería',
       isSelected: false,
-
     ),
     const FilterChipData(
       label: 'Música',
       isSelected: false,
-
     ),
     const FilterChipData(
       label: 'Arte',
       isSelected: false,
-
     ),
     const FilterChipData(
       label: 'Deporte',
       isSelected: false,
-
     ),
   ];
 }
