@@ -8,6 +8,7 @@ import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -57,7 +58,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           ))),
     );
   }
-
+  
   void copiarRoadmap() {
     showDialog(
       context: context,
@@ -182,6 +183,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             ),
             for (var i = 0; i < 10; i++)
               BlockCard(
+                onDelete: () async {await deleteBloque(widget.roadId.toString(), i.toString());},
                 nombreBloque: "Bloque ${i}",
                 onTap: () => context.router.navigate(
                   // BlockRouter()
