@@ -65,7 +65,7 @@ class BloqueRoad extends StatelessWidget {
                               ))
                           : () => context.router.navigate(CreateResourceRoute(
                                 roadId: int.parse(roadmapId),
-                                blockId: int.parse(doc![index].id), numeroRecursos: 0,
+                                blockId: int.parse(doc![index].id),
                               )));
                 },
               );
