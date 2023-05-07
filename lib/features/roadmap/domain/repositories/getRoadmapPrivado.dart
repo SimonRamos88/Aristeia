@@ -33,8 +33,8 @@ Widget getRoadmapPrivado() {
                         etiquetas: doc?[index]['etiquetas'],
                         cantidadBloques: cantidadBloques,
                         calificacion: promedio,
-                        onTap: () => {context.router.navigateNamed(
-                          ('/logged/comunidad/${index+1}'),
+                        onTap: () => {context.router.pushNamed(
+                          ('/logged/personal/${doc?[index].id}'),
                         ),}
                       );
                     },

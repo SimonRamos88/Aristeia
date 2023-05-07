@@ -24,7 +24,6 @@ class CreateBlockScreen extends StatefulWidget {
 
   const CreateBlockScreen({
     super.key,
-    
   });
 
   @override
@@ -143,7 +142,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
         title: 'Crear bloques',
-        type: 1,
+        type: 0,
         color: 1,
         onPressedLeading: () {
           context.router.pop();

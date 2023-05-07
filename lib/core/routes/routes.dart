@@ -66,7 +66,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(path: 'crear', page: CreateRouter.page,
           children: [
             AutoRoute(path: '', page: CreateRoadmapRoute.page),
-            AutoRoute(path: '2', page: CreateBlockRoute.page),
+            AutoRoute(path: ':roadId', page: CreateBlockRoute.page),
             AutoRoute(path: ':blockId', page: CreateResourceRoute.page),
           ]
         ),
