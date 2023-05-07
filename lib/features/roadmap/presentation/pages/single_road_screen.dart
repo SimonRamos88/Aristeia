@@ -10,6 +10,7 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/deleteRoadmap.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,8 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../../../../core/network/auth.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -97,8 +100,10 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             message: '¿Estas seguro de eliminar este roadmap?',
             leftText: 'Eliminar',
             rightText: 'Cancelar',
-            onTapLeft: () {
+            onTapLeft: () async {
+              await deleteRoadbyId(widget.roadId.toString());
               context.router.pop();
+              context.router.pushNamed('logged/personal');
               context.showFlash<bool>(
                 barrierDismissible: true,
                 duration: const Duration(seconds: 5),
@@ -187,12 +192,17 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     print("existo");
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
-      print(roadmapCreado);
+      /*
+      if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
+        //widget.isMyRoadmap = true;
+      }
+      */
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Roadmap mio? ' + widget.isMyRoadmap.toString());
     return Scaffold(
       appBar: AppBarWidget(
         type: widget.isMyRoadmap ? 3 : 1,
@@ -339,7 +349,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                       blue: true,
                       large: false,
                       width: 130,
-                      onTap: calificarRoadmap,
+                      onTap: eliminarRoadmap,
                     ),
                   ],
                 ),

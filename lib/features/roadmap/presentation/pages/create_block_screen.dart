@@ -78,14 +78,47 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         leftText: 'Crear',
         rightText: 'Cancelar',
         onTapLeft: () async {
-          String bloqueId = await addBlock(
-              widget.roadId.toString(),
-              _controllerTitulo.text,
-              _controllerDescripcion.text,
-              int.parse(_controllerImportancia.text),
-              DateTime.parse(_controllerFechaInicio.text),
-              DateTime.parse(_controllerFechaFin.text));
-          Navigator.of(context).pop();
+          if (_controllerTitulo.text != '' &&
+              _controllerDescripcion.text != '' &&
+              _controllerFechaFin.text != '' &&
+              _controllerFechaInicio.text != '' &&
+              _controllerImportancia.text != '') {
+            String bloqueId = await addBlock(
+                widget.roadId.toString(),
+                _controllerTitulo.text,
+                _controllerDescripcion.text,
+                int.parse(_controllerImportancia.text),
+                DateTime.parse(_controllerFechaInicio.text),
+                DateTime.parse(_controllerFechaFin.text));
+            Navigator.of(context).pop();
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialogWidget(
+                tituloGeneral: false,
+                color: 1,
+                tituloPersonalizado: Text(
+                  ' ',
+                  style: heading2bStyle.copyWith(color: colors.blueColor),
+                  textAlign: TextAlign.center,
+                ),
+                more: Text(
+                  'Algunos datos no han sido llenados. Revisalos por favor',
+                  style: heading2bStyle.copyWith(color: colors.blueColor),
+                  textAlign: TextAlign.center,
+                ),
+                //message: 'Si te sales sin guardar perderas toda la información del bloque',
+                leftText: 'Aceptar',
+                onTapLeft: () {
+                  Navigator.of(context).pop();
+                },
+                onTapRight: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
+          }
+
           /*
           context.router.navigateNamed(
             ('/logged/crear/' + bloqueId),
