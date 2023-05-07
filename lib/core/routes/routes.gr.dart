@@ -22,6 +22,7 @@ import 'package:aristeia_app/core/utils/router_pages/roadmap_router_screen.dart'
     as _i6;
 import 'package:aristeia_app/core/utils/router_pages/welcome_router_screen.dart'
     as _i7;
+import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/logged_wrapper_screen.dart'
     as _i8;
 import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart'
@@ -59,7 +60,7 @@ import 'package:flutter/material.dart' as _i25;
 
 abstract class $AppRouter extends _i24.RootStackRouter {
   $AppRouter([_i25.GlobalKey<_i25.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+      : super();
 
   @override
   final Map<String, _i24.PageFactory> pagesMap = {
@@ -166,6 +167,7 @@ abstract class $AppRouter extends _i24.RootStackRouter {
           key: args.key,
           roadId: args.roadId,
           blockId: args.blockId,
+          numeroRecursos: 0,
         ),
       );
     },
