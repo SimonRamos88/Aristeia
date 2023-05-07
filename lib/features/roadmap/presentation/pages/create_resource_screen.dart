@@ -10,6 +10,7 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../../../../core/widgets/box_text.dart';
@@ -44,6 +45,25 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     'C',
     'D',
   ];
+
+  Map<String, dynamic> bloqueCreado = {};
+
+  Future<void> traerBloque(String roadmapId, String bloqueId) async {
+    print("trayendo datos");
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //instanciamos la db y buscamos la coleccion
+    CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
+    //antes que nada, verificamos que la informacion esté correcta
+    DocumentSnapshot query = await collectionReferenceRoadmap
+        .doc(roadmapId)
+        .collection('bloques')
+        .doc(bloqueId)
+        .get();
+    setState(() {
+      bloqueCreado = query.data() as Map<String, dynamic>;
+      print(bloqueCreado);
+    });
+  }
 
   // reorder method
   void updateMyTiles(int oldIndex, int newIndex) {
@@ -123,11 +143,18 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    traerBloque(widget.roadId.toString(), widget.blockId.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     
     return Scaffold(
       appBar: AppBarWidget(
-        title: 'Crear bloque',
+        title: 'Crear Recurso',
         type: 1,
         color: 2,
         onPressedLeading: () {
@@ -149,11 +176,16 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
       body: ReorderableListView(
         header: Column(children: [
           BoxText.tituloPagina(
-              text: 'Nombre del Bloque', color: colors.pinkColor),
+              text: bloqueCreado['titulo'] == null
+                  ? "cargando..."
+                  : bloqueCreado['titulo'],
+              color: colors.pinkColor),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
             child: Text(
-              'Soy la descripción de la Roadmap sndfnsdf djfosidjfsjad ojosidjfosadj fnidfjisdjf ojdfihsdifuhs jfioujhd fsaf',
+              bloqueCreado['descripcion'] == null
+                  ? "cargando..."
+                  : bloqueCreado['descripcion'],
               softWrap: true,
               textAlign: TextAlign.center,
               style: heading3Style.copyWith(color: Colors.black),
