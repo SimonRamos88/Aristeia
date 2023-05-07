@@ -20,12 +20,10 @@ class CreateResourceScreen extends StatefulWidget {
 
   final int blockId;
   final int roadId;
-  final int numeroRecursos;
 
   const CreateResourceScreen({
     super.key,
     required this.roadId,
-    required this.numeroRecursos,
     @PathParam() required this.blockId,
   });
 
@@ -91,9 +89,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         rightText: 'Agregar',
         leftText: 'Cancelar',
         onTapRight: () async {
-          int recursoId = widget.numeroRecursos + 1;
-          int xd = await getRecursoAmount(widget.roadId.toString(), widget.blockId.toString());
-          log(xd.toString());
+          int recursoId = await getRecursoAmount(widget.roadId.toString(), widget.blockId.toString()) + 1;
           createRecurso({'nombre' : nombreController.text,
                         'descripcion': descripcionController.text,
                         'links_relacionados':StringToList(linksController.text),

@@ -164,7 +164,6 @@ abstract class $AppRouter extends _i24.RootStackRouter {
         child: _i15.CreateResourceScreen(
           key: args.key,
           roadId: args.roadId,
-          numeroRecursos: args.numeroRecursos,
           blockId: args.blockId,
         ),
       );
@@ -493,7 +492,6 @@ class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
   CreateResourceRoute({
     _i25.Key? key,
     required int roadId,
-    required int numeroRecursos,
     required int blockId,
     List<_i24.PageRouteInfo>? children,
   }) : super(
@@ -501,7 +499,6 @@ class CreateResourceRoute extends _i24.PageRouteInfo<CreateResourceRouteArgs> {
           args: CreateResourceRouteArgs(
             key: key,
             roadId: roadId,
-            numeroRecursos: numeroRecursos,
             blockId: blockId,
           ),
           rawPathParams: {'blockId': blockId},
@@ -518,7 +515,6 @@ class CreateResourceRouteArgs {
   const CreateResourceRouteArgs({
     this.key,
     required this.roadId,
-    required this.numeroRecursos,
     required this.blockId,
   });
 
@@ -526,13 +522,11 @@ class CreateResourceRouteArgs {
 
   final int roadId;
 
-  final int numeroRecursos;
-
   final int blockId;
 
   @override
   String toString() {
-    return 'CreateResourceRouteArgs{key: $key, roadId: $roadId, numeroRecursos: $numeroRecursos, blockId: $blockId}';
+    return 'CreateResourceRouteArgs{key: $key, roadId: $roadId, blockId: $blockId}';
   }
 }
 
