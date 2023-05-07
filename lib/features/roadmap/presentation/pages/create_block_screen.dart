@@ -104,6 +104,12 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                   DateTime.parse(_controllerFechaInicio.text),
                   DateTime.parse(_controllerFechaFin.text));
               Navigator.of(context).pop();
+              //borrar los controllers:
+              _controllerTitulo.text = '';
+              _controllerDescripcion.text = '';
+              _controllerFechaFin.text = '';
+              _controllerFechaInicio.text = '';
+              _controllerImportancia.text = '';
             } else {
               showDialog(
                   context: context,
