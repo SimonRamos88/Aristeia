@@ -219,6 +219,31 @@ class _HomeScreenState extends State<HomeScreen>
               height: 16,
             ),
             BoxText.section(
+                text: 'Etiquetas populares:',
+                centered: false,
+                color: Theme.of(context).primaryColor),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final etiqueta in topEtiquetas)
+                    Etiqueta.large(
+                      text: etiqueta == null ? "cargando..." : etiqueta,
+                      color: 0,
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            BoxText.section(
                 text: 'Roadmaps culminados:',
                 centered: false,
                 color: Theme.of(context).primaryColor),
@@ -282,25 +307,6 @@ class _HomeScreenState extends State<HomeScreen>
                         description: 'Este año has completado:',
                         info: '100 bloques y 5 roadmaps'),
                   ),
-                ],
-              ),
-            ),
-            BoxText.section(
-                text: 'Etiquetas populares:',
-                centered: false,
-                color: Theme.of(context).primaryColor),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final etiqueta in topEtiquetas)
-                    Etiqueta.large(
-                      text: etiqueta == null ? "cargando..." : etiqueta,
-                      color: 0,
-                    ),
                 ],
               ),
             ),

@@ -57,7 +57,6 @@ class _DatePickerState extends State<DatePicker> {
               width: 3),
         ),
         child: TextFormField(
-  
           maxLines: widget.maxLines,
           controller: widget.controller,
           cursorColor: colors.mainColor,
@@ -66,11 +65,10 @@ class _DatePickerState extends State<DatePicker> {
           maxLength: widget.lengthText,
           style: interHeading3Style.copyWith(color: Colors.black),
           decoration: InputDecoration(
-            
             prefixIcon: Icon(
               Icons.calendar_today_outlined,
               color: Theme.of(context).primaryColor,
-            ) ,
+            ),
             enabledBorder: circularBorder,
             focusedBorder: circularBorder.copyWith(
               borderSide: const BorderSide(
@@ -95,14 +93,13 @@ class _DatePickerState extends State<DatePicker> {
             DateTime? newDate = await showDatePicker(
                 builder: (context, child) => Theme(
                     data: ThemeData().copyWith(
-                        colorScheme: ColorScheme.light(
-                            primary: Theme.of(context).primaryColor,
-                            onPrimary: Colors.white,
-                            surface: Colors.black,
-                            onSurface: Colors.black,
-                            ),
-                            
-                            ),
+                      colorScheme: ColorScheme.light(
+                        primary: Theme.of(context).primaryColor,
+                        onPrimary: Colors.white,
+                        surface: Colors.black,
+                        onSurface: Colors.black,
+                      ),
+                    ),
                     child: child!),
                 context: context,
                 cancelText: 'Cancelar',
@@ -116,13 +113,11 @@ class _DatePickerState extends State<DatePicker> {
               setState(() {
                 today = newDate;
                 String mes = today.month.toString();
-
+                String dia = today.day.toString();
+                if (dia.length == 1) dia = '0' + dia;
                 if (mes.length == 1) mes = '0' + mes;
-                widget.controller.text = today.year.toString() +
-                    '-' +
-                    mes +
-                    '-' +
-                    today.day.toString();
+                widget.controller.text =
+                    today.year.toString() + '-' + mes + '-' + dia;
               });
             }
           },

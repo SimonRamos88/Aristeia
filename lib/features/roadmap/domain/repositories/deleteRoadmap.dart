@@ -26,6 +26,30 @@ Future<bool> deleteRoadbyId(String idroad) async {
       await decrementarNumeroRoadmapsAsociados(etiquetaIds);
     }
 
+    //borramos las subcolecciones
+    QuerySnapshot bloques = await collectionReferenceArea
+        .doc(idroad)
+        .collection('bloques')
+        .get() as QuerySnapshot<Object?>;
+    for (var bloque in bloques.docs) {
+      collectionReferenceArea
+          .doc(idroad)
+          .collection('bloques')
+          .doc(bloque.id)
+          .delete();
+    }
+    QuerySnapshot recursos = await collectionReferenceArea
+        .doc(idroad)
+        .collection('recursos')
+        .get() as QuerySnapshot<Object?>;
+    for (var recurso in recursos.docs) {
+      collectionReferenceArea
+          .doc(idroad)
+          .collection('recursos')
+          .doc(recurso.id)
+          .delete();
+    }
+    //borramos finalmente el roadmap
     await collectionReferenceArea.doc(idroad).delete();
     respuesta = true;
   }
