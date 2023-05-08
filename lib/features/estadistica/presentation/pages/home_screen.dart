@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
@@ -13,7 +14,9 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:core';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -24,13 +27,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late TabController tabController;
   Map<String, dynamic> respuesta = {"": ""};
-
+  DateTime fechaActual = DateTime.now().toLocal();
+  DateTime _startTime = DateTime.now().toLocal();
+  DateTime _finishTime = DateTime.now().toLocal();
+  Duration _useLastWeek = Duration.zero;
+  AppLifecycleState? _lastLifecyleState;
+  final AppLifecycleObserver observer = AppLifecycleObserver();
   final User? user = Auth().currentUser;
   String usertag = 'usertag';
   String usernames = 'nombres';
+  Map<String, dynamic> appUsage = Map<String, dynamic>.from({});
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -46,19 +55,93 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+  Future<void> addAppUsage(DateTime startTime, DateTime finishTime) async {
+    final docUser = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(Auth().currentUser?.uid);
+    final appUsageRef = docUser.collection('usoAplicacion');
+    await appUsageRef.add({
+      'tiempoEntrada': _startTime.toUtc(),
+      'tiempoSalida': _finishTime.toUtc(),
+    });
+  }
 
+  Future<Duration> sumUseLastWeek() async {
+    final now = DateTime.now();
+    final lastWeek = now.subtract(const Duration(days: 7));
+
+    final appUsageQuery = await FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(Auth().currentUser?.uid)
+        .collection('usoAplicacion')
+        .where('tiempoEntrada', isGreaterThanOrEqualTo: lastWeek)
+        .get();
+
+    Duration totalUsage = Duration.zero;
+    if (appUsageQuery.docs.isNotEmpty) {
+      final appUsageDocs = appUsageQuery.docs;
+      for (final appUsageDoc in appUsageDocs) {
+        final startTimestamp =
+            (appUsageDoc.data())['tiempoEntrada'] as Timestamp;
+        final endTimestamp = (appUsageDoc.data())['tiempoSalida'] as Timestamp;
+        final usageDuration =
+            endTimestamp.toDate().difference(startTimestamp.toDate());
+        totalUsage += usageDuration;
+      }
+    }
+    return totalUsage;
+  }
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
-    readUserData();
     super.initState();
+    tabController = TabController(length: 3, vsync: this);
+    readUserData().then((_) {
+      sumUseLastWeek().then((duration) {
+        setState(() {
+          _useLastWeek = duration;
+        });
+      });
+    });
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_lastLifecyleState == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        didChangeAppLifecycleState(AppLifecycleState.resumed);
+      });
+    }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     tabController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    setState(() {
+      _lastLifecyleState = state;
+    });
+    if (state == AppLifecycleState.resumed) {
+      _startTime = DateTime.now();
+    }
+    if (state == AppLifecycleState.paused) {
+      _finishTime = DateTime.now();
+      addAppUsage(_startTime, _finishTime);
+    }
+  }
+
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    return "${twoDigits(duration.inHours)} horas \n $twoDigitMinutes minutos";
   }
 
   void cerrarSesion() {
@@ -69,7 +152,8 @@ class _HomeScreenState extends State<HomeScreen>
             leftText: 'Cerrar',
             rightText: 'Cancelar',
             onTapLeft: () {
-              Auth().signOut();
+              didChangeAppLifecycleState(AppLifecycleState.paused);
+              Auth().signOut().then((_) {});
               context.showFlash<bool>(
                   barrierDismissible: true,
                   duration: const Duration(seconds: 5),
@@ -125,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             InfoRow(
                 description: 'Tiempo dedicado a RoadmapTo esta semana:',
-                info: '24 horas 30 minutos'),
+                info: formatDuration(_useLastWeek)),
             const SizedBox(
               height: 16,
             ),
@@ -293,5 +377,19 @@ class InfoRow extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class AppLifecycleObserver extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      default:
+        break;
+    }
   }
 }

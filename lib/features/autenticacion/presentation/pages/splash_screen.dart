@@ -32,11 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     print(user);
 
-    if (user != null) {
-      // if user is authenticated we continue
+    if (user != null && user.emailVerified==true) {
       context.router.replace(const LoggedWrapperRoute());
-
-    } else {
+    }
+    else {
       // we redirect the user to our login page
       // router.push(WelcomeRoute());
       // resolver.next(false);

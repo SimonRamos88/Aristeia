@@ -20,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage = '';
-
+  bool? isVerified = false;
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
@@ -28,26 +28,33 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Auth().signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
-      // ignore: use_build_context_synchronously
-      context.showFlash<bool>(
-          barrierDismissible: true,
-          duration: const Duration(seconds: 5),
-          builder: (context, controller) => FlashBar(
-                controller: controller,
-                forwardAnimationCurve: Curves.easeInCirc,
-                reverseAnimationCurve: Curves.bounceIn,
-                position: FlashPosition.bottom,
-                indicatorColor: Theme.of(context).primaryColor,
-                icon: const Icon(Icons.face),
-                content: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      'Bienvenid@ de nuevo a RoadmapTo',
-                      textAlign: TextAlign.center,
-                      style: heading3bStyle,
-                    )),
-              ));
-      context.router.replace(const LoggedWrapperRoute());
+      isVerified = Auth().currentUser?.emailVerified;
+      if (isVerified == true) {
+        // ignore: use_build_context_synchronously
+        context.showFlash<bool>(
+            barrierDismissible: true,
+            duration: const Duration(seconds: 5),
+            builder: (context, controller) => FlashBar(
+                  controller: controller,
+                  forwardAnimationCurve: Curves.easeInCirc,
+                  reverseAnimationCurve: Curves.bounceIn,
+                  position: FlashPosition.bottom,
+                  indicatorColor: Theme.of(context).primaryColor,
+                  icon: const Icon(Icons.face),
+                  content: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        'Bienvenid@ de nuevo a RoadmapTo',
+                        textAlign: TextAlign.center,
+                        style: heading3bStyle,
+                      )),
+                ));
+        context.router.replace(const LoggedWrapperRoute());
+      } else {
+        setState(() {
+          errorMessage = "Usuario no verificado, Verifique su correo porfavor";
+        });
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;

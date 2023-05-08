@@ -16,6 +16,8 @@ import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 // Esta es la pagina para ver las listads de los bloques creados
@@ -38,63 +40,111 @@ class CreateBlockScreen extends StatefulWidget {
 class _CreateBlockScreenState extends State<CreateBlockScreen> {
   final colors = AppColors();
 
+  final TextEditingController _controllerDescripcion = TextEditingController();
+  final TextEditingController _controllerFechaFin = TextEditingController();
+  final TextEditingController _controllerFechaInicio = TextEditingController();
+  final TextEditingController _controllerTitulo = TextEditingController();
+  final TextEditingController _controllerImportancia = TextEditingController();
+
+  Map<String, dynamic> roadmapCreado = {};
+
   void agregarBloque() {
     print(widget.roadId);
     showDialog(
       context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        tituloGeneral: false,
-        color: 1,
-        tituloPersonalizado: Text(
-          'Crear bloque',
-          style: heading2bStyle.copyWith(color: colors.blueColor),
-          textAlign: TextAlign.center,
-        ),
-        //message: 'Si te sales sin guardar perderas toda la información del bloque',
-        more: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              InputField(
-                  hintText: 'Titulo bloque', controller: _controllerTitulo),
-              InputField(
-                hintText: 'Descripcion',
-                controller: _controllerDescripcion,
-              ),
-              InputField(
-                  hintText: 'Importancia (1-5)',
-                  controller: _controllerImportancia),
-              DatePicker(
-                  hintText: "fecha inicial",
-                  controller: _controllerFechaInicio),
-              DatePicker(
-                hintText: 'fecha final',
-                controller: _controllerFechaFin,
-              ),
-            ],
+      builder: (BuildContext context) => SingleChildScrollView(
+        child: AlertDialogWidget(
+          insetPadding: true,
+          width: MediaQuery.of(context).size.width,
+          tituloGeneral: false,
+          color: 1,
+          tituloPersonalizado: Text(
+            'Crear bloque',
+            style: heading2bStyle.copyWith(color: colors.blueColor),
+            textAlign: TextAlign.center,
           ),
-        ),
+          //message: 'Si te sales sin guardar perderas toda la información del bloque',
+          more: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  InputField(
+                      hintText: 'Titulo bloque', controller: _controllerTitulo),
+                  InputField(
+                    hintText: 'Descripcion',
+                    controller: _controllerDescripcion,
+                  ),
+                  InputField(
+                      hintText: 'Importancia (1-5)',
+                      controller: _controllerImportancia),
+                  DatePicker(
+                      hintText: "fecha inicial",
+                      controller: _controllerFechaInicio),
+                  DatePicker(
+                    hintText: 'fecha final',
+                    controller: _controllerFechaFin,
+                  ),
+                ],
+              ),
+            ),
+          ),
 
-        leftText: 'Crear',
-        rightText: 'Cancelar',
-        onTapLeft: () async {
-          String bloqueId = await addBlock(
-              widget.roadId.toString(),
-              _controllerTitulo.text,
-              _controllerDescripcion.text,
-              int.parse(_controllerImportancia.text),
-              DateTime.parse(_controllerFechaInicio.text),
-              DateTime.parse(_controllerFechaFin.text));
-          Navigator.of(context).pop();
-          /*
-          context.router.navigateNamed(
-            ('/logged/crear/' + bloqueId),
-          );
-          */
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
+          leftText: 'Crear',
+          rightText: 'Cancelar',
+          onTapLeft: () async {
+            if (_controllerTitulo.text != '' &&
+                _controllerDescripcion.text != '' &&
+                _controllerFechaFin.text != '' &&
+                _controllerFechaInicio.text != '' &&
+                _controllerImportancia.text != '') {
+              String bloqueId = await addBlock(
+                  widget.roadId.toString(),
+                  _controllerTitulo.text,
+                  _controllerDescripcion.text,
+                  int.parse(_controllerImportancia.text),
+                  DateTime.parse(_controllerFechaInicio.text),
+                  DateTime.parse(_controllerFechaFin.text));
+              Navigator.of(context).pop();
+              //borrar los controllers:
+              _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
+            } else {
+              context.showFlash<bool>(
+                barrierDismissible: true,
+                duration: const Duration(seconds: 5),
+                builder: (context, controller) => FlashBar(
+                  controller: controller,
+                  forwardAnimationCurve: Curves.easeInCirc,
+                  reverseAnimationCurve: Curves.bounceIn,
+                  position: FlashPosition.bottom,
+                  indicatorColor: Theme.of(context).primaryColor,
+                  icon: const Icon(Icons.dangerous_rounded),
+                  //title: const Text('Flash Title'),
+                  content: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        'No todos los datos han sido diligenciados aún',
+                        textAlign: TextAlign.center,
+                        style: heading3bStyle,
+                      )),
+                ),
+              );
+            }
+
+          },
+          onTapRight: () {
+            _controllerTitulo.clear();
+            _controllerDescripcion.clear();
+            _controllerImportancia.clear();
+            _controllerFechaInicio.clear();
+            _controllerFechaFin.clear();
+            Navigator.of(context).pop();
+          },
+        ),
       ),
     );
   }
@@ -117,14 +167,6 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     );
   }
 
-  final TextEditingController _controllerDescripcion = TextEditingController();
-  final TextEditingController _controllerFechaFin = TextEditingController();
-  final TextEditingController _controllerFechaInicio = TextEditingController();
-  final TextEditingController _controllerTitulo = TextEditingController();
-  final TextEditingController _controllerImportancia = TextEditingController();
-
-  Map<String, dynamic> roadmapCreado = {};
-
   Future<void> traerRoadmap() async {
     print('ejecutando');
     print(widget.roadId);
@@ -143,7 +185,6 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     traerRoadmap();
     print(roadmapCreado);
     super.initState();
@@ -151,11 +192,10 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.roadId);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarWidget(
-        title: 'Crear bloques',
+        title: 'Editar bloques',
         type: 0,
         color: 1,
         onPressedLeading: () {
@@ -232,11 +272,11 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         // Mostrar bloques
         BloqueRoad(
           edit: true,
-          onDelete: () {},
+          isMyRoad: true,
+          onDelete: eliminarBloque,
           roadmapId: widget.roadId.toString(),
           nav: false,
         ),
-
         MyButton(
           buttonText: 'Terminar roadmap',
           blue: true,
