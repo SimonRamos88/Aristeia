@@ -98,7 +98,8 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                 _controllerDescripcion.text != '' &&
                 _controllerFechaFin.text != '' &&
                 _controllerFechaInicio.text != '' &&
-                _controllerImportancia.text != '') {
+                int.parse(_controllerImportancia.text) < 6 &&
+                int.parse(_controllerImportancia.text) > 0) {
               String bloqueId = await addBlock(
                   widget.roadId.toString(),
                   _controllerTitulo.text,
@@ -109,11 +110,12 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
               Navigator.of(context).pop();
               //borrar los controllers:
               _controllerTitulo.clear();
-            _controllerDescripcion.clear();
-            _controllerImportancia.clear();
-            _controllerFechaInicio.clear();
-            _controllerFechaFin.clear();
+              _controllerDescripcion.clear();
+              _controllerImportancia.clear();
+              _controllerFechaInicio.clear();
+              _controllerFechaFin.clear();
             } else {
+              //esto muestra un flash, que es como un snackbar para decir que faltan datos
               context.showFlash<bool>(
                 barrierDismissible: true,
                 duration: const Duration(seconds: 5),
@@ -128,14 +130,13 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                   content: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: Text(
-                        'No todos los datos han sido diligenciados aún',
+                        'Algun dato no ha sido llenado correctamente',
                         textAlign: TextAlign.center,
                         style: heading3bStyle,
                       )),
                 ),
               );
             }
-
           },
           onTapRight: () {
             _controllerTitulo.clear();
