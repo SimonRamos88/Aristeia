@@ -28,12 +28,22 @@ class CreateRoadmapScreen extends StatefulWidget {
 }
 
 class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
-  List<FilterChipData> filterChips = FilterChips.all;
+  List<FilterChipData> filterChips = [];
   TextEditingController nombreRoadmap = TextEditingController();
   TextEditingController descripcion = TextEditingController();
   TextEditingController tipo_roadmap = TextEditingController();
   TextEditingController fechaInicio = TextEditingController();
   List<String> etiquetas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFilterChipsFromFirestore().then((chips) {
+      setState(() {
+        filterChips = chips;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +118,6 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
               ),
             ),
             DatePicker(
-
               hintText: "Fecha Inicio",
               controller: fechaInicio,
             ),

@@ -1,4 +1,5 @@
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FilterChips {
@@ -24,4 +25,16 @@ class FilterChips {
       isSelected: false,
     ),
   ];
+}
+
+Future<List<FilterChipData>> getFilterChipsFromFirestore() async {
+  final etiquetasSnapshot =
+      await FirebaseFirestore.instance.collection('etiquetas').get();
+
+  return etiquetasSnapshot.docs.map((doc) {
+    return FilterChipData(
+      label: doc['nombre'],
+      isSelected: false,
+    );
+  }).toList();
 }
