@@ -2,22 +2,23 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class FilterChipData {
-
   static final colors = AppColors();
 
   final String label;
   final Color color;
   final bool isSelected;
+  int numRoadAso;
+  final String id;
 
-  const FilterChipData({
-    required this.label,
-    this.color = const Color(0xff6D4CE4),
-    this.isSelected = false,
-  });
+  FilterChipData(
+      {required this.label,
+      this.color = const Color(0xff6D4CE4),
+      this.isSelected = false,
+      this.numRoadAso = 0,
+      this.id = ''});
 
   FilterChipData copy({
     String? label,
-
     bool? isSelected,
   }) =>
       FilterChipData(

@@ -18,6 +18,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:core';
 
+import '../../../../core/widgets/etiqueta_widget.dart';
+import '../../domain/usecases/roadmapsAsociadosAEtiqueta.dart';
+
 @RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
   String usertag = 'usertag';
   String usernames = 'nombres';
   Map<String, dynamic> appUsage = Map<String, dynamic>.from({});
+  List<String> topEtiquetas = [];
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -103,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
         });
       });
     });
+    getTopEtiquetas().then((value) => topEtiquetas = value);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -277,6 +282,25 @@ class _HomeScreenState extends State<HomeScreen>
                         description: 'Este año has completado:',
                         info: '100 bloques y 5 roadmaps'),
                   ),
+                ],
+              ),
+            ),
+            BoxText.section(
+                text: 'Etiquetas populares:',
+                centered: false,
+                color: Theme.of(context).primaryColor),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final etiqueta in topEtiquetas)
+                    Etiqueta.large(
+                      text: etiqueta == null ? "cargando..." : etiqueta,
+                      color: 0,
+                    ),
                 ],
               ),
             ),
