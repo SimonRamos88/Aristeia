@@ -9,22 +9,15 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
-=======
-=======
 import 'package:aristeia_app/features/roadmap/domain/repositories/deleteRoadmap.dart';
->>>>>>> dc69b2eb60ca100592f2e3c08d64430750e5c38a
 import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
->>>>>>> 3e89760d00dcf1670b17aa065fe60ab2abc15520
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../../core/network/auth.dart';
 
 @RoutePage()
@@ -377,51 +370,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                     ),
                   ],
                 ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-              ],
-            ),
-            for (var i = 0; i < 10; i++)
-              BlockCard(
-                onDelete: () async {await deleteBloque(widget.roadId.toString(), i.toString());},
-                nombreBloque: "Bloque ${i}",
-                onTap: () => context.router.navigate(
-                  // BlockRouter()
-                  SingleBlockRoute(blockId: i),
-                ),
-              ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                MyButton(
-                    buttonText: 'copiar',
-                    blue: true,
-                    large: false,
-                    outlined: true,
-                    width: 130,
-                    onTap: copiarRoadmap),
-                const SizedBox(width: 24),
-                MyButton(
-                  buttonText: 'calificar',
-                  blue: true,
-                  large: false,
-                  width: 130,
-                  onTap: calificar,
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-          ],
-        ),
-=======
           const SizedBox(height: 24),
-=======
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
->>>>>>> dc69b2eb60ca100592f2e3c08d64430750e5c38a
         ],
->>>>>>> 3e89760d00dcf1670b17aa065fe60ab2abc15520
       ),
     );
   }

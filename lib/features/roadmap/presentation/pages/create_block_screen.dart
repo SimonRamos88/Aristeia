@@ -12,6 +12,7 @@ import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
@@ -149,7 +150,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     );
   }
 
-  void eliminarBloque() {
+  void eliminarBloque(String blockId) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialogWidget(
@@ -158,7 +159,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         leftText: 'Eliminar',
         rightText: 'Cancelar',
         onTapLeft: () {
-          //funcion para eliminar el bloque
+          deleteBloque(widget.roadId.toString(), blockId);
         },
         onTapRight: () {
           Navigator.of(context).pop();
@@ -269,14 +270,15 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           ),
         ),
 
-        // Mostrar bloques
+        // Función para mostrar bloques
         BloqueRoad(
           edit: true,
-          isMyRoad: true,
-          onDelete: eliminarBloque,
+          //isMyRoad: true,
+          //onDelete: eliminarBloque,
           roadmapId: widget.roadId.toString(),
           nav: false,
         ),
+
         MyButton(
           buttonText: 'Terminar roadmap',
           blue: true,

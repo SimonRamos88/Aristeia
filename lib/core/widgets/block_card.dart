@@ -16,10 +16,11 @@ class BlockCard extends StatelessWidget {
   final String descripcion;
   final int cantidadRecursos;
   final bool edit;
-  final Function()? onDelete;
+  final Function(String)? onDelete;
   final Function()? update;
   final String fechaInicio;
   final String fechaFin;
+  final String blockId;
 
   const BlockCard({
     super.key,
@@ -33,6 +34,7 @@ class BlockCard extends StatelessWidget {
     this.fechaInicio = "-",
     this.fechaFin = "-",
     this.edit = false,
+    this.blockId = '1',
   });
 
   @override
@@ -116,7 +118,7 @@ class BlockCard extends StatelessWidget {
               myRoadmap
                   ? edit
                       ? IconButton(
-                          onPressed: onDelete,
+                          onPressed: onDelete!(blockId),
                           icon: Icon(
                             Icons.delete,
                             size: 30,

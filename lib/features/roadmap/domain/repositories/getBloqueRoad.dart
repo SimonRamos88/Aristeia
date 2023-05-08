@@ -23,7 +23,7 @@ class BloqueRoad extends StatelessWidget {
   final bool edit;
   final bool nav;
   final bool isMyRoad;
-  final void Function()? onDelete;
+  final void Function(String)? onDelete;
 
   const BloqueRoad({
     Key? key,
