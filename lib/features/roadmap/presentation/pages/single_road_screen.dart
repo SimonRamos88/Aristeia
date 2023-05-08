@@ -340,12 +340,14 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   ],
                 )
               : const SizedBox(),
-          // Mostrar bloques
+
+          // Función para mostrar bloques
           BloqueRoad(
             roadmapId: widget.roadId.toString(),
-            nav: true,
             isMyRoad: isMyRoad,
+            nav: true,
           ),
+
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
           isMyRoad
               ? const SizedBox()

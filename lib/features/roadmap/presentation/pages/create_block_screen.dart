@@ -151,24 +151,6 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     );
   }
 
-  void eliminarBloque(String blockId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 1,
-        message: '¿Estas seguro que deseas eliminar este bloque?',
-        leftText: 'Eliminar',
-        rightText: 'Cancelar',
-        onTapLeft: () {
-          deleteBloque(widget.roadId.toString(), blockId);
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
   Future<void> traerRoadmap() async {
     print('ejecutando');
     print(widget.roadId);
@@ -274,10 +256,9 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
         // Función para mostrar bloques
         BloqueRoad(
           edit: true,
-          //isMyRoad: true,
-          //onDelete: eliminarBloque,
+          isMyRoad: true,
+          nav: false, // Mostrar bloques para la pagina create roadmap
           roadmapId: widget.roadId.toString(),
-          nav: false,
         ),
 
         MyButton(
