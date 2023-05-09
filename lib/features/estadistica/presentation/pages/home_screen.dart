@@ -189,15 +189,16 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget(
-          title: 'RoadmapTo',
-          type: 2,
-          onPressedLeading: () {
-            context.router.push(const ConfigRouter());
-          },
-          onPressedAction: cerrarSesion,
-        ),
-        body: Column(
+      appBar: AppBarWidget(
+        title: 'RoadmapTo',
+        type: 2,
+        onPressedLeading: () {
+          context.router.push(const ConfigRouter());
+        },
+        onPressedAction: cerrarSesion,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             ProfileCard(
               nombre: usernames,
@@ -248,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen>
                 centered: false,
                 color: Theme.of(context).primaryColor),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.white,
@@ -288,30 +289,40 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
+            Container(
+              height: 100,
+              width: double.infinity,
+              child: Column(
                 children: [
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Esta semana has completado:',
-                        info: '20 bloques y 2 roadmaps'),
-                  ),
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Este mes has completado:',
-                        info: '40 bloques y 6 roadmaps'),
-                  ),
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Este año has completado:',
-                        info: '100 bloques y 5 roadmaps'),
+                  Expanded(
+                    child: TabBarView(
+                      controller: tabController,
+                      children: [
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Esta semana has completado:',
+                              info: '20 bloques y 2 roadmaps'),
+                        ),
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Este mes has completado:',
+                              info: '40 bloques y 6 roadmaps'),
+                        ),
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Este año has completado:',
+                              info: '100 bloques y 5 roadmaps'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
