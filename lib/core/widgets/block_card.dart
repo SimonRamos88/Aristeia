@@ -145,7 +145,7 @@ class BlockCard extends StatelessWidget {
                             color: colors.blueColor,
                           ),
                         )
-                      : StateWidget(estado:0)
+                      : StateWidget(estado: 0)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),

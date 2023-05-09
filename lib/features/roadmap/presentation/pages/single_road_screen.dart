@@ -179,24 +179,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
-  void eliminarBloque() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 1,
-        message: '¿Estas seguro que deseas eliminar este bloque?',
-        leftText: 'Eliminar',
-        rightText: 'Cancelar',
-        onTapLeft: () {
-          //funcion para eliminar el bloque
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
   Future<void> traerRoadmap() async {
     print('ejecutando');
     print(widget.roadId);
