@@ -64,7 +64,9 @@ class BloqueRoad extends StatelessWidget {
                       onTap: nav
                           ? () => context.router.navigate(SingleBlockRoute(
                                 roadId: int.parse(roadmapId),
-                                blockId: int.parse(doc![index].id),
+                                blockId: int.parse(doc![index].id,
+                                ),
+                                isMyRoadmap: isMyRoad,
                               ))
                           : () => context.router.navigate(CreateResourceRoute(
                                 roadId: int.parse(roadmapId),
