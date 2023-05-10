@@ -33,7 +33,7 @@ class Etiqueta extends StatelessWidget {
       //height: (size==1)? 17:21,
       decoration: BoxDecoration(
         borderRadius: (size==1)?  BorderRadius.circular(18) : BorderRadius.circular(13.0),
-        gradient: color==0? gradients.mainGradient: gradients.mainBlueGradient,
+        gradient: color==0? gradients.mainLabelGradient: gradients.mainBlueGradient,
       ),
       child:  Text(
           text,

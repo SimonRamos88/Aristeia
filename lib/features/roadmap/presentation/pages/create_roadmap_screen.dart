@@ -11,9 +11,13 @@ import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../../estadistica/domain/usecases/roadmapsAsociadosAEtiqueta.dart';
+import '../../../etiqueta/domain/repositories/getEtiqueta.dart';
 import '../../domain/repositories/create_roadmap.dart';
 
 @RoutePage()
@@ -28,12 +32,23 @@ class CreateRoadmapScreen extends StatefulWidget {
 }
 
 class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
-  List<FilterChipData> filterChips = FilterChips.all;
+  List<FilterChipData> filterChips = [];
   TextEditingController nombreRoadmap = TextEditingController();
   TextEditingController descripcion = TextEditingController();
   TextEditingController tipo_roadmap = TextEditingController();
   TextEditingController fechaInicio = TextEditingController();
   List<String> etiquetas = [];
+  List<String> idEtiquetas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFilterChipsFromFirestore().then((chips) {
+      setState(() {
+        filterChips = chips;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,21 +138,53 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
               child: buildFilterChips(),
             ),
             MyButton(
-                buttonText: 'Continuar',
+                buttonText: 'Crear roadmap',
                 onTap: () async {
-                  String idRoadmap = await createRoadmap({
-                    'creador': Auth().currentUser!.uid,
-                    'nombre': nombreRoadmap.text,
-                    'descripcion': descripcion.text,
-                    'publico': tipo_roadmap.text == '1' ? true : false,
-                    'etiquetas': etiquetas,
-                    'fechaInicio': fechaInicio.text,
-                  });
-                  print('datos subidos');
-                  print(idRoadmap);
-                  int id = int.parse(idRoadmap);
-                  print(id);
-                  context.router.push(CreateBlockRoute(roadId: id));
+                  if (nombreRoadmap.text != '' &&
+                      descripcion.text != '' &&
+                      tipo_roadmap.text != '' &&
+                      etiquetas.isEmpty == false &&
+                      fechaInicio.text != '') {
+                    String idRoadmap = await createRoadmap({
+                      'creador': Auth().currentUser!.uid,
+                      'nombre': nombreRoadmap.text,
+                      'descripcion': descripcion.text,
+                      'publico': tipo_roadmap.text == '1' ? true : false,
+                      'etiquetas': etiquetas,
+                      'fechaInicio': fechaInicio.text,
+                    });
+
+                    if (tipo_roadmap.text == '1') {
+                      incrementarNumeroRoadmapsAsociados(idEtiquetas);
+                    }
+
+                    print('datos subidos');
+                    int id = int.parse(idRoadmap);
+
+                    context.router.navigate(CreateBlockRoute(roadId: id));
+                  } else {
+                    //esto muestra un flash, que es como un snackbar para decir que faltan datos
+                    context.showFlash<bool>(
+                      barrierDismissible: true,
+                      duration: const Duration(seconds: 5),
+                      builder: (context, controller) => FlashBar(
+                        controller: controller,
+                        forwardAnimationCurve: Curves.easeInCirc,
+                        reverseAnimationCurve: Curves.bounceIn,
+                        position: FlashPosition.bottom,
+                        indicatorColor: Theme.of(context).primaryColor,
+                        icon: const Icon(Icons.dangerous_rounded),
+                        //title: const Text('Flash Title'),
+                        content: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              'No todos los datos han sido diligenciados aún. O tienes etiquetas faltantes',
+                              textAlign: TextAlign.center,
+                              style: heading3bStyle,
+                            )),
+                      ),
+                    );
+                  }
                 }),
           ]),
         ),
@@ -149,6 +196,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
         runSpacing: 8,
         spacing: 8,
         children: filterChips
+            //filter chips es el widget que permite escoger las etiquetas de un roadmap
             .map((filterChip) => FilterChip(
                   label: Text(
                     filterChip.label,
@@ -170,9 +218,11 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     print(filterChip.isSelected);
                     if (filterChip.isSelected == false) {
                       etiquetas.add(filterChip.label);
+                      idEtiquetas.add(filterChip.id);
                     } else {
                       if (etiquetas.contains(filterChip.label)) {
                         etiquetas.remove(filterChip.label);
+                        idEtiquetas.remove(filterChip.id);
                       }
                     }
                     print(etiquetas);

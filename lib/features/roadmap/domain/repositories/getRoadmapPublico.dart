@@ -34,7 +34,7 @@ Widget getRoadmapPublico() {
                           cantidadBloques: cantidadBloques,
                           calificacion: promedio,
                           onTap: () => {
-                                context.router.pushNamed(
+                                context.router.navigateNamed(
                                   ('/logged/comunidad/${doc?[index].id}'),
                                 ),
                               });

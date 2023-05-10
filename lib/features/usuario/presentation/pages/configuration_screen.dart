@@ -11,53 +11,103 @@ import 'package:aristeia_app/core/network/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 @RoutePage()
-class ConfigurationScreen extends StatelessWidget {
+class ConfigurationScreen extends StatefulWidget {
   static final gradients = AppGradients();
 
-  const ConfigurationScreen({super.key});
+  ConfigurationScreen({super.key});
+
+  @override
+  State<ConfigurationScreen> createState() => _ConfigurationScreenState();
+}
+
+class _ConfigurationScreenState extends State<ConfigurationScreen> {
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  final TextEditingController _controllerConfPassword = TextEditingController();
+
+  void eliminarCuenta() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+            message: '¿Estás seguro de que quieres eliminar tu cuenta?',
+            more: Column(children: [
+              Text(
+                '❗Si eliminas tu cuenta, perderás todo tu progreso y no podrás recuperarlo.',
+                style: interHeading3Style.copyWith(
+                    color: Theme.of(context).colorScheme.primary),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '❗ Si quieres volver a usar RoadmapTo, tendrás que crear una nueva cuenta.',
+                style: interHeading3Style.copyWith(
+                    color: Theme.of(context).colorScheme.primary),
+              ),
+            ]),
+            leftText: 'Eliminar',
+            onTapLeft: () async {
+              String? temp = Auth().currentUser?.uid;
+              try {
+                await deleteUsuariobyId(temp ?? '');
+                await Auth().currentUser?.delete();
+                context.router.replace(const WelcomeRouter());
+              } on FirebaseAuthException catch (e) {
+                print('No se pudo borrar el usuario...');
+              }
+            },
+            rightText: 'Cancelar',
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
+    );
+  }
+
+  void cambiarContrasena() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        insetPadding: true,
+        width: MediaQuery.of(context).size.width,
+        tituloGeneral: false,
+        tituloPersonalizado: Text(
+          'Cambiar contraseña',
+          style: heading2bStyle.copyWith(color: Theme.of(context).primaryColor),
+          textAlign: TextAlign.center,
+        ),
+        //message: 'Si te sales sin guardar perderas toda la información del bloque',
+        more: Column(
+          children: [
+            InputField(
+                hintText: 'Contraseña',
+                isPassword: true,
+                controller: _controllerPassword),
+            InputField(
+                hintText: 'Confirmar',
+                isPassword: true,
+                controller: _controllerConfPassword),
+          ],
+        ),
+        leftText: 'Cambiar',
+        rightText: 'Cancelar',
+        onTapLeft: () {
+          if (_controllerConfPassword.text.trim() ==
+              _controllerPassword.text.trim()) {
+            print("Valido");
+            Auth().currentUser?.updatePassword(_controllerPassword.text.trim());
+            context.router.push(const WelcomeRouter());
+          } else {
+            print("Invalido");
+          }
+        },
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    void eliminarCuenta() {
-      showDialog(
-        context: context,
-        builder: ((context) => AlertDialogWidget(
-              message: '¿Estás seguro de que quieres eliminar tu cuenta?',
-              more: Column(children: [
-                Text(
-                  '❗Si eliminas tu cuenta, perderás todo tu progreso y no podrás recuperarlo.',
-                  style: interHeading3Style.copyWith(
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  '❗ Si quieres volver a usar RoadmapTo, tendrás que crear una nueva cuenta.',
-                  style: interHeading3Style.copyWith(
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-              ]),
-              leftText: 'Eliminar',
-               onTapLeft: () async {
-                        String? temp=Auth().currentUser?.uid;
-                        try{
-                          await deleteUsuariobyId(temp ?? '');
-                          await Auth().currentUser?.delete();
-                          context.router.replace(const WelcomeRouter());
-                        } on FirebaseAuthException catch (e){
-                          print('No se pudo borrar el usuario...');
-                        } },
-              rightText: 'Cancelar',
-              onTapRight: () {
-                Navigator.of(context).pop();
-              },
-            )),
-      );
-    }
-
-
-    final TextEditingController _controllerPassword =TextEditingController();
-    final TextEditingController _controllerConfPassword =TextEditingController();
     return Scaffold(
       appBar: AppBarWidget(
         title: 'Configuración',
@@ -75,39 +125,8 @@ class ConfigurationScreen extends StatelessWidget {
             },
           ),
           CajaOpcion(
-            texto: 'Cambiar contraseña',onTap: () {
-            showDialog(
-              context: context,
-              builder: ((context) => AlertDialog(
-                title: Text('Ingresa tu nueva contraseña :'),
-                content: Column(
-                  children: [
-                    InputField(hintText: 'Contraseña', isPassword:true,controller:_controllerPassword ),
-                    InputField(hintText:'Confirmar' , isPassword: true,controller: _controllerConfPassword),
-                    ElevatedButton(onPressed: (){
-                      if(_controllerConfPassword.text.trim()==_controllerPassword.text.trim()){
-                        print("Valido");
-                        Auth().currentUser?.updatePassword(_controllerPassword.text.trim());
-                        context.router.push(const WelcomeRouter());
-                      }
-                      else{
-                        print("Invalido");
-                      }
-                    }, child: Text("Enviar"),
-                      style: const ButtonStyle(
-
-                      ),
-                    )
-                    ,
-                    Text("en cuanto envies la solicitud deberas iniciar sesion de nuevo")
-                  ],
-
-
-                ),
-
-              )),
-            );
-          },
+            texto: 'Cambiar contraseña',
+            onTap: cambiarContrasena,
           ),
           const CajaOpcion(
             texto: 'Terminos y condiciones',

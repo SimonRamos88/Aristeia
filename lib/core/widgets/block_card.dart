@@ -30,8 +30,8 @@ class BlockCard extends StatelessWidget {
     this.nombreBloque = 'Nombre del bloque',
     this.descripcion = 'Soy la descripción del bloque',
     this.cantidadRecursos = 0, 
-    this.fechaInicio = "2000/00/00",
-    this.fechaFin = "2000/00/00",
+    this.fechaInicio = "-",
+    this.fechaFin = "-",
     this.edit = false,
   });
 
@@ -119,7 +119,7 @@ class BlockCard extends StatelessWidget {
                           onPressed: onDelete,
                           icon: Icon(
                             Icons.delete,
-                            size: 24,
+                            size: 30,
                             color: colors.blueColor,
                           ),
                         )
