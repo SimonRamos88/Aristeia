@@ -4,7 +4,7 @@ import 'dart:developer';
 
 // Este metodo trae un roadmap en especifico (aquel que tenga el id que le pasemos)
 // no trae las subcolecciones
-Future<Map<String, dynamic>> getRoadbyId(String idRoad) async {
+Future<Map<String, dynamic>> getRoadbyId(String? idRoad) async {
   Map<String, dynamic> respuesta = {};
   FirebaseFirestore db = FirebaseFirestore.instance;
   //instanciamos la db y buscamos la coleccion

@@ -9,6 +9,7 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/deleteRoadmap.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
 import 'package:auto_route/auto_route.dart';
@@ -17,7 +18,6 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../../core/network/auth.dart';
 
 @RoutePage()
@@ -75,7 +75,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           ))),
     );
   }
-
+  
   void copiarRoadmap() {
     showDialog(
       context: context,
@@ -176,24 +176,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               Navigator.of(context).pop();
             },
           )),
-    );
-  }
-
-  void eliminarBloque() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 1,
-        message: '¿Estas seguro que deseas eliminar este bloque?',
-        leftText: 'Eliminar',
-        rightText: 'Cancelar',
-        onTapLeft: () {
-          //funcion para eliminar el bloque
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      ),
     );
   }
 
@@ -340,12 +322,14 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   ],
                 )
               : const SizedBox(),
-          // Mostrar bloques
+
+          // Función para mostrar bloques
           BloqueRoad(
             roadmapId: widget.roadId.toString(),
-            nav: true,
             isMyRoad: isMyRoad,
+            nav: true,
           ),
+
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
           isMyRoad
               ? const SizedBox()
@@ -370,6 +354,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                     ),
                   ],
                 ),
+          const SizedBox(height: 24),
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
         ],
       ),
