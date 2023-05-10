@@ -87,7 +87,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     )
                   ],
                   onChanged: (value) {
-                    print(value);
+                    //print(value);
                     tipo_roadmap.text = value.toString();
                   },
                   focusColor: Colors.transparent,

@@ -152,8 +152,6 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
   }
 
   Future<void> traerRoadmap() async {
-    print('ejecutando');
-    print(widget.roadId);
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
     CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
@@ -195,7 +193,10 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       ),
       body: Column(children: [
         BoxText.tituloPagina(
-            text: widget.roadId.toString(), color: colors.blueColor),
+            text: roadmapCreado['nombre'] == null
+                ? "cargando"
+                : roadmapCreado['nombre'],
+            color: colors.blueColor),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Wrap(
@@ -244,7 +245,9 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                     Text(
                         roadmapCreado['publico'] == null
                             ? "cargando..."
-                            : roadmapCreado['publico'].toString(),
+                            : roadmapCreado['publico']
+                                ? "Publico"
+                                : "Privado",
                         style: heading3Style.copyWith(color: Colors.black)),
                   ],
                 ),
