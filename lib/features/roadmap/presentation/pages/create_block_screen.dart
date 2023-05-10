@@ -94,19 +94,23 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           leftText: 'Crear',
           rightText: 'Cancelar',
           onTapLeft: () async {
+            DateTime f_inicio = DateTime.parse(_controllerFechaInicio.text);
+            DateTime f_final = DateTime.parse(_controllerFechaFin.text);
             if (_controllerTitulo.text != '' &&
-                _controllerDescripcion.text != '' &&
-                _controllerFechaFin.text != '' &&
-                _controllerFechaInicio.text != '' &&
-                int.parse(_controllerImportancia.text) < 6 &&
-                int.parse(_controllerImportancia.text) > 0) {
+                    _controllerDescripcion.text != '' &&
+                    _controllerFechaFin.text != '' &&
+                    _controllerFechaInicio.text != '' &&
+                    int.parse(_controllerImportancia.text) < 6 &&
+                    int.parse(_controllerImportancia.text) > 0 &&
+                    f_inicio.compareTo(f_final) < 0 ||
+                f_inicio.compareTo(f_final) == 0) {
               String bloqueId = await addBlock(
                   widget.roadId.toString(),
                   _controllerTitulo.text,
                   _controllerDescripcion.text,
                   int.parse(_controllerImportancia.text),
-                  DateTime.parse(_controllerFechaInicio.text),
-                  DateTime.parse(_controllerFechaFin.text));
+                  f_inicio,
+                  f_final);
               Navigator.of(context).pop();
               //borrar los controllers:
               _controllerTitulo.clear();
