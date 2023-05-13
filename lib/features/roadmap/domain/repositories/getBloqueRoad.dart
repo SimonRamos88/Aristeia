@@ -58,23 +58,23 @@ class BloqueRoad extends StatelessWidget {
                   DateTime dateFechaFin = doc?[index]['fechaFin'].toDate();
                   return BlockCard(
                     myRoadmap: isMyRoad,
-                      edit: edit,
-                      nombreBloque: doc?[index]['titulo'],
-                      descripcion: doc?[index]['descripcion'],
-                      fechaInicio: '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day} ${dateFechaInicio.hour}:${dateFechaInicio.minute}:${dateFechaInicio.second}',
-                      fechaFin: '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day} ${dateFechaFin.hour}:${dateFechaFin.minute}:${dateFechaFin.second}',
-                      cantidadRecursos: cantidadRecursos,
-                      blockId: doc?[index].id,
-                      roadId: roadmapId,
-                      onTap: nav
-                        ? () => context.router.navigate(SingleBlockRoute(
-                              roadId: int.parse(roadmapId),
-                              blockId: int.parse(doc![index].id),
-                            ))
-                        : () => context.router.navigate(CreateResourceRoute(
-                              roadId: int.parse(roadmapId),
-                              blockId: int.parse(doc![index].id),
-                            ))
+                    edit: edit,
+                    nombreBloque: doc?[index]['titulo'],
+                    descripcion: doc?[index]['descripcion'],
+                    fechaInicio: '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day} ${dateFechaInicio.hour}:${dateFechaInicio.minute}:${dateFechaInicio.second}',
+                    fechaFin: '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day} ${dateFechaFin.hour}:${dateFechaFin.minute}:${dateFechaFin.second}',
+                    cantidadRecursos: cantidadRecursos,
+                    blockId: doc?[index].id,
+                    roadId: roadmapId,
+                    onTap: nav
+                      ? () => context.router.navigate(SingleBlockRoute(
+                            roadId: int.parse(roadmapId),
+                            blockId: int.parse(doc![index].id),
+                          ))
+                      : () => context.router.navigate(CreateResourceRoute(
+                            roadId: int.parse(roadmapId),
+                            blockId: int.parse(doc![index].id),
+                          ))
                     );
                 },
               );
