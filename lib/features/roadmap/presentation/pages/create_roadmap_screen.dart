@@ -16,6 +16,8 @@ import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../../estadistica/domain/usecases/roadmapsAsociadosAEtiqueta.dart';
+import '../../../etiqueta/domain/repositories/getEtiqueta.dart';
 import '../../domain/repositories/create_roadmap.dart';
 
 @RoutePage()
@@ -30,12 +32,23 @@ class CreateRoadmapScreen extends StatefulWidget {
 }
 
 class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
-  List<FilterChipData> filterChips = FilterChips.all;
+  List<FilterChipData> filterChips = [];
   TextEditingController nombreRoadmap = TextEditingController();
   TextEditingController descripcion = TextEditingController();
   TextEditingController tipo_roadmap = TextEditingController();
   TextEditingController fechaInicio = TextEditingController();
   List<String> etiquetas = [];
+  List<String> idEtiquetas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFilterChipsFromFirestore().then((chips) {
+      setState(() {
+        filterChips = chips;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +87,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     )
                   ],
                   onChanged: (value) {
-                    print(value);
+                    //print(value);
                     tipo_roadmap.text = value.toString();
                   },
                   focusColor: Colors.transparent,
@@ -140,6 +153,11 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                       'etiquetas': etiquetas,
                       'fechaInicio': fechaInicio.text,
                     });
+
+                    if (tipo_roadmap.text == '1') {
+                      incrementarNumeroRoadmapsAsociados(idEtiquetas);
+                    }
+
                     print('datos subidos');
                     int id = int.parse(idRoadmap);
 
@@ -200,9 +218,11 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     print(filterChip.isSelected);
                     if (filterChip.isSelected == false) {
                       etiquetas.add(filterChip.label);
+                      idEtiquetas.add(filterChip.id);
                     } else {
                       if (etiquetas.contains(filterChip.label)) {
                         etiquetas.remove(filterChip.label);
+                        idEtiquetas.remove(filterChip.id);
                       }
                     }
                     print(etiquetas);

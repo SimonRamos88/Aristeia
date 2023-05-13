@@ -30,7 +30,7 @@ class BloqueRoad extends StatelessWidget {
     this.roadmapId = '1',
     this.edit = false,
     this.nav = false,
-    this.isMyRoad=false,
+    this.isMyRoad = false,
   }) : super(key: key);
 
   @override
@@ -54,9 +54,11 @@ class BloqueRoad extends StatelessWidget {
                 future: totalRecursos(roadmapId, doc?[index].id),
                 builder: (context, snapshot) {
                   int cantidadRecursos = snapshot.data ?? 0;
-                  DateTime dateFechaInicio = doc?[index]['fechaInicio'].toDate();
+                  DateTime dateFechaInicio =
+                      doc?[index]['fechaInicio'].toDate();
                   DateTime dateFechaFin = doc?[index]['fechaFin'].toDate();
                   return BlockCard(
+<<<<<<< HEAD
                     myRoadmap: isMyRoad,
                     edit: edit,
                     nombreBloque: doc?[index]['titulo'],
@@ -76,6 +78,29 @@ class BloqueRoad extends StatelessWidget {
                             blockId: int.parse(doc![index].id),
                           ))
                     );
+=======
+                      myRoadmap: isMyRoad,
+                      edit: edit,
+                      nombreBloque: doc?[index]['titulo'],
+                      descripcion: doc?[index]['descripcion'],
+                      fechaInicio:
+                          '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day} ${dateFechaInicio.hour}:${dateFechaInicio.minute}:${dateFechaInicio.second}',
+                      fechaFin:
+                          '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day} ${dateFechaFin.hour}:${dateFechaFin.minute}:${dateFechaFin.second}',
+                      cantidadRecursos: cantidadRecursos,
+                      blockId: doc?[index].id,
+                      roadId: roadmapId,
+                      onTap: nav
+                          ? () => context.router.navigate(SingleBlockRoute(
+                                roadId: int.parse(roadmapId),
+                                blockId: int.parse(doc![index].id),
+                                isMyRoadmap: isMyRoad,
+                              ))
+                          : () => context.router.navigate(CreateResourceRoute(
+                                roadId: int.parse(roadmapId),
+                                blockId: int.parse(doc![index].id),
+                              )));
+>>>>>>> 26b7a7340c76c85564e844f80d6af6b34872e84d
                 },
               );
             },

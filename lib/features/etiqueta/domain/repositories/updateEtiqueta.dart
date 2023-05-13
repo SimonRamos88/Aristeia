@@ -17,3 +17,18 @@ Future<void> updateEtiqueta(
   }
   //es la misma estructura de la consulta que en python
 }
+
+Future<void> incrementarNumeroRoadmapsAsociados(
+    List<String> idEtiquetas) async {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  for (String idEtiqueta in idEtiquetas) {
+    // Obtener la referencia del documento en Firestore
+    DocumentReference docRef = db.collection('etiquetas').doc(idEtiqueta);
+
+    // Actualizar el campo "numeroRoadmapsAsociados" del documento
+    await docRef.update({
+      'numeroRoadmapsAsociados': FieldValue.increment(1),
+    });
+  }
+}

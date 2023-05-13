@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
@@ -11,6 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/widgets/input_field.dart';
+import '../../../Recurso/domain/repositories/addRecurso.dart';
+import '../../../Recurso/domain/repositories/getRecurso.dart';
+import '../../../Recurso/domain/repositories/getAllRecursos.dart';
+import '../../../Recurso/domain/repositories/updateRecurso.dart';
+
 @RoutePage()
 class SingleBlockScreen extends StatefulWidget {
   final int blockId;
@@ -21,7 +29,7 @@ class SingleBlockScreen extends StatefulWidget {
     Key? key,
     @PathParam() required this.blockId,
     required this.roadId,
-    this.isMyRoadmap = false,
+    required this.isMyRoadmap,
   }) : super(key: key);
 
   @override
@@ -30,6 +38,8 @@ class SingleBlockScreen extends StatefulWidget {
 
 class _SingleBlockScreenState extends State<SingleBlockScreen> {
   static final colors = AppColors();
+  bool isMyRoad = false;
+  final Map<int, dynamic> recursos = {};
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri(scheme: "https", host: url);
@@ -76,7 +86,17 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     );
   }
 
-  void abrirRecurso() {
+  getListaRecursos() async {
+    List listaRecursos =
+        await getRecursos(widget.roadId.toString(), widget.blockId.toString());
+    for (final e in listaRecursos) {
+      log("log: " + e['nombre'] + " " + e.id);
+      int keyR = int.parse(e.id);
+      recursos[keyR] = e['nombre'];
+    }
+  }
+
+  void abrirRecurso(String descripcion, String links) {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -95,7 +115,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                         style:
                             heading3bStyle.copyWith(color: colors.pinkColor)),
                     TextSpan(
-                        text: 'Soy la descripción del recurso',
+                        text: descripcion,
                         style: heading3Style.copyWith(color: Colors.black)),
                   ])),
               const SizedBox(
@@ -109,13 +129,13 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                         style:
                             heading3bStyle.copyWith(color: colors.pinkColor)),
                     TextSpan(
-                        text: 'url',
+                        text: links,
                         style: heading3Style.copyWith(
                             color: Colors.black,
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            _launchURL("www.lipsum.com");
+                            _launchURL(links);
                           }),
                   ])),
             ]),
@@ -130,7 +150,6 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
   Map<String, dynamic> bloqueCreado = {};
 
   Future<void> traerBloque(String roadmapId, String bloqueId) async {
-    print(roadmapId);
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
     CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
@@ -140,17 +159,36 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
         .collection('bloques')
         .doc(bloqueId)
         .get();
-    print("existo");
+
     setState(() {
       bloqueCreado = query.data() as Map<String, dynamic>;
-      print(bloqueCreado);
     });
+  }
+
+  void borrarRecurso() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialogWidget(
+        color: 2,
+        message: '¿Estas seguro que deseas eliminar este recurso?',
+        leftText: 'Eliminar',
+        rightText: 'Cancelar',
+        onTapLeft: () {
+          //funcion para eliminar el recurso
+        },
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
   }
 
   @override
   void initState() {
     // TODO: implement initState
+    getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
+
     super.initState();
   }
 
@@ -203,10 +241,17 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     ),
                   )
                 : SizedBox(),
-            for (var i = 0; i < 10; i++)
-              ResourceCard(
-                nombreRecurso: 'recurso $i',
-                onTap: abrirRecurso,
+            for (final MapEntry<int, dynamic> tile in recursos.entries)
+              Padding(
+                key: ValueKey(tile),
+                padding: const EdgeInsets.all(0),
+                child: ResourceCard(
+                    nombreRecurso: tile.value.toString(),
+                    edit: true,
+                    onDelete: borrarRecurso,
+                    onTap: () {
+                      abrirRecurso(tile.value, tile.value);
+                    }),
               ),
           ],
         ),

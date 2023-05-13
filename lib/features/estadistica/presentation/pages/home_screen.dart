@@ -18,6 +18,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:core';
 
+import '../../../../core/widgets/etiqueta_widget.dart';
+import '../../domain/usecases/roadmapsAsociadosAEtiqueta.dart';
+
 @RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
   String usertag = 'usertag';
   String usernames = 'nombres';
   Map<String, dynamic> appUsage = Map<String, dynamic>.from({});
+  List<String> topEtiquetas = [];
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -103,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
         });
       });
     });
+    getTopEtiquetas().then((value) => topEtiquetas = value);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -184,15 +189,16 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget(
-          title: 'RoadmapTo',
-          type: 2,
-          onPressedLeading: () {
-            context.router.push(const ConfigRouter());
-          },
-          onPressedAction: cerrarSesion,
-        ),
-        body: Column(
+      appBar: AppBarWidget(
+        title: 'RoadmapTo',
+        type: 2,
+        onPressedLeading: () {
+          context.router.push(const ConfigRouter());
+        },
+        onPressedAction: cerrarSesion,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             ProfileCard(
               nombre: usernames,
@@ -214,11 +220,36 @@ class _HomeScreenState extends State<HomeScreen>
               height: 16,
             ),
             BoxText.section(
+                text: 'Etiquetas populares:',
+                centered: false,
+                color: Theme.of(context).primaryColor),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final etiqueta in topEtiquetas)
+                    Etiqueta.large(
+                      text: etiqueta == null ? "cargando..." : etiqueta,
+                      color: 0,
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            BoxText.section(
                 text: 'Roadmaps culminados:',
                 centered: false,
                 color: Theme.of(context).primaryColor),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.white,
@@ -258,30 +289,40 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
+            Container(
+              height: 100,
+              width: double.infinity,
+              child: Column(
                 children: [
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Esta semana has completado:',
-                        info: '20 bloques y 2 roadmaps'),
-                  ),
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Este mes has completado:',
-                        info: '40 bloques y 6 roadmaps'),
-                  ),
-                  Scaffold(
-                    body: InfoRow(
-                        description: 'Este año has completado:',
-                        info: '100 bloques y 5 roadmaps'),
+                  Expanded(
+                    child: TabBarView(
+                      controller: tabController,
+                      children: [
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Esta semana has completado:',
+                              info: '20 bloques y 2 roadmaps'),
+                        ),
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Este mes has completado:',
+                              info: '40 bloques y 6 roadmaps'),
+                        ),
+                        Scaffold(
+                          body: InfoRow(
+                              description: 'Este año has completado:',
+                              info: '100 bloques y 5 roadmaps'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
