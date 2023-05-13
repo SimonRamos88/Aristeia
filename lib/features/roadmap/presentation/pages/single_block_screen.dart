@@ -39,7 +39,7 @@ class SingleBlockScreen extends StatefulWidget {
 class _SingleBlockScreenState extends State<SingleBlockScreen> {
   static final colors = AppColors();
   bool isMyRoad = false;
-  final Map<int, dynamic> recursos = {};
+  final Map<int, Map<String, dynamic> > recursos = {};
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri(scheme: "https", host: url);
@@ -90,9 +90,9 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     List listaRecursos =
         await getRecursos(widget.roadId.toString(), widget.blockId.toString());
     for (final e in listaRecursos) {
-      log("log: " + e['nombre'] + " " + e.id);
+      //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e['nombre'];
+      recursos[keyR] = e.data() as Map<String, dynamic> ;
     }
   }
 
@@ -246,11 +246,11 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 key: ValueKey(tile),
                 padding: const EdgeInsets.all(0),
                 child: ResourceCard(
-                    nombreRecurso: tile.value.toString(),
+                    nombreRecurso: tile.value['nombre'],
                     edit: true,
                     onDelete: borrarRecurso,
                     onTap: () {
-                      abrirRecurso(tile.value, tile.value);
+                      abrirRecurso(tile.value['descripcion'], tile.value['links_relacionados'].toString());
                     }),
               ),
           ],
