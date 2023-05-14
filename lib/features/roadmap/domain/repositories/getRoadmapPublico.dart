@@ -29,17 +29,18 @@ Widget getRoadmapPublico() {
                     builder: (context, snapshot) {
                       int cantidadBloques = snapshot.data ?? 0;
                       return RoadmapCard(
-                          myRoadmap: false,
-                          nombreRoadmap: doc?[index]['nombre'],
-                          descripcionRoadmap: doc?[index]['descripcion'],
-                          etiquetas: doc?[index]['etiquetas'],
-                          cantidadBloques: cantidadBloques,
-                          calificacion: promedio,
-                          onTap: () => {
-                                context.router.navigateNamed(
-                                  ('/logged/comunidad/${doc?[index].id}'),
-                                ),
-                              });
+                        myRoadmap: false,
+                        nombreRoadmap: doc?[index]['nombre'],
+                        descripcionRoadmap: doc?[index]['descripcion'],
+                        etiquetas: doc?[index]['etiquetas'],
+                        cantidadBloques: cantidadBloques,
+                        calificacion: promedio,
+                        onTap: () => {
+                          context.router.navigateNamed(
+                            ('/logged/comunidad/${doc?[index].id}'),
+                          ),
+                        }
+                      );
                     },
                   );
                 },

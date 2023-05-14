@@ -1,5 +1,4 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
-import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
 import 'package:auto_route/auto_route.dart';
@@ -15,8 +14,7 @@ Future<int> totalRecursos(String? roadmapID, String? bloqueID) async {
       .doc(bloqueID)
       .collection('recursos')
       .get();
-  final size = querySnapshot.size;
-  return size;
+  return querySnapshot.size;
 }
 
 class BloqueRoad extends StatelessWidget {

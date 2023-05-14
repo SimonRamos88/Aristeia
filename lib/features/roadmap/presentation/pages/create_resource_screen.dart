@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
@@ -17,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../../../../core/widgets/box_text.dart';
+import '../../../usuario/domain/repositories/getUsuarioId.dart';
 
 @RoutePage()
 class CreateResourceScreen extends StatefulWidget {
@@ -37,7 +39,7 @@ class CreateResourceScreen extends StatefulWidget {
 
 class _CreateResourceScreenState extends State<CreateResourceScreen> {
   final colors = AppColors();
-  final Map<int, dynamic> recursos = {};
+  final Map<int, Map<String, dynamic> > recursos = {};
   Map<String, dynamic> bloqueCreado = {};
 
   Future<void> traerBloque(String roadmapId, String bloqueId) async {
@@ -62,6 +64,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController nombreController = TextEditingController();
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
+    final TextEditingController imageController = TextEditingController();
 
     showDialog(
       context: context,
@@ -86,6 +89,8 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                   controller: descripcionController),
               InputField(
                   hintText: 'Links', maxLines: 2, controller: linksController),
+              InputField(
+                  hintText: 'Imagen', maxLines: 2, controller: imageController),
             ],
           ),
           rightText: 'Agregar',
@@ -94,22 +99,30 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
             int recursoId = await getRecursoAmount(
                     widget.roadId.toString(), widget.blockId.toString()) +
                 1;
+            var usuario =  await getUsuariobyId(Auth().currentUser!.uid);
+            String nombre = usuario['nombres'];
             createRecurso({
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
-              'autor': 'autorX',
-              'imagen': '123'
+              'autor': nombre,
+              'imagen': imageController.text
             }, widget.roadId.toString(), widget.blockId.toString(),
                 recursoId.toString());
 
             setState(() {
               //myTiles.add(nombreController.text);
-              recursos[recursoId] = nombreController.text;
+              recursos[recursoId] = {
+                'nombre': nombreController.text, 
+                'descripcion': descripcionController,
+                'links_relacionados' : linksController,
+                'autor' : Auth().currentUser?.displayName,
+                'imagen': imageController.text };
             });
             nombreController.clear();
             descripcionController.clear();
             linksController.clear();
+            imageController.clear();
             log(recursos.toString());
             Navigator.of(context).pop();
           },
@@ -127,7 +140,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     for (final e in listaRecursos) {
       //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e['nombre'];
+      recursos[keyR] = e.data() as Map<String, dynamic> ;
     }
   }
 
@@ -135,12 +148,14 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController nombreController = TextEditingController();
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
+    final TextEditingController imageController = TextEditingController();
 
     Map<String, dynamic> recurso = await getRecurso(widget.roadId.toString(),
         widget.blockId.toString(), recursoId.toString());
 
     nombreController.text = recurso['nombre'];
     descripcionController.text = recurso['descripcion'];
+    imageController.text = recurso['imagen'];
 
     showDialog(
       context: context,
@@ -165,22 +180,31 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                   controller: descripcionController),
               InputField(
                   hintText: 'Links', maxLines: 2, controller: linksController),
+              InputField(
+                  hintText: 'Imagen', maxLines: 2, controller: imageController),
             ],
           ),
           rightText: 'Editar',
           leftText: 'Cancelar',
           onTapRight: () async {
+            var usuario =  await getUsuariobyId(Auth().currentUser!.uid);
+            String nombre = usuario['nombres'];
             updateRecurso(widget.roadId.toString(), widget.blockId.toString(),
                 recursoId.toString(), {
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
-              'autor': 'autorX',
-              'imagen': '123'
+              'autor':  nombre,
+              'imagen': imageController.text
             });
 
             setState(() {
-              recursos[recursoId] = nombreController.text;
+              recursos[recursoId] = {
+                'nombre': nombreController.text, 
+                'descripcion': descripcionController,
+                'links_relacionados' : linksController,
+                'autor' : Auth().currentUser?.displayName,
+                'imagen': imageController.text };
             });
             nombreController.clear();
             descripcionController.clear();
@@ -267,7 +291,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
               key: ValueKey(tile),
               padding: const EdgeInsets.all(0),
               child: ResourceCard(
-                  nombreRecurso: tile.value.toString(),
+                  nombreRecurso: tile.value['nombre'],
                   edit: true,
                   onDelete: borrarRecurso,
                   onTap: () {

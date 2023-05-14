@@ -46,9 +46,9 @@ Widget getRoadmapPrivado() {
                           onTap: () => {
                             context.router.navigateNamed(
                               ('/logged/personal/${doc?[index].id}'),
-                              )
-                            }
-                          );
+                            )
+                          }
+                        );
                       }
                     );
                   },
