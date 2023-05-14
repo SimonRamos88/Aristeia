@@ -358,7 +358,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad =
-          roadmapCreado["estado"] == null ? 0 : roadmapCreado["estado"];
+          roadmapCreado["estado"] == null ? 1 : roadmapCreado["estado"];
 
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
@@ -377,7 +377,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         rightWidget: PopUpMenu(
           onTap1: () {
             context.router.push(EditRoadmapRoute(roadId: widget.roadId));
-            },
+          },
           onTap2: editarBloques,
           onTap3: eliminarRoadmap,
         ),

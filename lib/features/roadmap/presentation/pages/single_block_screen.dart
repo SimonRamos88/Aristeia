@@ -7,6 +7,7 @@ import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/change_resource_state.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/getEstado.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
@@ -22,6 +23,7 @@ import '../../../Recurso/domain/repositories/addRecurso.dart';
 import '../../../Recurso/domain/repositories/getRecurso.dart';
 import '../../../Recurso/domain/repositories/getAllRecursos.dart';
 import '../../../Recurso/domain/repositories/updateRecurso.dart';
+import '../../domain/repositories/setEstado.dart';
 
 @RoutePage()
 class SingleBlockScreen extends StatefulWidget {
@@ -107,6 +109,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                           .update({"estado": 0});
                     });
                     Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
                   },
                 ),
                 const SizedBox(
@@ -126,6 +129,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                       estadoBloque = 1;
                     });
                     Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
                   },
                 ),
                 const SizedBox(
@@ -146,6 +150,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     });
 
                     Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
                   },
                 )
               ],
@@ -276,6 +281,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
       estadoBloque =
           bloqueCreado["estado"] == null ? 0 : bloqueCreado["estado"];
     });
+    await getEstado(widget.roadId.toString());
   }
 
   void borrarRecurso() {
