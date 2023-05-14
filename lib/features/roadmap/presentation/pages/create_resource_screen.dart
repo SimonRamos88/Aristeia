@@ -13,12 +13,13 @@ import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dar
 import 'package:aristeia_app/features/Recurso/domain/repositories/getAllRecursos.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/getRecurso.dart';
 import 'package:aristeia_app/features/recurso/domain/repositories/updateRecurso.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/change_resource_state.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../../../../core/widgets/box_text.dart';
 import '../../../usuario/domain/repositories/getUsuarioId.dart';
+import '../../../../core/widgets/state_widget.dart';
 
 @RoutePage()
 class CreateResourceScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class CreateResourceScreen extends StatefulWidget {
 
 class _CreateResourceScreenState extends State<CreateResourceScreen> {
   final colors = AppColors();
-  final Map<int, Map<String, dynamic> > recursos = {};
+  final Map<int, Map<String, dynamic>> recursos = {};
   Map<String, dynamic> bloqueCreado = {};
 
   Future<void> traerBloque(String roadmapId, String bloqueId) async {
@@ -88,9 +89,12 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                   maxLines: 3,
                   controller: descripcionController),
               InputField(
-                  hintText: 'Links', maxLines: 2, controller: linksController),
-              InputField(
-                  hintText: 'Imagen', maxLines: 2, controller: imageController),
+                  hintText: 'Links', maxLines: 3, controller: linksController),
+              Text(
+                'Por favor, ingrese los links separados por espacios',
+                style: bodyStyle.copyWith(color: colors.pinkColor),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
           rightText: 'Agregar',
@@ -99,7 +103,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
             int recursoId = await getRecursoAmount(
                     widget.roadId.toString(), widget.blockId.toString()) +
                 1;
-            var usuario =  await getUsuariobyId(Auth().currentUser!.uid);
+            var usuario = await getUsuariobyId(Auth().currentUser!.uid);
             String nombre = usuario['nombres'];
             createRecurso({
               'nombre': nombreController.text,
@@ -113,11 +117,12 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
             setState(() {
               //myTiles.add(nombreController.text);
               recursos[recursoId] = {
-                'nombre': nombreController.text, 
+                'nombre': nombreController.text,
                 'descripcion': descripcionController,
-                'links_relacionados' : linksController,
-                'autor' : Auth().currentUser?.displayName,
-                'imagen': imageController.text };
+                'links_relacionados': linksController,
+                'autor': Auth().currentUser?.displayName,
+                'imagen': imageController.text
+              };
             });
             nombreController.clear();
             descripcionController.clear();
@@ -140,7 +145,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     for (final e in listaRecursos) {
       //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e.data() as Map<String, dynamic> ;
+      recursos[keyR] = e.data() as Map<String, dynamic>;
     }
   }
 
@@ -187,24 +192,25 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
           rightText: 'Editar',
           leftText: 'Cancelar',
           onTapRight: () async {
-            var usuario =  await getUsuariobyId(Auth().currentUser!.uid);
+            var usuario = await getUsuariobyId(Auth().currentUser!.uid);
             String nombre = usuario['nombres'];
             updateRecurso(widget.roadId.toString(), widget.blockId.toString(),
                 recursoId.toString(), {
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
-              'autor':  nombre,
+              'autor': nombre,
               'imagen': imageController.text
             });
 
             setState(() {
               recursos[recursoId] = {
-                'nombre': nombreController.text, 
+                'nombre': nombreController.text,
                 'descripcion': descripcionController,
-                'links_relacionados' : linksController,
-                'autor' : Auth().currentUser?.displayName,
-                'imagen': imageController.text };
+                'links_relacionados': linksController,
+                'autor': Auth().currentUser?.displayName,
+                'imagen': imageController.text
+              };
             });
             nombreController.clear();
             descripcionController.clear();
@@ -239,7 +245,6 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
 
@@ -269,21 +274,34 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
       body: ReorderableListView(
         header: Column(children: [
           BoxText.tituloPagina(
-              text: bloqueCreado['titulo'] == null
-                  ? "cargando..."
-                  : bloqueCreado['titulo'],
+              text: bloqueCreado['titulo'] ?? "cargando...",
               color: colors.pinkColor),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            padding: const EdgeInsets.only(bottom: 8, left: 24, right: 24),
             child: Text(
-              bloqueCreado['descripcion'] == null
-                  ? "cargando..."
-                  : bloqueCreado['descripcion'],
+              bloqueCreado['descripcion'] ?? "cargando...",
               softWrap: true,
               textAlign: TextAlign.center,
               style: heading3Style.copyWith(color: Colors.black),
             ),
           ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Estado:',
+                    style: heading2bStyle.copyWith(color: colors.pinkColor)),
+                StateWidget(
+                  onTap: () {
+                    cambiarEstado(context);
+                  },
+                  large: true,
+                ),
+              ],
+            ),
+          )
         ]),
         children: [
           for (final MapEntry<int, dynamic> tile in recursos.entries)

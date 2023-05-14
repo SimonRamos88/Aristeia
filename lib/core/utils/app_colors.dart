@@ -9,7 +9,8 @@ class AppColors {
    final mainColor50 = Color.fromARGB(75, 109, 76, 228);
   final blueColor = const Color(0xff4650FA);
   final blueColor50 = const Color(0xff466CFF);
-  final pinkColor = const Color(0xffC743F0);
+  final pinkColor = const Color(0xFFC238EC);
+   final pinkColor2 = const Color(0xffE432BD);
   final pinkColor50 = const Color(0xff466CFF);
 
 

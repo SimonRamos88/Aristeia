@@ -1,6 +1,6 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
