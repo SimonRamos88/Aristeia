@@ -52,6 +52,9 @@ class AppRouter extends $AppRouter {
             AutoRoute(path: '', page: MyRoadmapsRoute.page),
             AutoRoute(path: ':roadId', page: BlockRouter.page, children: [
               AutoRoute(path: '', page: SingleRoadRoute.page),
+              AutoRoute(path: 'editar', page: EditRouter.page, children: [
+                AutoRoute(path: ':roadId', page: EditRoadmapRoute.page),
+              ]),
               AutoRoute(path: ':blockId', page: SingleBlockRoute.page),
             ]),
           ],
@@ -61,11 +64,11 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: ':roadId', page: CreateBlockRoute.page),
           AutoRoute(path: ':blockId', page: CreateResourceRoute.page),
         ]),
-        AutoRoute(path: 'editar', page: EditRouter.page, children: [
-          AutoRoute(path: ':roadId', page: EditRoadmap.page),
-        ]),
       ],
     ),
+    // AutoRoute(path: '/editar', page: EditRouter.page, children: [
+    //   AutoRoute(path: ':roadId', page: EditRoadmapRoute.page),
+    // ]),
     AutoRoute(path: '/config', page: ConfigRouter.page, children: [
       AutoRoute(path: '', page: ConfigurationRoute.page),
       AutoRoute(path: 'edit', page: EditProfileRoute.page),

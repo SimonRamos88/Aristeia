@@ -9,11 +9,13 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
+import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
 import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart';
+import 'package:aristeia_app/features/roadmap/presentation/pages/edit_roadmap_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
@@ -42,7 +44,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
 
   @override
   void initState() {
-
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
     super.initState();
@@ -136,7 +137,13 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
-  Future<void> editarRoadmap() async {
+  void editarRoadmap() {
+    context.router.navigateNamed(
+      ('/logged/editar/1'),
+    );
+  }
+
+  Future<void> editarRoadma() async {
     TextEditingController nombreRoadmap = TextEditingController();
     TextEditingController descripcion = TextEditingController();
     TextEditingController tipo_roadmap = TextEditingController();
@@ -163,57 +170,52 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         //message: 'Si te sales sin guardar perderas toda la información del bloque',
         more: Column(
           children: [
-            InputField(
-                hintText: 'Nombre', controller: nombreRoadmap),
-             InputField(
-                hintText: 'Descripcion', controller: descripcion),
-             DropdownButtonFormField(
-                  items: const [
-                    DropdownMenuItem(
-                      value: '1',
-                      child: Text(
-                        'Público',
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: '2',
-                      child: Text('Privado'),
-                    )
-                  ],
-                  onChanged: (value) {
-                    //print(value);
-                    tipo_roadmap.text = value.toString();
-                  },
-                  focusColor: Colors.transparent,
-                  dropdownColor: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  style: interHeading3Style.copyWith(color: Colors.black),
-                  decoration: InputDecoration(
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    labelText: 'Tipo de roadmap',
-                    labelStyle: heading3bStyle.copyWith(
-                        backgroundColor:
-                            CreateRoadmapScreen.colors.backgroundColor,
-                        color: Theme.of(context).primaryColor),
-                    floatingLabelStyle: heading2bStyle.copyWith(
-                        backgroundColor:
-                            CreateRoadmapScreen.colors.backgroundColor,
-                        color: Theme.of(context).primaryColor),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide:
-                          BorderSide(width: 0.5, style: BorderStyle.none),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(
-                          width: 1,
-                          style: BorderStyle.solid,
-                          color: Colors.transparent),
-                    ),
+            InputField(hintText: 'Nombre', controller: nombreRoadmap),
+            InputField(hintText: 'Descripcion', controller: descripcion),
+            DropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(
+                  value: '1',
+                  child: Text(
+                    'Público',
                   ),
                 ),
+                DropdownMenuItem(
+                  value: '2',
+                  child: Text('Privado'),
+                )
+              ],
+              onChanged: (value) {
+                //print(value);
+                tipo_roadmap.text = value.toString();
+              },
+              focusColor: Colors.transparent,
+              dropdownColor: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+              style: interHeading3Style.copyWith(color: Colors.black),
+              decoration: InputDecoration(
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                labelText: 'Tipo de roadmap',
+                labelStyle: heading3bStyle.copyWith(
+                    backgroundColor: CreateRoadmapScreen.colors.backgroundColor,
+                    color: Theme.of(context).primaryColor),
+                floatingLabelStyle: heading2bStyle.copyWith(
+                    backgroundColor: CreateRoadmapScreen.colors.backgroundColor,
+                    color: Theme.of(context).primaryColor),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(width: 0.5, style: BorderStyle.none),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(
+                      width: 1,
+                      style: BorderStyle.solid,
+                      color: Colors.transparent),
+                ),
+              ),
+            ),
             DatePicker(
               hintText: "Fecha Inicio",
               controller: fechaInicio,
@@ -227,58 +229,68 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child:  buildFilterChips(filterChips , etiquetas , idEtiquetas),
+              child: buildFilterChips(filterChips, etiquetas, idEtiquetas),
             ),
           ],
         ),
         leftText: 'Aceptar',
         rightText: 'Cancelar',
-        onTapLeft: () async{
+        onTapLeft: () async {
           print(widget.roadId);
           FirebaseFirestore db = FirebaseFirestore.instance;
-          if(!nombreRoadmap.text.trim().isEmpty){
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"nombre": nombreRoadmap.text.trim()});
+          if (!nombreRoadmap.text.trim().isEmpty) {
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"nombre": nombreRoadmap.text.trim()});
           }
-          if(!descripcion.text.isEmpty){
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"descripcion": descripcion.text.trim()});
+          if (!descripcion.text.isEmpty) {
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"descripcion": descripcion.text.trim()});
           }
-          if(!fechaInicio.text.isEmpty){
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"fechaInicio": fechaInicio.text.trim()});
+          if (!fechaInicio.text.isEmpty) {
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"fechaInicio": fechaInicio.text.trim()});
           }
-          if(!tipo_roadmap.text.isEmpty){
-            if(tipo_roadmap.text.trim()=='1'){
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": true});
+          if (!tipo_roadmap.text.isEmpty) {
+            if (tipo_roadmap.text.trim() == '1') {
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": true});
+            } else {
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": false});
             }
-            else{
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": false});
-            }
           }
-          if(!etiquetas.isEmpty){
-
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"etiquetas": etiquetas});
+          if (!etiquetas.isEmpty) {
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"etiquetas": etiquetas});
           }
           print("Todo realizado con Exito");
           traerRoadmap();
           Navigator.of(context).pop();
-
-
-
         },
         onTapRight: () {
           Navigator.of(context).pop();
         },
       ),
     );
-
   }
- Widget buildFilterChips(
-  List<FilterChipData> filterChips,
-  List<String> etiquetas ,
-  List<String> idEtiquetas
-     ) => Wrap(
+
+  Widget buildFilterChips(List<FilterChipData> filterChips,
+          List<String> etiquetas, List<String> idEtiquetas) =>
+      Wrap(
         runSpacing: 3,
         spacing: 3,
-
         alignment: WrapAlignment.center,
         children: filterChips
             .map((filterChip) => FilterChip(
@@ -317,6 +329,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 ))
             .toList(),
       );
+
   void editarBloques() {
     showDialog(
       context: context,
@@ -336,7 +349,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   }
 
   Future<void> traerRoadmap() async {
-
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
     CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
@@ -360,7 +372,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         type: isMyRoad ? 3 : 1,
         color: 1,
         rightWidget: PopUpMenu(
-          onTap1: editarRoadmap,
+          onTap1: () {
+            context.router.push(EditRoadmapRoute(roadId: widget.roadId));
+            },
           onTap2: editarBloques,
           onTap3: eliminarRoadmap,
         ),

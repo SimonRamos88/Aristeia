@@ -26,8 +26,10 @@ class EditRoadmapScreen extends StatefulWidget {
   static final colors = AppColors();
   final int roadId;
 
-  const EditRoadmapScreen({super.key,
-  @PathParam() required this.roadId,});
+  EditRoadmapScreen({
+    super.key,
+    @PathParam() required this.roadId,
+  });
   @override
   State<EditRoadmapScreen> createState() => _EditRoadmapScreenState();
 }
@@ -54,7 +56,13 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(title: 'Crear roadmap', type: 0),
+      appBar: AppBarWidget(
+        title: 'Editar roadmap',
+        type: 1,
+        onPressedLeading: () {
+          context.router.pop();
+        },
+      ),
       body: SingleChildScrollView(
         child: SingleChildScrollView(
           child: Column(children: [
@@ -140,7 +148,7 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
               child: buildFilterChips(),
             ),
             MyButton(
-                buttonText: 'Crear roadmap',
+                buttonText: 'Guardar',
                 onTap: () async {
                   if (nombreRoadmap.text != '' &&
                       descripcion.text != '' &&
@@ -179,7 +187,7 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
                             color: Colors.red),
                         //title: const Text('Flash Title'),
                         content: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'No todos los datos han sido diligenciados aún o tienes etiquetas faltantes',
                               textAlign: TextAlign.center,
@@ -189,6 +197,8 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
                     );
                   }
                 }),
+                MyButton(buttonText: 'Cancelar', outlined: true,),
+                SizedBox(height: 20,)
           ]),
         ),
       ),
