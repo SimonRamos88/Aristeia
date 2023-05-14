@@ -1,6 +1,7 @@
 import 'package:aristeia_app/core/routes/routes.gr.dart';
+import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/block_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +24,13 @@ class BloqueRoad extends StatelessWidget {
   final bool edit;
   final bool nav;
   final bool isMyRoad;
-  final void Function()? onDelete;
 
   const BloqueRoad({
     Key? key,
     this.roadmapId = '1',
     this.edit = false,
     this.nav = false,
-    this.onDelete,
-    this.isMyRoad=false,
+    this.isMyRoad = false,
   }) : super(key: key);
 
   @override
@@ -55,17 +54,25 @@ class BloqueRoad extends StatelessWidget {
                 future: totalRecursos(roadmapId, doc?[index].id),
                 builder: (context, snapshot) {
                   int cantidadRecursos = snapshot.data ?? 0;
+                  DateTime dateFechaInicio =
+                      doc?[index]['fechaInicio'].toDate();
+                  DateTime dateFechaFin = doc?[index]['fechaFin'].toDate();
                   return BlockCard(
-                    myRoadmap: isMyRoad,
+                      myRoadmap: isMyRoad,
                       edit: edit,
-                      cantidadRecursos: cantidadRecursos,
                       nombreBloque: doc?[index]['titulo'],
-                      onDelete: onDelete,
+                      descripcion: doc?[index]['descripcion'],
+                      fechaInicio:
+                          '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day} ${dateFechaInicio.hour}:${dateFechaInicio.minute}:${dateFechaInicio.second}',
+                      fechaFin:
+                          '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day} ${dateFechaFin.hour}:${dateFechaFin.minute}:${dateFechaFin.second}',
+                      cantidadRecursos: cantidadRecursos,
+                      blockId: doc?[index].id,
+                      roadId: roadmapId,
                       onTap: nav
                           ? () => context.router.navigate(SingleBlockRoute(
                                 roadId: int.parse(roadmapId),
-                                blockId: int.parse(doc![index].id,
-                                ),
+                                blockId: int.parse(doc![index].id),
                                 isMyRoadmap: isMyRoad,
                               ))
                           : () => context.router.navigate(CreateResourceRoute(

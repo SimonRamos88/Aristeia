@@ -15,6 +15,7 @@ class ResourceCard extends StatelessWidget {
   final String descripcion;
   final bool edit;
   final void Function()? onDelete;
+  final int cantidadLinks;
 
   const ResourceCard({
     super.key,
@@ -22,8 +23,9 @@ class ResourceCard extends StatelessWidget {
     this.onDelete,
     this.myRoadmap = true,
     this.nombreRecurso = 'Nombre del recurso',
-    this.descripcion = '',
+    this.descripcion = '-',
     this.edit = false,
+    this.cantidadLinks = 0,
   });
 
   @override
@@ -49,43 +51,47 @@ class ResourceCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        nombreRecurso,
+                    Text(nombreRecurso,
                         softWrap: true,
                         style:
                             heading3bStyle.copyWith(color: colors.pinkColor)),
                     const SizedBox(
                       height: 5,
                     ),
-                    myRoadmap
-                        ? RichText(
-                            text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Creador: ',
-                                style: subheadingbStyle.copyWith(
-                                    color: colors.pinkColor),),
-                                    TextSpan(
-                                text: 'Simon ramos',
-                                style: bodyStyle.copyWith(
-                                    color: Colors.black),),
-                            ],
-                          ))
-                        : const SizedBox(height: 0, width: 0),
                     (descripcion != '')
-                        ? const SizedBox(
-                            height: 5,
-                          )
-                        : const SizedBox(height: 0, width: 0),
-                    (descripcion != '')
-                        ? Text('yo soy la descripcion xdddd',
+                        ? Text(descripcion,
                             softWrap: true,
-                            style: bodyStyle.copyWith(
-                                color: Colors.black))
+                            style: bodyStyle.copyWith(color: Colors.black))
                         : const SizedBox(height: 0, width: 0),
-                                            const SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Autor: ',
+                            style: subheadingbStyle.copyWith(
+                                color: colors.pinkColor),
+                          ),
+                          TextSpan(
+                            text: 'Simon ramos',
+                            style: bodyStyle.copyWith(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                    (descripcion != '')
+                        ? const SizedBox(
+                            height: 7,
+                          )
+                        : const SizedBox(height: 0, width: 0),
+                    Text('${cantidadLinks.toString()} links',
+                        softWrap: true,
+                        style: bodyStyle.copyWith(
+                            color: colors.pinkColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500)),
                   ],
                 ),
               ),

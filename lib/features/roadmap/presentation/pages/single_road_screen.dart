@@ -9,15 +9,15 @@ import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/deleteRoadmap.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../../core/network/auth.dart';
 
 @RoutePage()
@@ -41,7 +41,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   void initState() {
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
-    //print(context.router.currentPath.contains('personal'));
     super.initState();
   }
 
@@ -75,7 +74,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           ))),
     );
   }
-
+  
   void copiarRoadmap() {
     showDialog(
       context: context,
@@ -179,34 +178,14 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
-  void eliminarBloque() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 1,
-        message: '¿Estas seguro que deseas eliminar este bloque?',
-        leftText: 'Eliminar',
-        rightText: 'Cancelar',
-        onTapLeft: () {
-          //funcion para eliminar el bloque
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
   Future<void> traerRoadmap() async {
-    print('ejecutando');
-    print(widget.roadId);
+
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
     CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
     //antes que nada, verificamos que la informacion esté correcta
     DocumentSnapshot query =
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
-    print("existo");
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       /*
@@ -237,9 +216,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BoxText.tituloPagina(
-            text: roadmapCreado["nombre"] == null
-                ? "cargando..."
-                : roadmapCreado["nombre"],
+            text: roadmapCreado["nombre"] ?? "cargando...",
             color: colors.blueColor,
           ),
           Container(
@@ -252,7 +229,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 if (roadmapCreado['etiquetas'] != null)
                   for (final etiqueta in roadmapCreado['etiquetas'])
                     Etiqueta.large(
-                      text: etiqueta == null ? "cargando..." : etiqueta,
+                      text: etiqueta ?? "cargando...",
                       color: 1,
                     ),
               ],
@@ -269,9 +246,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    roadmapCreado["descripcion"] == null
-                        ? "cargando..."
-                        : roadmapCreado["descripcion"],
+                    roadmapCreado["descripcion"] ?? "cargando...",
                     softWrap: true,
                     style: heading3Style.copyWith(color: Colors.black),
                   ),
@@ -340,12 +315,14 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   ],
                 )
               : const SizedBox(),
-          // Mostrar bloques
+
+          // Función para mostrar bloques
           BloqueRoad(
             roadmapId: widget.roadId.toString(),
-            nav: true,
             isMyRoad: isMyRoad,
+            nav: true,
           ),
+
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
           isMyRoad
               ? const SizedBox()
@@ -370,6 +347,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                     ),
                   ],
                 ),
+          const SizedBox(height: 24),
           isMyRoad ? const SizedBox() : const SizedBox(height: 24),
         ],
       ),

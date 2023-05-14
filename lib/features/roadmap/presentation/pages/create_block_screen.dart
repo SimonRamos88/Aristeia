@@ -11,8 +11,9 @@ import 'package:aristeia_app/core/widgets/date_picker.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/create_bloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -73,6 +74,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                       hintText: 'Titulo bloque', controller: _controllerTitulo),
                   InputField(
                     hintText: 'Descripcion',
+                    maxLines: 2,
                     controller: _controllerDescripcion,
                   ),
                   InputField(
@@ -93,19 +95,23 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           leftText: 'Crear',
           rightText: 'Cancelar',
           onTapLeft: () async {
+            DateTime f_inicio = DateTime.parse(_controllerFechaInicio.text);
+            DateTime f_final = DateTime.parse(_controllerFechaFin.text);
             if (_controllerTitulo.text != '' &&
-                _controllerDescripcion.text != '' &&
-                _controllerFechaFin.text != '' &&
-                _controllerFechaInicio.text != '' &&
-                int.parse(_controllerImportancia.text) < 6 &&
-                int.parse(_controllerImportancia.text) > 0) {
+                    _controllerDescripcion.text != '' &&
+                    _controllerFechaFin.text != '' &&
+                    _controllerFechaInicio.text != '' &&
+                    int.parse(_controllerImportancia.text) < 6 &&
+                    int.parse(_controllerImportancia.text) > 0 &&
+                    f_inicio.compareTo(f_final) < 0 ||
+                f_inicio.compareTo(f_final) == 0) {
               String bloqueId = await addBlock(
                   widget.roadId.toString(),
                   _controllerTitulo.text,
                   _controllerDescripcion.text,
                   int.parse(_controllerImportancia.text),
-                  DateTime.parse(_controllerFechaInicio.text),
-                  DateTime.parse(_controllerFechaFin.text));
+                  f_inicio,
+                  f_final);
               Navigator.of(context).pop();
               //borrar los controllers:
               _controllerTitulo.clear();
@@ -150,27 +156,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
     );
   }
 
-  void eliminarBloque() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialogWidget(
-        color: 1,
-        message: '¿Estas seguro que deseas eliminar este bloque?',
-        leftText: 'Eliminar',
-        rightText: 'Cancelar',
-        onTapLeft: () {
-          //funcion para eliminar el bloque
-        },
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
   Future<void> traerRoadmap() async {
-    print('ejecutando');
-    print(widget.roadId);
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
     CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
@@ -212,7 +198,10 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
       ),
       body: Column(children: [
         BoxText.tituloPagina(
-            text: widget.roadId.toString(), color: colors.blueColor),
+            text: roadmapCreado['nombre'] == null
+                ? "cargando"
+                : roadmapCreado['nombre'],
+            color: colors.blueColor),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Wrap(
@@ -261,7 +250,9 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                     Text(
                         roadmapCreado['publico'] == null
                             ? "cargando..."
-                            : roadmapCreado['publico'].toString(),
+                            : roadmapCreado['publico']
+                                ? "Publico"
+                                : "Privado",
                         style: heading3Style.copyWith(color: Colors.black)),
                   ],
                 ),
@@ -270,14 +261,14 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           ),
         ),
 
-        // Mostrar bloques
+        // Función para mostrar bloques
         BloqueRoad(
           edit: true,
           isMyRoad: true,
-          onDelete: eliminarBloque,
+          nav: false, // Mostrar bloques para la pagina create roadmap
           roadmapId: widget.roadId.toString(),
-          nav: false,
         ),
+
         MyButton(
           buttonText: 'Terminar roadmap',
           blue: true,

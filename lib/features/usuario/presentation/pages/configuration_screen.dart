@@ -4,11 +4,15 @@ import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
+import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
 import 'package:aristeia_app/features/usuario/domain/repositories/deleteUsuario.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:aristeia_app/core/network/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class ConfigurationScreen extends StatefulWidget {
@@ -25,6 +29,22 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
 
   final TextEditingController _controllerConfPassword = TextEditingController();
 
+   Future<void> _launchURL(String url) async {
+    var uri = Uri.parse(url);
+
+    if (url.contains('/')) {
+      uri = Uri.parse(url);
+    } else {
+      uri = Uri(scheme: "https", host: url);
+    }
+
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    
+  }
+
   void eliminarCuenta() {
     showDialog(
       context: context,
@@ -34,13 +54,13 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
               Text(
                 '❗Si eliminas tu cuenta, perderás todo tu progreso y no podrás recuperarlo.',
                 style: interHeading3Style.copyWith(
-                    color: Theme.of(context).colorScheme.primary),
+                    color: Theme.of(context).primaryColor),
               ),
               const SizedBox(height: 12),
               Text(
                 '❗ Si quieres volver a usar RoadmapTo, tendrás que crear una nueva cuenta.',
                 style: interHeading3Style.copyWith(
-                    color: Theme.of(context).colorScheme.primary),
+                    color: Theme.of(context).primaryColor),
               ),
             ]),
             leftText: 'Eliminar',
@@ -74,9 +94,14 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
           style: heading2bStyle.copyWith(color: Theme.of(context).primaryColor),
           textAlign: TextAlign.center,
         ),
-        //message: 'Si te sales sin guardar perderas toda la información del bloque',
         more: Column(
           children: [
+            Text(
+              'Una vez cambies la contraseña, tendrás que volver a iniciar sesión.',
+              style: heading3Style.copyWith(color: Colors.black),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
             InputField(
                 hintText: 'Contraseña',
                 isPassword: true,
@@ -94,9 +119,51 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
               _controllerPassword.text.trim()) {
             print("Valido");
             Auth().currentUser?.updatePassword(_controllerPassword.text.trim());
-            context.router.push(const WelcomeRouter());
+            context.showFlash<bool>(
+              barrierDismissible: true,
+              duration: const Duration(seconds: 5),
+              builder: (context, controller) => FlashBar(
+                controller: controller,
+                forwardAnimationCurve: Curves.easeInCirc,
+                reverseAnimationCurve: Curves.bounceIn,
+                position: FlashPosition.bottom,
+                indicatorColor: Theme.of(context).primaryColor,
+                icon: const Icon(Icons.check),
+                //title: const Text('Flash Title'),
+                content: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'Contraseña actualizada correctamente',
+                      textAlign: TextAlign.center,
+                      style: heading3bStyle,
+                    )),
+              ),
+            );
+            context.router.navigate(LoginRoute());
           } else {
-            print("Invalido");
+            context.showFlash<bool>(
+              barrierDismissible: true,
+              duration: const Duration(seconds: 5),
+              builder: (context, controller) => FlashBar(
+                controller: controller,
+                forwardAnimationCurve: Curves.easeInCirc,
+                reverseAnimationCurve: Curves.bounceIn,
+                position: FlashPosition.bottom,
+                indicatorColor: Theme.of(context).primaryColor,
+                icon: const Icon(
+                  Icons.dangerous,
+                  color: Colors.red,
+                ),
+                //title: const Text('Flash Title'),
+                content: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'No se pudo actualizar, revisa que las contraseñas coincidan',
+                      textAlign: TextAlign.center,
+                      style: heading3bStyle,
+                    )),
+              ),
+            );
           }
         },
         onTapRight: () {
@@ -128,11 +195,18 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             texto: 'Cambiar contraseña',
             onTap: cambiarContrasena,
           ),
-          const CajaOpcion(
+          CajaOpcion(
             texto: 'Terminos y condiciones',
+            onTap: () {
+              Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => TermsScreen()),
+  );
+            },
           ),
-          const CajaOpcion(
+          CajaOpcion(
             texto: 'Más sobre Aristeia',
+            onTap: (){ _launchURL('https://github.com/SimonRamos88/Aristeia');},
           ),
           CajaOpcion(
             texto: 'Eliminar Cuenta',
@@ -175,3 +249,4 @@ class CajaOpcion extends StatelessWidget {
     );
   }
 }
+

@@ -1,6 +1,6 @@
 import 'package:aristeia_app/core/widgets/roadmap_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/calcularPromedio.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/totalBloques.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/total_bloques.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

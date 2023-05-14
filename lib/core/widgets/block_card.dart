@@ -2,7 +2,9 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
+import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
 import 'package:flutter/material.dart';
 
 class BlockCard extends StatelessWidget {
@@ -16,15 +18,15 @@ class BlockCard extends StatelessWidget {
   final String descripcion;
   final int cantidadRecursos;
   final bool edit;
-  final Function()? onDelete;
   final Function()? update;
   final String fechaInicio;
   final String fechaFin;
+  final String? roadId;
+  final String? blockId;
 
   const BlockCard({
     super.key,
     this.onTap,
-    this.onDelete,
     this.update,
     this.myRoadmap = false,
     this.nombreBloque = 'Nombre del bloque',
@@ -33,6 +35,8 @@ class BlockCard extends StatelessWidget {
     this.fechaInicio = "-",
     this.fechaFin = "-",
     this.edit = false,
+    this.roadId = '1',
+    this.blockId = '1',
   });
 
   @override
@@ -104,7 +108,7 @@ class BlockCard extends StatelessWidget {
                                 color: Theme.of(context).primaryColor),
                           children: <TextSpan>[
                             TextSpan(
-                              text: fechaInicio,
+                              text: fechaFin,
                               style: subheadingStyle.copyWith(
                                 color: Colors.black),
                             ),
@@ -116,14 +120,32 @@ class BlockCard extends StatelessWidget {
               myRoadmap
                   ? edit
                       ? IconButton(
-                          onPressed: onDelete,
+                          // Alerta de eliminar bloque
+                          onPressed: (){
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialogWidget(
+                                color: 1,
+                                message: '¿Estas seguro que deseas eliminar este bloque?',
+                                leftText: 'Eliminar',
+                                rightText: 'Cancelar',
+                                onTapLeft: () {
+                                  deleteBloque(roadId, blockId);
+                                  Navigator.of(context).pop();
+                                },
+                                onTapRight: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.delete,
                             size: 30,
                             color: colors.blueColor,
                           ),
                         )
-                      : StateWidget(estado:0)
+                      : StateWidget(estado: 0)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),
