@@ -1,6 +1,6 @@
 import 'package:aristeia_app/core/routes/route_guard.dart';
 import 'package:aristeia_app/core/routes/routes.gr.dart';
-import 'package:aristeia_app/core/utils/router_pages/comunidad_router_screen.dart';
+import 'package:aristeia_app/core/routes/router_pages/comunidad_router_screen.dart';
 import 'package:aristeia_app/main.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -52,6 +52,9 @@ class AppRouter extends $AppRouter {
             AutoRoute(path: '', page: MyRoadmapsRoute.page),
             AutoRoute(path: ':roadId', page: BlockRouter.page, children: [
               AutoRoute(path: '', page: SingleRoadRoute.page),
+              AutoRoute(path: 'editar', page: EditRouter.page, children: [
+                AutoRoute(path: ':roadId', page: EditRoadmapRoute.page),
+              ]),
               AutoRoute(path: ':blockId', page: SingleBlockRoute.page),
             ]),
           ],
@@ -63,6 +66,9 @@ class AppRouter extends $AppRouter {
         ]),
       ],
     ),
+    // AutoRoute(path: '/editar', page: EditRouter.page, children: [
+    //   AutoRoute(path: ':roadId', page: EditRoadmapRoute.page),
+    // ]),
     AutoRoute(path: '/config', page: ConfigRouter.page, children: [
       AutoRoute(path: '', page: ConfigurationRoute.page),
       AutoRoute(path: 'edit', page: EditProfileRoute.page),
