@@ -4,7 +4,7 @@ import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
 import 'package:flutter/material.dart';
 
 class BlockCard extends StatelessWidget {

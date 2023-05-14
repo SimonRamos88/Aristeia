@@ -49,7 +49,7 @@ class _InputFieldState extends State<InputField> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(34),
           border: const GradientBoxBorder(
               gradient: LinearGradient(colors: [
                 Color.fromRGBO(70, 80, 250, 0.7),
@@ -79,10 +79,10 @@ class _InputFieldState extends State<InputField> {
                 : null,
             enabledBorder: circularBorder,
             focusedBorder: circularBorder.copyWith(
-              borderSide: const BorderSide(
-                  width: 1,
+              borderSide:  BorderSide(
+                  width: 3,
                   style: BorderStyle.solid,
-                  color: Color.fromARGB(97, 157, 70, 250)),
+                  color: Color.fromARGB(97, 157, 70, 250).withOpacity(0.2)),
             ),
             counterText: "",
             hintText: widget.textInDefined ? widget.textIn : '',

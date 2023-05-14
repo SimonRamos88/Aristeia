@@ -109,7 +109,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide:
-                          BorderSide(width: 0.5, style: BorderStyle.none),
+                          const BorderSide(width: 0.5, style: BorderStyle.none),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -127,14 +127,14 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
               controller: fechaInicio,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: BoxText.section(
                   text: 'Etiquetas',
                   centered: false,
                   color: Theme.of(context).primaryColor),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.only(left: 16,right: 16,top:5, bottom: 12),
               child: buildFilterChips(),
             ),
             MyButton(
@@ -174,12 +174,12 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                         reverseAnimationCurve: Curves.bounceIn,
                         position: FlashPosition.bottom,
                         indicatorColor: Theme.of(context).primaryColor,
-                        icon: const Icon(Icons.dangerous_rounded),
+                        icon: const Icon(Icons.dangerous_rounded, color:Colors.red),
                         //title: const Text('Flash Title'),
                         content: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16),
                             child: Text(
-                              'No todos los datos han sido diligenciados aún. O tienes etiquetas faltantes',
+                              'No todos los datos han sido diligenciados aún o tienes etiquetas faltantes',
                               textAlign: TextAlign.center,
                               style: heading3bStyle,
                             )),
@@ -205,7 +205,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   ),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: filterChip.color,
+                    color: filterChip.isSelected? Colors.white : filterChip.color,
                   ),
                   backgroundColor: filterChip.color.withOpacity(0.1),
                   onSelected: (isSelected) {
@@ -229,8 +229,8 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                     print(etiquetas);
                   },
                   selected: filterChip.isSelected,
-                  checkmarkColor: filterChip.color,
-                  selectedColor: filterChip.color.withOpacity(0.25),
+                  checkmarkColor: Colors.white,
+                  selectedColor: filterChip.color.withOpacity(0.9),
                 ))
             .toList(),
       );
