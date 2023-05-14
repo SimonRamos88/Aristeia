@@ -55,34 +55,64 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
-            message: 'Cambiar el estado del bloque',
-            more: Column(
-              children: const [
-                StateWidget(
-                  large: true,
-                  estado: 0,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                StateWidget(
-                  large: true,
-                  estado: 1,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                StateWidget(
-                  large: true,
-                  estado: 2,
-                )
-              ],
+        message: 'Cambiar el estado del bloque',
+        more: Column(
+          children: [
+            StateWidget(
+              large: true,
+              estado: 0,
+              onTap: (){
+                FirebaseFirestore.instance.collection('roadmap')
+                .doc(widget.roadId.toString())
+                .collection('bloques')
+                .doc(widget.blockId.toString())
+                .update({
+                  "estado": 0
+                });
+                Navigator.of(context).pop();
+              },
             ),
-            rightText: 'Cancelar',
-            onTapRight: () {
-              Navigator.of(context).pop();
-            },
-          )),
+            const SizedBox(
+              height: 16,
+            ),
+            StateWidget(
+              large: true,
+              estado: 1,
+              onTap: (){
+                FirebaseFirestore.instance.collection('roadmap')
+                .doc(widget.roadId.toString())
+                .collection('bloques')
+                .doc(widget.blockId.toString())
+                .update({
+                  "estado": 1
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            StateWidget(
+              large: true,
+              estado: 2,
+              onTap: (){
+                FirebaseFirestore.instance.collection('roadmap')
+                .doc(widget.roadId.toString())
+                .collection('bloques')
+                .doc(widget.blockId.toString())
+                .update({
+                  "estado": 2
+                });
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+        rightText: 'Cancelar',
+        onTapRight: () {
+          Navigator.of(context).pop();
+        },
+      )),
     );
   }
 
@@ -188,7 +218,6 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     // TODO: implement initState
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
-
     super.initState();
   }
 

@@ -7,7 +7,7 @@ Future<int> getEstado(String? roadmapID) async {
 
   // Contar los bloques completados
   querySnapshot.docs.forEach((doc) {
-    if (doc['completado'] == true) bloquesCompletados++;
+    if (doc['estado'] > 1) bloquesCompletados++;
   });
 
   if (bloquesCompletados == querySnapshot.size){ // Roadmap terminado
