@@ -20,7 +20,8 @@ Future<String> addBlock(String roadmapID, String title, String description,
     "completado": false,
     "importancia": importance,
     "fechaInicio": startDate,
-    "fechaFin": endDate
+    "fechaFin": endDate,
+    "estado": 0
   });
   print('datos subidos');
   return bloqueId;

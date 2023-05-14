@@ -152,6 +152,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                       'publico': tipo_roadmap.text == '1' ? true : false,
                       'etiquetas': etiquetas,
                       'fechaInicio': fechaInicio.text,
+                      'estado': 0
                     });
 
                     if (tipo_roadmap.text == '1') {
