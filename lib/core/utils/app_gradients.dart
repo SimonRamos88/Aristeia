@@ -62,7 +62,7 @@ class AppGradients {
     ],
   );
 
-  final bluecardGradient =  const LinearGradient(
+  final bluecardGradient = const LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
@@ -71,13 +71,24 @@ class AppGradients {
     ],
   );
 
-  final pinkcardGradient =  const  LinearGradient(
+  final pinkcardGradient = const LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,
     colors: [
       Color.fromARGB(255, 247, 221, 255),
       Color.fromARGB(255, 253, 245, 255),
     ],
+  );
+
+  final mainLabelGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xff6D4CE4),
+      Color(0xB56D4CE4),
+      Color(0x7D6D4CE4),
+    ],
+    stops: [0.0, 0.9323, 1.0],
   );
 }
 

@@ -12,8 +12,8 @@ void main() async {
   );
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
 
+class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   static final colors = AppColors();
   final _appRouter = AppRouter();
@@ -23,16 +23,33 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Aristeia',
       theme: ThemeData(
-        primaryColor:  colors.mainColor,
+        primaryColor: colors.mainColor,
         dividerColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
           backgroundColor: colors.backgroundColor,
-          ),
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontFamily: 'Quicksand'),
+          displayMedium: TextStyle(fontFamily: 'Quicksand'),
+          displaySmall: TextStyle(fontFamily: 'Quicksand'),
+          headlineLarge: TextStyle(fontFamily: 'Quicksand'),
+          headlineMedium: TextStyle(fontFamily: 'Quicksand'),
+          headlineSmall: TextStyle(fontFamily: 'Quicksand'),
+          titleLarge: TextStyle(fontFamily: 'Quicksand'),
+          titleMedium: TextStyle(fontFamily: 'Quicksand'),
+          titleSmall: TextStyle(fontFamily: 'Quicksand'),
+          bodyLarge: TextStyle(fontFamily: 'Quicksand'),
+          bodyMedium: TextStyle(fontFamily: 'Quicksand'),
+          labelLarge: TextStyle(fontFamily: 'Quicksand'),
+          bodySmall: TextStyle(fontFamily: 'Quicksand'),
+          labelMedium: TextStyle(fontFamily: 'Quicksand'),
+          labelSmall: TextStyle(fontFamily: 'Quicksand'),
+        ),
       ),
       debugShowCheckedModeBanner: false,
-      routerConfig: _appRouter.config(),);
-    
+      routerConfig: _appRouter.config(),
+    );
   }
 }

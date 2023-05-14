@@ -2,7 +2,7 @@ import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/app_effects.dart';
 import 'package:aristeia_app/core/utils/app_gradients.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
-import 'package:aristeia_app/core/widgets/etiqueta.dart';
+import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +15,10 @@ class RoadmapCard extends StatelessWidget {
   final bool myRoadmap;
   final String nombreRoadmap;
   final String descripcionRoadmap;
+  final int estadoRoadmap;
+  final int cantidadBloques;
+  final num calificacion;
+  final List etiquetas;
 
   const RoadmapCard({
     super.key,
@@ -22,6 +26,10 @@ class RoadmapCard extends StatelessWidget {
     this.myRoadmap = false,
     this.nombreRoadmap = 'Nombre del roadmap',
     this.descripcionRoadmap = 'Descripción del roadmapd ',
+    this.estadoRoadmap = 0,
+    this.cantidadBloques = 0,
+    this.calificacion = 0,
+    this.etiquetas = const ['etiqueta1'],
   });
 
   @override
@@ -48,8 +56,8 @@ class RoadmapCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      softWrap:true,
-                      maxLines:2,
+                      softWrap: true,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       nombreRoadmap,
                       style: heading3bStyle.copyWith(
@@ -57,7 +65,7 @@ class RoadmapCard extends StatelessWidget {
                     ),
                   ),
                   myRoadmap
-                      ? const StateWidget()
+                      ? StateWidget(estado: estadoRoadmap)
                       : const SizedBox(
                           width: 0,
                           height: 0,
@@ -74,8 +82,8 @@ class RoadmapCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      softWrap:true,
-                      maxLines:4,
+                      softWrap: true,
+                      maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       descripcionRoadmap,
                       style: bodyStyle.copyWith(color: Colors.black),
@@ -86,15 +94,15 @@ class RoadmapCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '16',
+                        cantidadBloques.toString(),
                         style: bodyStyle.copyWith(
                             color: Theme.of(context).primaryColor),
                       ),
                       Text(
-                        'Bloques',
+                        cantidadBloques == 1 ? 'Bloque' : 'Bloques',
                         style: bodyStyle.copyWith(
                             color: Theme.of(context).primaryColor),
-                      ),
+                      )
                     ],
                   ),
                 ],
@@ -110,15 +118,14 @@ class RoadmapCard extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                        for (var i = 0; i < 5; i++)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: Etiqueta(
-                            text: 'etiqueta $i',
-                          ), ),
-                         
+                      child: Row(children: [
+                        for (var i = 0; i < etiquetas.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: Etiqueta(
+                              text: etiquetas[i],
+                            ),
+                          ),
                       ]),
                     ),
                   ),
@@ -130,7 +137,7 @@ class RoadmapCard extends StatelessWidget {
                         color: colors.mainColor,
                       ),
                       Text(
-                        '4,3',
+                        (calificacion==0)? '-':calificacion.toString(),
                         style: heading3bStyle.copyWith(color: colors.mainColor),
                       ),
                     ],

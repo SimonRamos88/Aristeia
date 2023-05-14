@@ -131,17 +131,21 @@ class MyButton extends StatelessWidget {
           gradient: outlined
               ? null
               : blue
-                  ?gradients.blueGradient: pink
+                  ? gradients.blueGradient
+                  : pink
                       ? gradients.pinkGradient
-                  : backgroundGradient,
+                      : backgroundGradient,
           //gradient: backgroundGradient,
           border: Border.all(
             color: outlined
                 ? blue
-                    ? colors.blueColor : pink
+                    ? colors.blueColor
+                    : pink
                         ? colors.pinkColor
                         : Theme.of(context).primaryColor
-                : pink? colors.pinkColor.withOpacity(0.3) : const Color.fromRGBO(109, 76, 228, 0.329),
+                : pink
+                    ? colors.pinkColor.withOpacity(0.3)
+                    : const Color.fromRGBO(109, 76, 228, 0.329),
             width: 3,
             //strokeAlign: BorderSide.strokeAlignOutside
           ),
@@ -188,10 +192,10 @@ class MyButton extends StatelessWidget {
                   style: heading3bStyle.copyWith(
                     color: (outlined && colorText == Colors.white)
                         ? blue
-                            ? pink
+                            ? colors.blueColor
+                            : pink
                                 ? colors.pinkColor
-                                : colors.blueColor
-                            : Theme.of(context).primaryColor
+                                : Theme.of(context).primaryColor
                         : colorText,
                   )),
             ),

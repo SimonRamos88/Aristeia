@@ -2,10 +2,21 @@ import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 class PopUpMenu extends StatelessWidget {
-  const PopUpMenu({super.key});
+final Function()? onTap1;
+final Function()? onTap2;
+final Function()? onTap3;
+
+  PopUpMenu({
+    super.key,
+    this.onTap1, 
+    this.onTap2,
+    this.onTap3,
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +31,32 @@ class PopUpMenu extends StatelessWidget {
         //color: Colors.white,
         itemBuilder: (context) => [
           PopupMenuItem<int>(
-            onTap: () => print('Editar roadmap'),
-            textStyle: subheadingbStyle.copyWith(color:Colors.black),
+            onTap: onTap1,
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
             value: 1,
             child: Row(
               children: const [
                 Icon(Icons.edit, size: 16),
                 SizedBox(width: 8),
-                Text('Editar roadmap'),
+                Text('Editar Datos roadmap'),
               ],
             ),
           ),
           PopupMenuItem<int>(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: ((context) => AlertDialogWidget(
-                  color:1,
-                      message: '¿Estas seguro de eliminar este roadmap?',
-                      leftText: 'Eliminar',
-                      rightText: 'Cancelar',
-                      onTapLeft: () {
-                        context.router.popUntilRoot();
-                      },
-                      onTapRight: () {
-                        Navigator.of(context).pop();
-                      },
-                    )),
-              );
-            },
-            textStyle: subheadingbStyle.copyWith(color:Colors.black),
+            onTap: onTap2,
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
+            value: 1,
+            child: Row(
+              children: const [
+                Icon(Icons.edit_document, size: 16),
+                SizedBox(width: 8),
+                Text('Editar Bloques'),
+              ],
+            ),
+          ),
+          PopupMenuItem<int>(
+            onTap: onTap3,
+            textStyle: subheadingbStyle.copyWith(color: Colors.black),
             value: 1,
             child: Row(
               children: const [

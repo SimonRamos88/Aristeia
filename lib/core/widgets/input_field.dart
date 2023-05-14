@@ -11,8 +11,10 @@ class InputField extends StatefulWidget {
   final double height;
   final double width;
   final bool isPassword;
+  final bool textInDefined;
   final int lengthText;
   final int maxLines;
+  final String textIn;
 
   InputField(
       {Key? key,
@@ -25,14 +27,14 @@ class InputField extends StatefulWidget {
       this.height = 70,
       this.width = 284,
       this.maxLines = 1,
-      });
+      this.textInDefined = false,
+      this.textIn = 'Ingrese el Texto:'});
 
   @override
   State<InputField> createState() => _InputFieldState();
 }
 
 class _InputFieldState extends State<InputField> {
-
   static final colors = AppColors();
   bool _obscurepassword = true;
 
@@ -47,7 +49,7 @@ class _InputFieldState extends State<InputField> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(34),
           border: const GradientBoxBorder(
               gradient: LinearGradient(colors: [
                 Color.fromRGBO(70, 80, 250, 0.7),
@@ -77,12 +79,13 @@ class _InputFieldState extends State<InputField> {
                 : null,
             enabledBorder: circularBorder,
             focusedBorder: circularBorder.copyWith(
-              borderSide: const BorderSide(
-                  width: 1,
+              borderSide:  BorderSide(
+                  width: 3,
                   style: BorderStyle.solid,
-                  color: Color.fromARGB(97, 157, 70, 250)),
+                  color: Color.fromARGB(97, 157, 70, 250).withOpacity(0.2)),
             ),
             counterText: "",
+            hintText: widget.textInDefined ? widget.textIn : '',
             labelText: widget.hintText,
             labelStyle: heading3bStyle.copyWith(
                 backgroundColor: colors.backgroundColor,
