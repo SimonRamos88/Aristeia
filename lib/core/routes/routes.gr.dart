@@ -8,19 +8,19 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:aristeia_app/core/utils/router_pages/block_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/block_router_screen.dart'
     as _i1;
-import 'package:aristeia_app/core/utils/router_pages/comunidad_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/comunidad_router_screen.dart'
     as _i2;
-import 'package:aristeia_app/core/utils/router_pages/config_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/config_router_screen.dart'
     as _i3;
-import 'package:aristeia_app/core/utils/router_pages/create_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/create_router_screen.dart'
     as _i4;
-import 'package:aristeia_app/core/utils/router_pages/home_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/home_router_screen.dart'
     as _i5;
-import 'package:aristeia_app/core/utils/router_pages/roadmap_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/roadmap_router_screen.dart'
     as _i6;
-import 'package:aristeia_app/core/utils/router_pages/welcome_router_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/welcome_router_screen.dart'
     as _i7;
 import 'package:aristeia_app/features/autenticacion/presentation/pages/logged_wrapper_screen.dart'
     as _i8;
