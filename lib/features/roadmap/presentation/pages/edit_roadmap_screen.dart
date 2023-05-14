@@ -11,6 +11,7 @@ import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ import '../../../../core/widgets/date_picker.dart';
 import '../../../estadistica/domain/usecases/roadmapsAsociadosAEtiqueta.dart';
 import '../../../etiqueta/domain/repositories/getEtiqueta.dart';
 import '../../domain/repositories/create_roadmap.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aristeia_app/core/network/auth.dart';
 
 @RoutePage()
 class EditRoadmapScreen extends StatefulWidget {
@@ -150,55 +153,80 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
             MyButton(
                 buttonText: 'Guardar',
                 onTap: () async {
-                  if (nombreRoadmap.text != '' &&
-                      descripcion.text != '' &&
-                      tipo_roadmap.text != '' &&
-                      etiquetas.isEmpty == false &&
-                      fechaInicio.text != '') {
-                    String idRoadmap = await createRoadmap({
-                      'creador': Auth().currentUser!.uid,
-                      'nombre': nombreRoadmap.text,
-                      'descripcion': descripcion.text,
-                      'publico': tipo_roadmap.text == '1' ? true : false,
-                      'etiquetas': etiquetas,
-                      'fechaInicio': fechaInicio.text,
-                    });
-
-                    if (tipo_roadmap.text == '1') {
-                      incrementarNumeroRoadmapsAsociados(idEtiquetas);
-                    }
-
-                    print('datos subidos');
-                    int id = int.parse(idRoadmap);
-
-                    context.router.navigate(CreateBlockRoute(roadId: id));
-                  } else {
-                    //esto muestra un flash, que es como un snackbar para decir que faltan datos
-                    context.showFlash<bool>(
-                      barrierDismissible: true,
-                      duration: const Duration(seconds: 5),
-                      builder: (context, controller) => FlashBar(
-                        controller: controller,
-                        forwardAnimationCurve: Curves.easeInCirc,
-                        reverseAnimationCurve: Curves.bounceIn,
-                        position: FlashPosition.bottom,
-                        indicatorColor: Theme.of(context).primaryColor,
-                        icon: const Icon(Icons.dangerous_rounded,
-                            color: Colors.red),
-                        //title: const Text('Flash Title'),
-                        content: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              'No todos los datos han sido diligenciados aún o tienes etiquetas faltantes',
-                              textAlign: TextAlign.center,
-                              style: heading3bStyle,
-                            )),
-                      ),
-                    );
+                  print(widget.roadId);
+                  FirebaseFirestore db = FirebaseFirestore.instance;
+                  if (!nombreRoadmap.text.trim().isEmpty) {
+                    db
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .update({"nombre": nombreRoadmap.text.trim()});
                   }
+                  if (!descripcion.text.isEmpty) {
+                    db
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .update({"descripcion": descripcion.text.trim()});
+                  }
+                  if (!fechaInicio.text.isEmpty) {
+                    db
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .update({"fechaInicio": fechaInicio.text.trim()});
+                  }
+                  if (!tipo_roadmap.text.isEmpty) {
+                    if (tipo_roadmap.text.trim() == '1') {
+                      db
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .update({"publico": true});
+                    } else {
+                      db
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .update({"publico": false});
+                    }
+                  }
+                  if (!etiquetas.isEmpty) {
+                    db
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .update({"etiquetas": etiquetas});
+                  }
+                  print("Todo realizado con Exito");
+                  context.router.navigateNamed(
+                    ('/logged/personal'),
+                  );
+                  context.showFlash<bool>(
+              barrierDismissible: true,
+              duration: const Duration(seconds: 5),
+              builder: (context, controller) => FlashBar(
+                controller: controller,
+                forwardAnimationCurve: Curves.easeInCirc,
+                reverseAnimationCurve: Curves.bounceIn,
+                position: FlashPosition.bottom,
+                indicatorColor: Theme.of(context).primaryColor,
+                icon: const Icon(Icons.check),
+
+                content: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'Roadmap actualizado con éxito',
+                      textAlign: TextAlign.center,
+                      style: heading3bStyle,
+                    )),
+              ),
+            );
                 }),
-                MyButton(buttonText: 'Cancelar', outlined: true,),
-                SizedBox(height: 20,)
+            MyButton(
+              buttonText: 'Cancelar',
+              outlined: true,
+              onTap: () {
+                context.router.pop();
+              },
+            ),
+            SizedBox(
+              height: 20,
+            )
           ]),
         ),
       ),

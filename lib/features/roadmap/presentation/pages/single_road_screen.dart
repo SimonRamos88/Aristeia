@@ -239,45 +239,26 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           print(widget.roadId);
           FirebaseFirestore db = FirebaseFirestore.instance;
           if (!nombreRoadmap.text.trim().isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"nombre": nombreRoadmap.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"nombre": nombreRoadmap.text.trim()});
           }
           if (!descripcion.text.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"descripcion": descripcion.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"descripcion": descripcion.text.trim()});
           }
           if (!fechaInicio.text.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"fechaInicio": fechaInicio.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"fechaInicio": fechaInicio.text.trim()});
           }
           if (!tipo_roadmap.text.isEmpty) {
             if (tipo_roadmap.text.trim() == '1') {
-              db
-                  .collection('roadmap')
-                  .doc(widget.roadId.toString())
-                  .update({"publico": true});
+              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": true});
             } else {
-              db
-                  .collection('roadmap')
-                  .doc(widget.roadId.toString())
-                  .update({"publico": false});
+              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": false});
             }
           }
           if (!etiquetas.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"etiquetas": etiquetas});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"etiquetas": etiquetas});
           }
           print("Todo realizado con Exito");
           traerRoadmap();
-          Navigator.of(context).pop();
         },
         onTapRight: () {
           Navigator.of(context).pop();
