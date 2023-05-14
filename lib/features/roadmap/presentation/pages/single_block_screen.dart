@@ -43,7 +43,7 @@ class SingleBlockScreen extends StatefulWidget {
 class _SingleBlockScreenState extends State<SingleBlockScreen> {
   static final colors = AppColors();
   bool isMyRoad = false;
-  final Map<int, dynamic> recursos = {};
+  final Map<int, Map<String, dynamic>> recursos = {};
 
   Future<void> _launchURL(String url) async {
     var uri = Uri.parse(url);
@@ -84,13 +84,75 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     }
   }
 
+  void cambiarEstado() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+            message: 'Cambiar el estado del bloque',
+            more: Column(
+              children: [
+                StateWidget(
+                  large: true,
+                  estado: 0,
+                  onTap: () {
+                    FirebaseFirestore.instance
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .collection('bloques')
+                        .doc(widget.blockId.toString())
+                        .update({"estado": 0});
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 1,
+                  onTap: () {
+                    FirebaseFirestore.instance
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .collection('bloques')
+                        .doc(widget.blockId.toString())
+                        .update({"estado": 1});
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 2,
+                  onTap: () {
+                    FirebaseFirestore.instance
+                        .collection('roadmap')
+                        .doc(widget.roadId.toString())
+                        .collection('bloques')
+                        .doc(widget.blockId.toString())
+                        .update({"estado": 2});
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+            rightText: 'Cancelar',
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
+    );
+  }
+
   getListaRecursos() async {
     List listaRecursos =
         await getRecursos(widget.roadId.toString(), widget.blockId.toString());
     for (final e in listaRecursos) {
-      log("log: " + e['nombre'] + " " + e.id);
+      //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e['nombre'];
+      recursos[keyR] = e.data() as Map<String, dynamic>;
     }
   }
 
@@ -224,7 +286,6 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
   void initState() {
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
-
     super.initState();
   }
 
@@ -267,7 +328,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                                 color: colors.pinkColor)),
                         StateWidget(
                           onTap: () {
-                            cambiarEstado(context);
+                            cambiarEstado();
                           },
                           large: true,
                         ),
@@ -280,18 +341,14 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 key: ValueKey(tile),
                 padding: const EdgeInsets.all(0),
                 child: ResourceCard(
-                    nombreRecurso: tile.value.toString(),
-                    descripcion: 'Esta es la descripcion del recurso',
+                    nombreRecurso: tile.value['nombre'],
+                    edit: true,
+                    onDelete: borrarRecurso,
                     onTap: () {
                       abrirRecurso(
-                          tile.value,
-                          'kfsjdnckjsdnacnsdkjcnksdnckjnsdkjcnsdkncksdncknsdkcns cnhi chsdi iuhci sdhcihsi ibc isdbc',
-                          [
-                            'youtube.com',
-                            'https://pub.dev/packages/url_launcher',
-                            'https://www.gerencie.com/jornada-de-trabajo-maxima-en-colombia.html',
-                            'youtube3.com'
-                          ]);
+                          tile.value["nombre"],
+                          tile.value['descripcion'],
+                          tile.value['links_relacionados']);
                     }),
               ),
           ],
