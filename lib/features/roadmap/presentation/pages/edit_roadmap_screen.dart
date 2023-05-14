@@ -49,10 +49,31 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
   @override
   void initState() {
     super.initState();
+    traerRoadmap();
     getFilterChipsFromFirestore().then((chips) {
       setState(() {
         filterChips = chips;
+        if (roadmapCreado.isEmpty == false) {
+          nombreRoadmap.text = roadmapCreado["nombre"];
+          descripcion.text = roadmapCreado["descripcion"];
+          fechaInicio.text = roadmapCreado["fechaInicio"];
+          tipo_roadmap.text = roadmapCreado["publico"] == true ? "0" : "1";
+        }
       });
+    });
+  }
+
+  Map<String, dynamic> roadmapCreado = {};
+
+  Future<void> traerRoadmap() async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    //instanciamos la db y buscamos la coleccion
+    CollectionReference collectionReferenceRoadmap = db.collection('roadmap');
+    //antes que nada, verificamos que la informacion esté correcta
+    DocumentSnapshot query =
+        await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
+    setState(() {
+      roadmapCreado = query.data() as Map<String, dynamic>;
     });
   }
 
@@ -197,25 +218,24 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
                     ('/logged/personal'),
                   );
                   context.showFlash<bool>(
-              barrierDismissible: true,
-              duration: const Duration(seconds: 5),
-              builder: (context, controller) => FlashBar(
-                controller: controller,
-                forwardAnimationCurve: Curves.easeInCirc,
-                reverseAnimationCurve: Curves.bounceIn,
-                position: FlashPosition.bottom,
-                indicatorColor: Theme.of(context).primaryColor,
-                icon: const Icon(Icons.check),
-
-                content: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      'Roadmap actualizado con éxito',
-                      textAlign: TextAlign.center,
-                      style: heading3bStyle,
-                    )),
-              ),
-            );
+                    barrierDismissible: true,
+                    duration: const Duration(seconds: 5),
+                    builder: (context, controller) => FlashBar(
+                      controller: controller,
+                      forwardAnimationCurve: Curves.easeInCirc,
+                      reverseAnimationCurve: Curves.bounceIn,
+                      position: FlashPosition.bottom,
+                      indicatorColor: Theme.of(context).primaryColor,
+                      icon: const Icon(Icons.check),
+                      content: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            'Roadmap actualizado con éxito',
+                            textAlign: TextAlign.center,
+                            style: heading3bStyle,
+                          )),
+                    ),
+                  );
                 }),
             MyButton(
               buttonText: 'Cancelar',
