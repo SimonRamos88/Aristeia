@@ -84,6 +84,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     }
   }
 
+  int estadoBloque = 0;
+
   void cambiarEstado() {
     showDialog(
       context: context,
@@ -95,12 +97,15 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                   large: true,
                   estado: 0,
                   onTap: () {
-                    FirebaseFirestore.instance
-                        .collection('roadmap')
-                        .doc(widget.roadId.toString())
-                        .collection('bloques')
-                        .doc(widget.blockId.toString())
-                        .update({"estado": 0});
+                    setState(() {
+                      estadoBloque = 0;
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 0});
+                    });
                     Navigator.of(context).pop();
                   },
                 ),
@@ -111,12 +116,15 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                   large: true,
                   estado: 1,
                   onTap: () {
-                    FirebaseFirestore.instance
-                        .collection('roadmap')
-                        .doc(widget.roadId.toString())
-                        .collection('bloques')
-                        .doc(widget.blockId.toString())
-                        .update({"estado": 1});
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 1});
+                      estadoBloque = 1;
+                    });
                     Navigator.of(context).pop();
                   },
                 ),
@@ -127,12 +135,16 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                   large: true,
                   estado: 2,
                   onTap: () {
-                    FirebaseFirestore.instance
-                        .collection('roadmap')
-                        .doc(widget.roadId.toString())
-                        .collection('bloques')
-                        .doc(widget.blockId.toString())
-                        .update({"estado": 2});
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 2});
+                      estadoBloque = 2;
+                    });
+
                     Navigator.of(context).pop();
                   },
                 )
@@ -261,6 +273,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
 
     setState(() {
       bloqueCreado = query.data() as Map<String, dynamic>;
+      estadoBloque =
+          bloqueCreado["estado"] == null ? 0 : bloqueCreado["estado"];
     });
   }
 
@@ -286,6 +300,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
   void initState() {
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
+
     super.initState();
   }
 
@@ -327,9 +342,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                             style: heading2bStyle.copyWith(
                                 color: colors.pinkColor)),
                         StateWidget(
-                          onTap: () {
-                            cambiarEstado();
-                          },
+                          onTap: cambiarEstado,
+                          estado: estadoBloque,
                           large: true,
                         ),
                       ],
