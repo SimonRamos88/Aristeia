@@ -39,7 +39,7 @@ class SingleBlockScreen extends StatefulWidget {
 class _SingleBlockScreenState extends State<SingleBlockScreen> {
   static final colors = AppColors();
   bool isMyRoad = false;
-  final Map<int, Map<String, dynamic> > recursos = {};
+  final Map<int, Map<String, dynamic>> recursos = {};
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri(scheme: "https", host: url);
@@ -51,68 +51,77 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     }
   }
 
+  int estadoBloque = 0;
+
   void cambiarEstado() {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
-        message: 'Cambiar el estado del bloque',
-        more: Column(
-          children: [
-            StateWidget(
-              large: true,
-              estado: 0,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 0
-                });
-                Navigator.of(context).pop();
-              },
+            message: 'Cambiar el estado del bloque',
+            more: Column(
+              children: [
+                StateWidget(
+                  large: true,
+                  estado: 0,
+                  onTap: () {
+                    setState(() {
+                      estadoBloque = 0;
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 0});
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 1,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 1});
+                      estadoBloque = 1;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 2,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 2});
+                      estadoBloque = 2;
+                    });
+
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            StateWidget(
-              large: true,
-              estado: 1,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 1
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            StateWidget(
-              large: true,
-              estado: 2,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 2
-                });
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
-        rightText: 'Cancelar',
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      )),
+            rightText: 'Cancelar',
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
     );
   }
 
@@ -122,7 +131,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     for (final e in listaRecursos) {
       //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e.data() as Map<String, dynamic> ;
+      recursos[keyR] = e.data() as Map<String, dynamic>;
     }
   }
 
@@ -192,6 +201,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
 
     setState(() {
       bloqueCreado = query.data() as Map<String, dynamic>;
+      estadoBloque =
+          bloqueCreado["estado"] == null ? 0 : bloqueCreado["estado"];
     });
   }
 
@@ -218,6 +229,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     // TODO: implement initState
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
+
     super.initState();
   }
 
@@ -264,6 +276,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                                 color: colors.pinkColor)),
                         StateWidget(
                           onTap: cambiarEstado,
+                          estado: estadoBloque,
                           large: true,
                         ),
                       ],
@@ -279,7 +292,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                     edit: true,
                     onDelete: borrarRecurso,
                     onTap: () {
-                      abrirRecurso(tile.value['descripcion'], tile.value['links_relacionados'].toString());
+                      abrirRecurso(tile.value['descripcion'],
+                          tile.value['links_relacionados'].toString());
                     }),
               ),
           ],

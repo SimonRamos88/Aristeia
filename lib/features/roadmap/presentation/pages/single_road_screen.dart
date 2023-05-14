@@ -36,7 +36,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
-
+  int estadoRoad = 0;
   @override
   void initState() {
     traerRoadmap();
@@ -75,7 +75,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           ))),
     );
   }
-  
+
   void copiarRoadmap() {
     showDialog(
       context: context,
@@ -191,6 +191,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     print("existo");
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
+      estadoRoad =
+          roadmapCreado["estado"] == null ? 0 : roadmapCreado["estado"];
+
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -288,7 +291,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                           const SizedBox(
                             width: 4,
                           ),
-                          const StateWidget(
+                          StateWidget(
+                            estado: estadoRoad,
                             large: true,
                           ),
                         ],
