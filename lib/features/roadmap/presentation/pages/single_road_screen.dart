@@ -10,6 +10,7 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/copy_roadmapID.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
@@ -84,11 +85,18 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
-            message: '¿Estas seguro de copiar este Roadmap?',
+            message: 'El roadmap se agregará a mis roadmaps, ¿Estás seguro?',
             color: 1,
             leftText: 'Copiar',
             rightText: 'Cancelar',
-            onTapLeft: () {},
+            onTapLeft: () async {
+              await copyRoadmapID(
+                  widget.roadId.toString(), Auth().currentUser!.uid);
+              Navigator.of(context).pop();
+              context.router.navigateNamed(
+                ('/logged/personal'),
+              );
+            },
             onTapRight: () {
               Navigator.of(context).pop();
             },
@@ -239,23 +247,41 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           print(widget.roadId);
           FirebaseFirestore db = FirebaseFirestore.instance;
           if (!nombreRoadmap.text.trim().isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"nombre": nombreRoadmap.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"nombre": nombreRoadmap.text.trim()});
           }
           if (!descripcion.text.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"descripcion": descripcion.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"descripcion": descripcion.text.trim()});
           }
           if (!fechaInicio.text.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"fechaInicio": fechaInicio.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"fechaInicio": fechaInicio.text.trim()});
           }
           if (!tipo_roadmap.text.isEmpty) {
             if (tipo_roadmap.text.trim() == '1') {
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": true});
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": true});
             } else {
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": false});
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": false});
             }
           }
           if (!etiquetas.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"etiquetas": etiquetas});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"etiquetas": etiquetas});
           }
           print("Todo realizado con Exito");
           traerRoadmap();
