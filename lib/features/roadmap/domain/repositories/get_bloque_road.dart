@@ -58,6 +58,7 @@ class BloqueRoad extends StatelessWidget {
                   return BlockCard(
                       myRoadmap: isMyRoad,
                       edit: edit,
+                      estado: doc?[index]['estado'],
                       nombreBloque: doc?[index]['titulo'],
                       descripcion: doc?[index]['descripcion'],
                       fechaInicio:
