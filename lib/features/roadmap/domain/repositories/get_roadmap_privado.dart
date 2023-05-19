@@ -1,7 +1,9 @@
 import 'package:aristeia_app/core/widgets/roadmap_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/calcularPromedio.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/getEstado.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/totalBloques.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/total_bloques.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/total_bloques.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,25 +34,23 @@ Widget getRoadmapPrivado() {
                     int cantidadBloques = snapshot.data ?? 0;
                     // Función para determinar el estado del roadmap
                     return FutureBuilder<int>(
-                      future: getEstado(doc?[index].id),
-                      builder: (context, snapshot) {
-                        int estadoRoadmap = snapshot.data ?? 0;
-                        return RoadmapCard(
-                          myRoadmap: true,
-                          nombreRoadmap: doc?[index]['nombre'],
-                          descripcionRoadmap: doc?[index]['descripcion'],
-                          estadoRoadmap: estadoRoadmap,
-                          etiquetas: doc?[index]['etiquetas'],
-                          cantidadBloques: cantidadBloques,
-                          calificacion: promedio,
-                          onTap: () => {
-                            context.router.navigateNamed(
-                              ('/logged/personal/${doc?[index].id}'),
-                            )
-                          }
-                        );
-                      }
-                    );
+                        future: getEstado(doc?[index].id),
+                        builder: (context, snapshot) {
+                          int estadoRoadmap = snapshot.data ?? 0;
+                          return RoadmapCard(
+                              myRoadmap: true,
+                              nombreRoadmap: doc?[index]['nombre'],
+                              descripcionRoadmap: doc?[index]['descripcion'],
+                              estadoRoadmap: estadoRoadmap,
+                              etiquetas: doc?[index]['etiquetas'],
+                              cantidadBloques: cantidadBloques,
+                              calificacion: promedio,
+                              onTap: () => {
+                                    context.router.navigateNamed(
+                                      ('/logged/personal/${doc?[index].id}'),
+                                    )
+                                  });
+                        });
                   },
                 );
               },

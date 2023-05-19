@@ -6,18 +6,24 @@ import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/box_text.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/change_resource_state.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/getEstado.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/widgets/input_field.dart';
 import '../../../Recurso/domain/repositories/addRecurso.dart';
 import '../../../Recurso/domain/repositories/getRecurso.dart';
 import '../../../Recurso/domain/repositories/getAllRecursos.dart';
 import '../../../Recurso/domain/repositories/updateRecurso.dart';
+import '../../domain/repositories/setEstado.dart';
 
 @RoutePage()
 class SingleBlockScreen extends StatefulWidget {
@@ -39,80 +45,121 @@ class SingleBlockScreen extends StatefulWidget {
 class _SingleBlockScreenState extends State<SingleBlockScreen> {
   static final colors = AppColors();
   bool isMyRoad = false;
-  final Map<int, dynamic> recursos = {};
+  final Map<int, Map<String, dynamic>> recursos = {};
 
   Future<void> _launchURL(String url) async {
-    final Uri uri = Uri(scheme: "https", host: url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw "No es posible abrir el url";
+    var uri = Uri.parse(url);
+
+    if (url.contains('/')) {
+      uri = Uri.parse(url);
+    } else {
+      uri = Uri(scheme: "https", host: url);
+    }
+
+    try {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (e) {
+      print(e);
+      context.showFlash<bool>(
+        barrierDismissible: true,
+        duration: const Duration(seconds: 5),
+        builder: (context, controller) => FlashBar(
+          controller: controller,
+          forwardAnimationCurve: Curves.easeInCirc,
+          reverseAnimationCurve: Curves.bounceIn,
+          position: FlashPosition.bottom,
+          indicatorColor: Theme.of(context).primaryColor,
+          icon: const Icon(Icons.dangerous, color: Colors.red),
+          //title: const Text('Flash Title'),
+          content: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'No es posible acceder a este link',
+                textAlign: TextAlign.center,
+                style: heading3bStyle,
+              )),
+        ),
+      );
     }
   }
+
+  int estadoBloque = 0;
 
   void cambiarEstado() {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
-        message: 'Cambiar el estado del bloque',
-        more: Column(
-          children: [
-            StateWidget(
-              large: true,
-              estado: 0,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 0
-                });
-                Navigator.of(context).pop();
-              },
+            message: 'Cambiar el estado del bloque',
+            more: Column(
+              children: [
+                StateWidget(
+                  large: true,
+                  estado: 0,
+                  onTap: () {
+                    setState(() {
+                      estadoBloque = 0;
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 0});
+                    });
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 1,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 1});
+                      estadoBloque = 1;
+                    });
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 2,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 2});
+                      estadoBloque = 2;
+                    });
+
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                )
+              ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            StateWidget(
-              large: true,
-              estado: 1,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 1
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            StateWidget(
-              large: true,
-              estado: 2,
-              onTap: (){
-                FirebaseFirestore.instance.collection('roadmap')
-                .doc(widget.roadId.toString())
-                .collection('bloques')
-                .doc(widget.blockId.toString())
-                .update({
-                  "estado": 2
-                });
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
-        rightText: 'Cancelar',
-        onTapRight: () {
-          Navigator.of(context).pop();
-        },
-      )),
+            rightText: 'Cancelar',
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
     );
   }
 
@@ -120,55 +167,94 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     List listaRecursos =
         await getRecursos(widget.roadId.toString(), widget.blockId.toString());
     for (final e in listaRecursos) {
-      log("log: " + e['nombre'] + " " + e.id);
+      //log("log: " + e['nombre'] + e.id);
       int keyR = int.parse(e.id);
-      recursos[keyR] = e['nombre'];
+      recursos[keyR] = e.data() as Map<String, dynamic>;
     }
   }
 
-  void abrirRecurso(String descripcion, String links) {
+  void abrirRecurso(String nombre, String descripcion, List links) {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
             color: 2,
             tituloGeneral: false,
-            tituloPersonalizado: Text('Información del recurso',
+            tituloPersonalizado: Text(nombre,
                 textAlign: TextAlign.center,
                 style: heading2bStyle.copyWith(color: colors.pinkColor)),
-            more:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: 'Descripción: ',
-                        style:
-                            heading3bStyle.copyWith(color: colors.pinkColor)),
-                    TextSpan(
-                        text: descripcion,
-                        style: heading3Style.copyWith(color: Colors.black)),
-                  ])),
-              const SizedBox(
-                height: 8,
-              ),
-              RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: 'Link: ',
-                        style:
-                            heading3bStyle.copyWith(color: colors.pinkColor)),
-                    TextSpan(
-                        text: links,
-                        style: heading3Style.copyWith(
-                            color: Colors.black,
-                            decoration: TextDecoration.underline),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            _launchURL(links);
-                          }),
-                  ])),
-            ]),
+            more: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Descripción: ',
+                      style: heading3bStyle.copyWith(color: colors.pinkColor)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(descripcion,
+                      style: heading3Style.copyWith(color: Colors.black)),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Links: ',
+                          style:
+                              heading3bStyle.copyWith(color: colors.pinkColor)),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      for (final e in links)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 7, top: 7),
+                          child: RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(children: [
+                              WidgetSpan(
+                                child: Icon(
+                                  Icons.link,
+                                  color: colors.pinkColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: e,
+                                style: heading3Style.copyWith(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    _launchURL(e);
+                                  },
+                              ),
+                            ]),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Autores: ',
+                            style: heading3bStyle.copyWith(
+                              color: colors.pinkColor,
+                            ),
+                          ),
+                          TextSpan(
+                            text: descripcion,
+                            style: heading3Style.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ],
+                  ),
+                ]),
             rightText: 'Cerrar',
             onTapRight: () {
               Navigator.of(context).pop();
@@ -192,7 +278,10 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
 
     setState(() {
       bloqueCreado = query.data() as Map<String, dynamic>;
+      estadoBloque =
+          bloqueCreado["estado"] == null ? 0 : bloqueCreado["estado"];
     });
+    await getEstado(widget.roadId.toString());
   }
 
   void borrarRecurso() {
@@ -215,9 +304,9 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
+
     super.initState();
   }
 
@@ -235,17 +324,13 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
         child: Column(
           children: [
             BoxText.tituloPagina(
-              text: bloqueCreado["titulo"] == null
-                  ? "cargando"
-                  : bloqueCreado["titulo"],
+              text: bloqueCreado["titulo"] ?? "cargando",
               color: colors.pinkColor,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              padding: const EdgeInsets.only(bottom: 8, left: 24, right: 24),
               child: Text(
-                bloqueCreado["descripcion"] == null
-                    ? "cargando"
-                    : bloqueCreado["descripcion"],
+                bloqueCreado["descripcion"] ?? "cargando",
                 softWrap: true,
                 textAlign: TextAlign.center,
                 style: heading3Style.copyWith(color: Colors.black),
@@ -264,6 +349,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                                 color: colors.pinkColor)),
                         StateWidget(
                           onTap: cambiarEstado,
+                          estado: estadoBloque,
                           large: true,
                         ),
                       ],
@@ -275,11 +361,14 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 key: ValueKey(tile),
                 padding: const EdgeInsets.all(0),
                 child: ResourceCard(
-                    nombreRecurso: tile.value.toString(),
+                    nombreRecurso: tile.value['nombre'],
                     edit: true,
                     onDelete: borrarRecurso,
                     onTap: () {
-                      abrirRecurso(tile.value, tile.value);
+                      abrirRecurso(
+                          tile.value["nombre"],
+                          tile.value['descripcion'],
+                          tile.value['links_relacionados']);
                     }),
               ),
           ],

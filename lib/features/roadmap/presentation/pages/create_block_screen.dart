@@ -11,9 +11,9 @@ import 'package:aristeia_app/core/widgets/date_picker.dart';
 import 'package:aristeia_app/core/widgets/etiqueta_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/createBloque.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/deleteBloque.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/getBloqueRoad.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/create_bloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,6 +74,7 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
                       hintText: 'Titulo bloque', controller: _controllerTitulo),
                   InputField(
                     hintText: 'Descripcion',
+                    maxLines: 2,
                     controller: _controllerDescripcion,
                   ),
                   InputField(
@@ -97,13 +98,13 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
             DateTime f_inicio = DateTime.parse(_controllerFechaInicio.text);
             DateTime f_final = DateTime.parse(_controllerFechaFin.text);
             if (_controllerTitulo.text != '' &&
-                    _controllerDescripcion.text != '' &&
-                    _controllerFechaFin.text != '' &&
-                    _controllerFechaInicio.text != '' &&
-                    int.parse(_controllerImportancia.text) < 6 &&
-                    int.parse(_controllerImportancia.text) > 0 &&
-                    f_inicio.compareTo(f_final) < 0 ||
-                f_inicio.compareTo(f_final) == 0) {
+                _controllerDescripcion.text != '' &&
+                _controllerFechaFin.text != '' &&
+                _controllerFechaInicio.text != '' &&
+                int.parse(_controllerImportancia.text) < 6 &&
+                int.parse(_controllerImportancia.text) > 0 &&
+                (f_inicio.compareTo(f_final) < 0 ||
+                    f_inicio.compareTo(f_final) == 0)) {
               String bloqueId = await addBlock(
                   widget.roadId.toString(),
                   _controllerTitulo.text,

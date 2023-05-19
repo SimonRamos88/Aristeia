@@ -7,6 +7,7 @@ import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
+import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Cuenta creada exitosamente, por favor confirma tu correo para poder ingresar',
+              'Cuenta creada exitosamente, por favor revisa tu correo para poder ingresar',
               textAlign: TextAlign.center,
               style: heading3bStyle,
             )),
@@ -98,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: 'registro',
+        title: 'Registro',
         type: 1,
         onPressedLeading: () {
           context.router.push(const WelcomeRouter());
@@ -127,6 +128,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Text(
                   errorMessage == '' ? '' : 'Algo salió mal... $errorMessage',
                   style: bodyStyle,
+                  textAlign: TextAlign.center,
+                )),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Recuerda que al registrarte aceptas nuestros términos y condiciones',
+                style: heading3Style,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TermsScreen()),
+                  );
+                },
+                child: Text(
+                  'Ver términos y condiciones',
+                  style:
+                      heading3Style.copyWith(color: Theme.of(context).primaryColor,decoration: TextDecoration.underline ),
                   textAlign: TextAlign.center,
                 )),
             MyButton(
