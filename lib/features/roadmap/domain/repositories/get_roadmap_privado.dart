@@ -33,24 +33,19 @@ Widget getRoadmapPrivado() {
                   builder: (context, snapshot) {
                     int cantidadBloques = snapshot.data ?? 0;
                     // Función para determinar el estado del roadmap
-                    return FutureBuilder<int>(
-                        future: getEstado(doc?[index].id),
-                        builder: (context, snapshot) {
-                          int estadoRoadmap = snapshot.data ?? 0;
-                          return RoadmapCard(
-                              myRoadmap: true,
-                              nombreRoadmap: doc?[index]['nombre'],
-                              descripcionRoadmap: doc?[index]['descripcion'],
-                              estadoRoadmap: estadoRoadmap,
-                              etiquetas: doc?[index]['etiquetas'],
-                              cantidadBloques: cantidadBloques,
-                              calificacion: promedio,
-                              onTap: () => {
-                                    context.router.navigateNamed(
-                                      ('/logged/personal/${doc?[index].id}'),
-                                    )
-                                  });
-                        });
+                    return RoadmapCard(
+                        myRoadmap: true,
+                        nombreRoadmap: doc?[index]['nombre'],
+                        descripcionRoadmap: doc?[index]['descripcion'],
+                        estadoRoadmap: doc?[index]['estado'],
+                        etiquetas: doc?[index]['etiquetas'],
+                        cantidadBloques: cantidadBloques,
+                        calificacion: promedio,
+                        onTap: () => {
+                              context.router.navigateNamed(
+                                ('/logged/personal/${doc?[index].id}'),
+                              )
+                            });
                   },
                 );
               },

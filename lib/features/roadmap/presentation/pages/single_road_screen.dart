@@ -44,6 +44,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   bool isMyRoad = false;
   int estadoRoad = 0;
   @override
+
   void initState() {
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
@@ -365,7 +366,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad =
-          roadmapCreado["estado"] == null ? 1 : roadmapCreado["estado"];
+          roadmapCreado["estado"] == null ? 0 : roadmapCreado["estado"];
 
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
@@ -462,9 +463,27 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                           const SizedBox(
                             width: 4,
                           ),
-                          StateWidget(
-                            estado: estadoRoad,
-                            large: true,
+                          // Consulta el estado del roadmap
+                          StreamBuilder<DocumentSnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('roadmap')
+                                .doc(widget.roadId.toString())
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData && snapshot.data != null) {
+                                final data = snapshot.data!.data();
+                                if (data != null && data is Map<String, dynamic>) {
+                                  final estado = data['estado'];
+                                  return StateWidget(
+                                    estado: estado,
+                                    large: true,
+                                  );
+                                }
+                              }
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
                           ),
                         ],
                       ),
