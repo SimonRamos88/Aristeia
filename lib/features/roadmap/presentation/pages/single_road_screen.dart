@@ -444,18 +444,19 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                                 .doc(widget.roadId.toString())
                                 .snapshots(),
                             builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                // Extraer el estado del roadmap
-                                final data = snapshot.data?.data() as Map<String, dynamic>;
-                                final estado = data['estado'];
-                                return StateWidget(
-                                  estado: estado,
-                                  large: true,);
-                              }else{
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                              if (snapshot.hasData && snapshot.data != null) {
+                                final data = snapshot.data!.data();
+                                if (data != null && data is Map<String, dynamic>) {
+                                  final estado = data['estado'];
+                                  return StateWidget(
+                                    estado: estado,
+                                    large: true,
+                                  );
+                                }
                               }
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             },
                           ),
                         ],
