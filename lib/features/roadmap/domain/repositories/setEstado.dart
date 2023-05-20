@@ -13,16 +13,19 @@ Future<void> setEstado(String? roadmapID) async {
 
   // Contar los bloques completados
   querySnapshot.docs.forEach((doc) {
-    if (doc['estado'] > 1) bloquesTerminados++;
+    if (doc['estado'] > 1)
+      bloquesTerminados++;
     else if (doc['estado'] == 0) bloquesSinIniciar++;
   });
 
   if (bloquesTerminados == querySnapshot.size) {
+    DateTime now = DateTime.now();
+
     // Roadmap terminado
     FirebaseFirestore.instance
         .collection('roadmap')
         .doc(roadmapID)
-        .update({'estado': 2});
+        .update({'estado': 2, 'fechaTerminado': now.toUtc()});
   } else if (bloquesSinIniciar == querySnapshot.size) {
     // Roadmap sin iniciar
     FirebaseFirestore.instance
@@ -34,6 +37,6 @@ Future<void> setEstado(String? roadmapID) async {
     FirebaseFirestore.instance
         .collection('roadmap')
         .doc(roadmapID)
-        .update({'estado': 1}); 
+        .update({'estado': 1});
   }
 }
