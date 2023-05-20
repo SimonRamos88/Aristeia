@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
   String usernames = 'nombres';
   Map<String, dynamic> appUsage = Map<String, dynamic>.from({});
   List<String> topEtiquetas = [];
+  Map<String, int> numRoadmapsTerminados = Map<String, int>.from({});
 
   Future<void> readUserData() async {
     final docUser = FirebaseFirestore.instance
@@ -96,6 +97,41 @@ class _HomeScreenState extends State<HomeScreen>
     return totalUsage;
   }
 
+  Future<Map<String, int>> getCompletedRoadmaps() async {
+    final now = DateTime.now();
+    final startOfWeek = now.subtract(Duration(days: now.weekday)).toUtc();
+    final startOfMonth = DateTime(now.year, now.month).toUtc();
+    final startOfYear = DateTime(now.year).toUtc();
+
+    int completedThisWeek = 0;
+    int completedThisMonth = 0;
+    int completedThisYear = 0;
+    final docRoadmaps = FirebaseFirestore.instance.collection('roadmap');
+    final queryU = await docRoadmaps
+        .where("creador", isEqualTo: Auth().currentUser!.uid)
+        .where("estado", isEqualTo: 2)
+        .get();
+    print(queryU.size);
+    queryU.docs.forEach((doc) {
+      DateTime fechaTerminado = doc['fechaTerminado'].toDate();
+      if (fechaTerminado.isAfter(startOfWeek)) {
+        completedThisWeek++;
+      }
+      if (fechaTerminado.isAfter(startOfMonth)) {
+        completedThisMonth++;
+      }
+      if (fechaTerminado.isAfter(startOfYear)) {
+        completedThisYear++;
+      }
+    });
+
+    return {
+      'completedThisWeek': completedThisWeek,
+      'completedThisMonth': completedThisMonth,
+      'completedThisYear': completedThisYear,
+    };
+  }
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen>
       });
     });
     getTopEtiquetas().then((value) => topEtiquetas = value);
+    getCompletedRoadmaps().then((value) => numRoadmapsTerminados = value);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -301,17 +338,23 @@ class _HomeScreenState extends State<HomeScreen>
                         Scaffold(
                           body: InfoRow(
                               description: 'Esta semana has completado:',
-                              info: '20 bloques y 2 roadmaps'),
+                              info: numRoadmapsTerminados['completedThisWeek']
+                                      .toString() +
+                                  ' roadmap'),
                         ),
                         Scaffold(
                           body: InfoRow(
                               description: 'Este mes has completado:',
-                              info: '40 bloques y 6 roadmaps'),
+                              info: numRoadmapsTerminados['completedThisMonth']
+                                      .toString() +
+                                  ' roadmap'),
                         ),
                         Scaffold(
                           body: InfoRow(
                               description: 'Este año has completado:',
-                              info: '100 bloques y 5 roadmaps'),
+                              info: numRoadmapsTerminados['completedThisYear']
+                                      .toString() +
+                                  ' roadmap'),
                         ),
                       ],
                     ),
