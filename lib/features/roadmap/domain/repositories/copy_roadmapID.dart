@@ -43,6 +43,6 @@ Future<bool> copyRoadmapID(String idRoad, String idUser) async {
       .collection('roadMapCopiados')
       .add({"id_roadmap": "roadmap/" + idRoad});
   respuesta = true;
-
+  //pendiente copiar recursos tambien
   return respuesta;
 }
