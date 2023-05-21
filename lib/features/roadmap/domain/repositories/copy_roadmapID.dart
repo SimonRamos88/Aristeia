@@ -1,3 +1,5 @@
+import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
+import 'package:aristeia_app/features/Recurso/domain/repositories/getAllRecursos.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/create_bloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/getBloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
@@ -25,16 +27,29 @@ Future<bool> copyRoadmapID(String idRoad, String idUser) async {
     //aqui agregamos todos los bloques sin sus recursos al nuevo roadmap
     Map<String, dynamic> bloque = b.data();
     String idBloque = b.id;
+    //traer  recursos del bloque bloque
+    List recursosBloque = await getRecursos(idRoad, idBloque);
 
-    await addBlock(
+    await addBlockWithId(
         idRoad + "2",
         bloque['titulo'],
         bloque['descripcion'],
         bloque['importancia'],
         bloque['fechaInicio'].toDate(),
-        bloque['fechaFin'].toDate());
+        bloque['fechaFin'].toDate(),
+        idBloque);
 
-    print("id: " + idBloque + " bloque: " + bloque.toString());
+    if (recursosBloque.length > 0) {
+      // print('si hay recursos');
+      for (var r in recursosBloque) {
+        String idRecurso = r.id;
+        Map<String, dynamic> recurso = r.data();
+        //print('recurso: ' + recurso.toString());
+        //  String respuesta =
+        await createRecurso(recurso, idRoad + "2", idBloque, idRecurso);
+        //  print(respuesta);
+      }
+    }
   }
   //finalmente añadimos la referencia del bloque copiado al usuario
   await db
