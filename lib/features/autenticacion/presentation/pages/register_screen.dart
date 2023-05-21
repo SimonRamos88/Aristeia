@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } else {
       setState(() {
-        errorMessage = 'La contraseñas no coinciden';
+        errorMessage = 'Las contraseñas no coinciden';
       });
     }
   }
@@ -77,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Cuenta creada exitosamente, por favor revisa tu correo para poder ingresar',
+              'Cuenta creada exitosamente, por favor revisa tu correo para poder verificar tu cuenta',
               textAlign: TextAlign.center,
               style: heading3bStyle,
             )),
@@ -123,13 +123,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               isPassword: true,
               controller: _controllerConfPassword,
             ),
-            Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+            errorMessage != '' ? Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Text(
                   errorMessage == '' ? '' : 'Algo salió mal... $errorMessage',
                   style: bodyStyle,
                   textAlign: TextAlign.center,
-                )),
+                )): SizedBox(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: Text(

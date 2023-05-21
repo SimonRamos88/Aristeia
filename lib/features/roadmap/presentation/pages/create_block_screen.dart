@@ -13,7 +13,7 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/create_bloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
+import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_bloque_road.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

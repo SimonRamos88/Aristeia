@@ -199,6 +199,8 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ProfileCard(
               nombre: usernames,
@@ -229,7 +231,8 @@ class _HomeScreenState extends State<HomeScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
-                alignment: WrapAlignment.spaceBetween,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: 8,
                 runSpacing: 8,
                 children: [
