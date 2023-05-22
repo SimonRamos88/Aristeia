@@ -12,7 +12,7 @@ import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/addRecurso.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/getAllRecursos.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/getRecurso.dart';
-import 'package:aristeia_app/features/recurso/domain/repositories/updateRecurso.dart';
+import 'package:aristeia_app/features/Recurso/domain/repositories/updateRecurso.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/change_resource_state.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
