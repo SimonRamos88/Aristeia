@@ -14,6 +14,7 @@ import 'package:aristeia_app/features/Recurso/domain/repositories/getAllRecursos
 import 'package:aristeia_app/features/Recurso/domain/repositories/getRecurso.dart';
 import 'package:aristeia_app/features/Recurso/domain/repositories/updateRecurso.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/change_resource_state.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/setEstado.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,8 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
         .get();
     setState(() {
       bloqueCreado = query.data() as Map<String, dynamic>;
+      estadoBloque =
+          bloqueCreado["estado"] == null ? 0 : bloqueCreado["estado"];
       print(bloqueCreado);
     });
   }
@@ -225,6 +228,84 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     );
   }
 
+
+  int estadoBloque = 0;
+
+  void cambiarEstado() {
+    showDialog(
+      context: context,
+      builder: ((context) => AlertDialogWidget(
+            message: 'Cambiar el estado del bloque',
+            more: Column(
+              children: [
+                StateWidget(
+                  large: true,
+                  estado: 0,
+                  onTap: () {
+                    setState(() {
+                      estadoBloque = 0;
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 0});
+                    });
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 1,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 1});
+                      estadoBloque = 1;
+                    });
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                StateWidget(
+                  large: true,
+                  estado: 2,
+                  onTap: () {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('roadmap')
+                          .doc(widget.roadId.toString())
+                          .collection('bloques')
+                          .doc(widget.blockId.toString())
+                          .update({"estado": 2});
+                      estadoBloque = 2;
+                    });
+
+                    Navigator.of(context).pop();
+                    setEstado(widget.roadId.toString());
+                  },
+                )
+              ],
+            ),
+            rightText: 'Cancelar',
+            onTapRight: () {
+              Navigator.of(context).pop();
+            },
+          )),
+    );
+  }
+
   void borrarRecurso() {
     showDialog(
       context: context,
@@ -247,7 +328,6 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
   void initState() {
     getListaRecursos();
     traerBloque(widget.roadId.toString(), widget.blockId.toString());
-
     super.initState();
   }
 
@@ -294,9 +374,8 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                 Text('Estado:',
                     style: heading2bStyle.copyWith(color: colors.pinkColor)),
                 StateWidget(
-                  onTap: () {
-                    cambiarEstado(context);
-                  },
+                  onTap: cambiarEstado,
+                  estado: estadoBloque,
                   large: true,
                 ),
               ],
