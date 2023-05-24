@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../core/network/auth.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/copy_roadmapID.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -91,7 +92,15 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             color: 1,
             leftText: 'Copiar',
             rightText: 'Cancelar',
-            onTapLeft: () {},
+            onTapLeft: () async {
+              await copyRoadmapID(
+                  widget.roadId.toString(), Auth().currentUser!.uid);
+              Navigator.of(context).pop();
+              context.router.navigateNamed(
+                ('/logged/personal'),
+              );
+              //
+            },
             onTapRight: () {
               Navigator.of(context).pop();
             },
@@ -173,8 +182,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
-      estadoRoad =
-          roadmapCreado["estado"] ?? 1;
+      estadoRoad = roadmapCreado["estado"] ?? 1;
 
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
