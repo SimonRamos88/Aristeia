@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../core/network/auth.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/copy_roadmapID.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -75,8 +76,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           leftText: 'Cancelar',
           color: 1,
           onTapRight: () async {
-            var usuario = await getUsuariobyId(Auth().currentUser!.uid);
-            print('El usuario $usuario con su calificacion $calificacion');
             addCalificacion(widget.roadId.toString(), Auth().currentUser!.uid,
                 calificacion);
             initialRating = calificacion;

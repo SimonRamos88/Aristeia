@@ -71,6 +71,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
               try {
                 await deleteUsuariobyId(temp ?? '');
                 await Auth().currentUser?.delete();
+                print('usuario borrado');
                 context.router.replace(const WelcomeRouter());
               } on FirebaseAuthException catch (e) {
                 print('No se pudo borrar el usuario...');

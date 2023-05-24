@@ -55,8 +55,7 @@ Future<bool> deleteUsuariobyId(String idUser) async {
 
   print('Cuarta prueba');
 
-  await Auth().currentUser?.delete();
-  print('usuario borrado');
+
   respuesta = true;
 
   return respuesta;
