@@ -17,6 +17,7 @@ class BlockCard extends StatelessWidget {
   final String nombreBloque;
   final String descripcion;
   final int cantidadRecursos;
+  final int estado;
   final bool edit;
   final Function()? update;
   final String fechaInicio;
@@ -37,6 +38,7 @@ class BlockCard extends StatelessWidget {
     this.edit = false,
     this.roadId = '1',
     this.blockId = '1',
+    this.estado = 0,
   });
 
   @override
@@ -145,7 +147,7 @@ class BlockCard extends StatelessWidget {
                             color: colors.blueColor,
                           ),
                         )
-                      : StateWidget(estado: 0)
+                      : StateWidget(estado: estado)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),
