@@ -19,6 +19,7 @@ class BlockCard extends StatelessWidget {
   final int cantidadRecursos;
   final int estado;
   final bool edit;
+  final bool fechaLimite;
   final Function()? update;
   final String fechaInicio;
   final String fechaFin;
@@ -39,6 +40,7 @@ class BlockCard extends StatelessWidget {
     this.roadId = '1',
     this.blockId = '1',
     this.estado = 0,
+    this.fechaLimite = false,
   });
 
   @override
@@ -147,8 +149,40 @@ class BlockCard extends StatelessWidget {
                             color: colors.blueColor,
                           ),
                         )
-                      : StateWidget(estado: estado)
-                  : const SizedBox(height: 0, width: 0),
+                      : Column(
+                        children: [
+                          StateWidget(estado: estado),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          fechaLimite 
+                          ? IconButton(
+                          // Alerta de eliminar bloque
+                          onPressed: (){
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialogWidget(
+                                color: 1,
+                                message: 'Fechas limites alcanzadas',
+                                rightText: 'Cancelar',
+                                onTapRight: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.notifications,
+                            size: 25,
+                            color: colors.pinkColor50,
+                          ),
+                        )
+                          :
+                            const SizedBox(height: 0, width: 0),
+                          ],
+                        )
+                  :
+                  const SizedBox(height: 0, width: 0)
             ],
           ),
         ),

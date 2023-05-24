@@ -42,8 +42,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
   int estadoRoad = 0;
-  @override
+  
 
+  @override
   void initState() {
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
@@ -341,7 +342,6 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad =
           roadmapCreado["estado"] == null ? 0 : roadmapCreado["estado"];
-
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -349,7 +349,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
       */
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
