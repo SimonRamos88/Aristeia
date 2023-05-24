@@ -96,6 +96,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
               context.router.navigateNamed(
                 ('/logged/personal'),
               );
+              //
             },
             onTapRight: () {
               Navigator.of(context).pop();
