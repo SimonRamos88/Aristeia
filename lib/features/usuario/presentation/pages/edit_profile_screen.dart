@@ -130,7 +130,7 @@ class _EditProfileScreen extends State<EditProfileScreen> {
                       )),
                 ),
               );
-                Navigator.of(context).pop();
+              
               },
               large: false,
               width: 150,

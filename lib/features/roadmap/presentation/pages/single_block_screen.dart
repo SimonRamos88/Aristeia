@@ -362,7 +362,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 padding: const EdgeInsets.all(0),
                 child: ResourceCard(
                     nombreRecurso: tile.value['nombre'],
-                    edit: true,
+                    edit: false,
                     onDelete: borrarRecurso,
                     onTap: () {
                       abrirRecurso(
