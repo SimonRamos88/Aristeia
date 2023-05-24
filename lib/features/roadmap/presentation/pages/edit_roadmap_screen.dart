@@ -53,12 +53,6 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
     getFilterChipsFromFirestore().then((chips) {
       setState(() {
         filterChips = chips;
-        if (roadmapCreado.isEmpty == false) {
-          nombreRoadmap.text = roadmapCreado["nombre"];
-          descripcion.text = roadmapCreado["descripcion"];
-          fechaInicio.text = roadmapCreado["fechaInicio"];
-          tipo_roadmap.text = roadmapCreado["publico"] == true ? "0" : "1";
-        }
       });
     });
   }
@@ -74,6 +68,11 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
+      nombreRoadmap.text = roadmapCreado["nombre"];
+      descripcion.text = roadmapCreado["descripcion"];
+      fechaInicio.text = roadmapCreado["fechaInicio"];
+      etiquetas = roadmapCreado["etiquetas"];
+      tipo_roadmap.text = roadmapCreado["publico"] ? "1" : "2";
     });
   }
 

@@ -23,6 +23,7 @@ class BlockCard extends StatelessWidget {
   final String fechaFin;
   final String? roadId;
   final String? blockId;
+  final int estado;
 
   const BlockCard({
     super.key,
@@ -31,12 +32,13 @@ class BlockCard extends StatelessWidget {
     this.myRoadmap = false,
     this.nombreBloque = 'Nombre del bloque',
     this.descripcion = 'Soy la descripción del bloque',
-    this.cantidadRecursos = 0, 
+    this.cantidadRecursos = 0,
     this.fechaInicio = "-",
     this.fechaFin = "-",
     this.edit = false,
     this.roadId = '1',
     this.blockId = '1',
+    this.estado = 0
   });
 
   @override
@@ -62,58 +64,65 @@ class BlockCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        nombreBloque,
+                    Text(nombreBloque,
                         softWrap: true,
                         style:
                             heading3bStyle.copyWith(color: colors.blueColor)),
                     const SizedBox(
                       height: 5,
                     ),
-                     Text(descripcion,
+                    Text(descripcion,
                         softWrap: true,
                         style: bodyStyle.copyWith(color: Colors.black)),
-                        const SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text('${cantidadRecursos.toString()} recursos',
                         softWrap: true,
-                        style: bodyStyle.copyWith(color: colors.blueColor, fontSize: 13, fontWeight: FontWeight.w500)),
+                        style: bodyStyle.copyWith(
+                            color: colors.blueColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500)),
                     myRoadmap
                         ? const SizedBox(
-                      height: 8,
-                    ): SizedBox(),
+                            height: 8,
+                          )
+                        : SizedBox(),
                     myRoadmap
-                        ?  RichText(text: TextSpan(
-                          text: 'Inicio: ',
-                          style: subheadingbStyle.copyWith(
+                        ? RichText(
+                            text: TextSpan(
+                            text: 'Inicio: ',
+                            style: subheadingbStyle.copyWith(
                                 color: Theme.of(context).primaryColor),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: fechaInicio,
-                              style: subheadingStyle.copyWith(
-                                color: Colors.black),
-                            ),
-                          ],
-                        )): const SizedBox(height: 0, width: 0),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: fechaInicio,
+                                style: subheadingStyle.copyWith(
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ))
+                        : const SizedBox(height: 0, width: 0),
                     myRoadmap
                         ? const SizedBox(
                             height: 7,
                           )
                         : const SizedBox(height: 0, width: 0),
                     myRoadmap
-                        ? RichText(text: TextSpan(
-                          text: 'Fin: ',
-                          style: subheadingbStyle.copyWith(
+                        ? RichText(
+                            text: TextSpan(
+                            text: 'Fin: ',
+                            style: subheadingbStyle.copyWith(
                                 color: Theme.of(context).primaryColor),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: fechaFin,
-                              style: subheadingStyle.copyWith(
-                                color: Colors.black),
-                            ),
-                          ],
-                        )): const SizedBox(height: 0, width: 0),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: fechaFin,
+                                style: subheadingStyle.copyWith(
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ))
+                        : const SizedBox(height: 0, width: 0),
                   ],
                 ),
               ),
@@ -121,12 +130,14 @@ class BlockCard extends StatelessWidget {
                   ? edit
                       ? IconButton(
                           // Alerta de eliminar bloque
-                          onPressed: (){
+                          onPressed: () {
                             showDialog(
                               context: context,
-                              builder: (BuildContext context) => AlertDialogWidget(
+                              builder: (BuildContext context) =>
+                                  AlertDialogWidget(
                                 color: 1,
-                                message: '¿Estas seguro que deseas eliminar este bloque?',
+                                message:
+                                    '¿Estas seguro que deseas eliminar este bloque?',
                                 leftText: 'Eliminar',
                                 rightText: 'Cancelar',
                                 onTapLeft: () {
@@ -145,7 +156,7 @@ class BlockCard extends StatelessWidget {
                             color: colors.blueColor,
                           ),
                         )
-                      : StateWidget(estado: 0)
+                      : StateWidget(estado: estado)
                   : const SizedBox(height: 0, width: 0),
             ],
           ),

@@ -8,36 +8,35 @@ Future<void> setEstado(String? roadmapID) async {
       .doc(roadmapID)
       .collection('bloques')
       .get();
-  int bloquesCompletados = 0;
+  int bloquesTerminados = 0;
+  int bloquesSinIniciar = 0;
 
   // Contar los bloques completados
   querySnapshot.docs.forEach((doc) {
-    if (doc['estado'] > 1) bloquesCompletados++;
+    if (doc['estado'] > 1)
+      bloquesTerminados++;
+    else if (doc['estado'] == 0) bloquesSinIniciar++;
   });
 
-  if (bloquesCompletados == querySnapshot.size) {
+  if (bloquesTerminados == querySnapshot.size) {
+    DateTime now = DateTime.now();
+
     // Roadmap terminado
     FirebaseFirestore.instance
         .collection('roadmap')
         .doc(roadmapID)
-        .update({'estado': 2});
-  } else if (bloquesCompletados == 0) {
+        .update({'estado': 2, 'fechaTerminado': now.toUtc()});
+  } else if (bloquesSinIniciar == querySnapshot.size) {
     // Roadmap sin iniciar
     FirebaseFirestore.instance
         .collection('roadmap')
         .doc(roadmapID)
         .update({'estado': 0});
   } else {
+    // Roadmap en progreso
     FirebaseFirestore.instance
         .collection('roadmap')
         .doc(roadmapID)
-        .update({'estado': 1}); // Roadmap en progreso
+        .update({'estado': 1});
   }
-
-  final query = await FirebaseFirestore.instance
-      .collection('roadmap')
-      .doc(roadmapID)
-      .get();
-  Map<String, dynamic> xd = query.data() as Map<String, dynamic>;
-  log(xd['estado'].toString());
 }
