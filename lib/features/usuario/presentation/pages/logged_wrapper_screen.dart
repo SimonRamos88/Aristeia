@@ -21,7 +21,7 @@ class LoggedWrapperScreen extends StatelessWidget {
           ComunidadRouter(),
           CreateRouter()
         ],
-        //     // appBarBuilder: (_, tabsRouter) => AppBarWidget(type: tabsRouter.activeIndex),
+        // appBarBuilder: (_, tabsRouter) => AppBarWidget(type: tabsRouter.activeIndex),
         bottomNavigationBuilder: (_, tabsRouter) {
           return SalomonBottomBar(
             unselectedItemColor: const Color.fromARGB(255, 200, 185, 250),
@@ -83,7 +83,6 @@ class LoggedWrapperScreen extends StatelessWidget {
         },
         endDrawer: const FiltersDrawer(),
       ),
-      
     );
   }
 }
