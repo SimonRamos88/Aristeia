@@ -34,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerConfPassword = TextEditingController();
   //Crear usuario
   Future<void> createUserWithEmailAndPassword() async {
-    if (passwordConfirmed() == true) {
+    if (passwordConfirmed() == true && _controllerName.text.isNotEmpty && _controllerUsertag.text.isNotEmpty) {
       try {
         await Auth().createUserWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPassword.text);
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } else {
       setState(() {
-        errorMessage = 'Las contraseñas no coinciden';
+        errorMessage = 'Revisa Bien Tus Datos';
       });
     }
   }
@@ -77,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              'Cuenta creada exitosamente, por favor revisa tu correo para poder verificar tu cuenta',
+              'Cuenta creada exitosamente, por favor revisa tu correo para poder ingresar',
               textAlign: TextAlign.center,
               style: heading3bStyle,
             )),
@@ -123,13 +123,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               isPassword: true,
               controller: _controllerConfPassword,
             ),
-            errorMessage != '' ? Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Text(
                   errorMessage == '' ? '' : 'Algo salió mal... $errorMessage',
                   style: bodyStyle,
                   textAlign: TextAlign.center,
-                )): SizedBox(),
+                )),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: Text(

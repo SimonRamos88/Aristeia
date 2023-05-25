@@ -12,11 +12,12 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/copy_roadmapID.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/add_calificacion.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_bloque_road.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_calificacion.dart';
 import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart';
 import 'package:aristeia_app/features/roadmap/presentation/pages/edit_roadmap_screen.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../core/network/auth.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/copy_roadmapID.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -42,6 +44,7 @@ class SingleRoadScreen extends StatefulWidget {
 
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
+  double initialRating = 1;
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
   int estadoRoad = 0;
@@ -51,9 +54,20 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
     super.initState();
+    traerCal();
   }
 
-  void calificarRoadmap() {
+  Future<void> traerCal() async {
+    Map<String, dynamic> calificacion = await getCalificacion(
+        widget.roadId.toString(), Auth().currentUser!.uid);
+
+    initialRating =
+        calificacion['calificacion'] == null ? 1 : calificacion['calificacion'];
+  }
+
+  void calificarRoadmap() async {
+    double calificacion = 1;
+//simon es una lok
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -61,13 +75,18 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           rightText: 'Calificar',
           leftText: 'Cancelar',
           color: 1,
-          onTapRight: () {},
+          onTapRight: () async {
+            addCalificacion(widget.roadId.toString(), Auth().currentUser!.uid,
+                calificacion);
+            initialRating = calificacion;
+            Navigator.of(context).pop();
+          },
           onTapLeft: () {
             Navigator.of(context).pop();
           },
           more: RatingBar.builder(
             glow: false,
-            initialRating: 1,
+            initialRating: initialRating,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -79,6 +98,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             ),
             onRatingUpdate: (rating) {
               print(rating);
+              setState(() {
+                calificacion = rating;
+              });
             },
           ))),
     );
@@ -88,7 +110,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
-            message: 'El roadmap se agregará a mis roadmaps, ¿Estás seguro?',
+            message: '¿Estas seguro de copiar este Roadmap?',
             color: 1,
             leftText: 'Copiar',
             rightText: 'Cancelar',
@@ -251,41 +273,23 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           print(widget.roadId);
           FirebaseFirestore db = FirebaseFirestore.instance;
           if (!nombreRoadmap.text.trim().isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"nombre": nombreRoadmap.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"nombre": nombreRoadmap.text.trim()});
           }
           if (!descripcion.text.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"descripcion": descripcion.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"descripcion": descripcion.text.trim()});
           }
           if (!fechaInicio.text.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"fechaInicio": fechaInicio.text.trim()});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"fechaInicio": fechaInicio.text.trim()});
           }
           if (!tipo_roadmap.text.isEmpty) {
             if (tipo_roadmap.text.trim() == '1') {
-              db
-                  .collection('roadmap')
-                  .doc(widget.roadId.toString())
-                  .update({"publico": true});
+              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": true});
             } else {
-              db
-                  .collection('roadmap')
-                  .doc(widget.roadId.toString())
-                  .update({"publico": false});
+              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": false});
             }
           }
           if (!etiquetas.isEmpty) {
-            db
-                .collection('roadmap')
-                .doc(widget.roadId.toString())
-                .update({"etiquetas": etiquetas});
+            db.collection('roadmap').doc(widget.roadId.toString()).update({"etiquetas": etiquetas});
           }
           print("Todo realizado con Exito");
           traerRoadmap();
@@ -368,8 +372,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
-      estadoRoad =
-          roadmapCreado["estado"] ?? 1;
+      estadoRoad = roadmapCreado["estado"] ?? 1;
 
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
