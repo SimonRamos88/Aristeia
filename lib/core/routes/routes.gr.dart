@@ -24,7 +24,7 @@ import 'package:aristeia_app/core/routes/router_pages/roadmap_router_screen.dart
     as _i24;
 import 'package:aristeia_app/core/routes/router_pages/welcome_router_screen.dart'
     as _i25;
-import 'package:aristeia_app/features/autenticacion/presentation/pages/logged_wrapper_screen.dart'
+import 'package:aristeia_app/features/usuario/presentation/pages/logged_wrapper_screen.dart'
     as _i1;
 import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart'
     as _i2;

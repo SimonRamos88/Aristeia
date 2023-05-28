@@ -31,10 +31,23 @@ class BloqueRoad extends StatelessWidget {
     this.isMyRoad = false,
   }) : super(key: key);
 
+  bool fechaLimite(DateTime fechaInicio, DateTime fechaFin, int estadoBloque){
+    if (fechaInicio != null &&
+      fechaInicio.compareTo(DateTime.now()) < 0 &&
+      estadoBloque == 0){
+      return true;
+    }else if ((fechaFin != null &&
+      fechaFin.compareTo(DateTime.now()) < 0 &&
+      estadoBloque < 2)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      // Reemplazar 1 con el id del roadmap
       stream: FirebaseFirestore.instance
           .collection('roadmap')
           .doc(roadmapId)
@@ -58,16 +71,17 @@ class BloqueRoad extends StatelessWidget {
                   return BlockCard(
                       myRoadmap: isMyRoad,
                       edit: edit,
-                      estado: doc?[index]['estado'],
+                      estado: isMyRoad? (doc?[index]['estado']) : 0,
                       nombreBloque: doc?[index]['titulo'],
                       descripcion: doc?[index]['descripcion'],
                       fechaInicio:
-                          '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day} ${dateFechaInicio.hour}:${dateFechaInicio.minute}:${dateFechaInicio.second}',
+                          '${dateFechaInicio.year}-${dateFechaInicio.month}-${dateFechaInicio.day}',
                       fechaFin:
-                          '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day} ${dateFechaFin.hour}:${dateFechaFin.minute}:${dateFechaFin.second}',
+                          '${dateFechaFin.year}-${dateFechaFin.month}-${dateFechaFin.day}',
                       cantidadRecursos: cantidadRecursos,
                       blockId: doc?[index].id,
                       roadId: roadmapId,
+                      fechaLimite: fechaLimite(dateFechaInicio, dateFechaFin, doc?[index]['estado']),
                       onTap: nav
                           ? () => context.router.navigate(SingleBlockRoute(
                                 roadId: int.parse(roadmapId),
@@ -92,61 +106,3 @@ class BloqueRoad extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-// Widget getBloqueRoad(String roadmapID,) {
-//   return StreamBuilder<QuerySnapshot>(
-//     // Reemplazar 1 con el id del roadmap
-//     stream: FirebaseFirestore.instance
-//         .collection('roadmap')
-//         .doc(roadmapID)
-//         .collection('bloques')
-//         .snapshots(),
-//     builder: ((context, snapshot) {
-//       var doc = snapshot.data?.docs;
-//       if (snapshot.hasData) {
-//         return Expanded(
-//             child: ListView.builder(
-//           itemCount: doc?.length,
-//           itemBuilder: (context, index) {
-//             return FutureBuilder<int>(
-//               // Reemplazar 1 con el id del roadmap
-//               future: totalRecursos(roadmapID, doc?[index].id),
-//               builder: (context, snapshot) {
-//                 int cantidadRecursos = snapshot.data ?? 0;
-//                 return BlockCard(
-//                   cantidadRecursos: cantidadRecursos,
-//                   nombreBloque: doc?[index]['titulo'],
-//                   onDelete: () async {
-//                     await deleteBloque(
-//                       // Cambiar 1 por el id del roadmap
-//                       roadmapID,
-//                       doc?[index].id,
-//                     );
-//                   },
-//                   onTap: () => context.router.navigate(
-//                       // BlockRouter()
-//                       SingleBlockRoute(
-//                     roadId: int.parse(roadmapID),
-//                     blockId: int.parse(doc![index].id),
-//                   )),
-//                 );
-//               },
-//             );
-//           },
-//         ));
-//       } else {
-//         return const Center(
-//           // Pantalla de carga
-//           child: CircularProgressIndicator(),
-//         );
-//       }
-//     }),
-//   );
-// }

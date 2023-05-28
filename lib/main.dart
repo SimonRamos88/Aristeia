@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         dividerColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.purple,
+          primarySwatch: Colors.deepPurple,
           backgroundColor: colors.backgroundColor,
         ),
         textTheme: const TextTheme(

@@ -26,3 +26,34 @@ Future<String> addBlock(String roadmapID, String title, String description,
   print('datos subidos');
   return bloqueId;
 }
+
+Future<String> addBlockWithId(
+    String roadmapID,
+    String title,
+    String description,
+    int importance,
+    DateTime startDate,
+    DateTime endDate,
+    String bloqueId) async {
+  // Instanciar la db
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  var rng = Random();
+
+  // Acceder a la colección y al documento
+  await db
+      .collection('roadmap')
+      .doc(roadmapID)
+      .collection('bloques')
+      .doc(bloqueId)
+      .set({
+    "titulo": title,
+    "descripcion": description,
+    "completado": false,
+    "importancia": importance,
+    "fechaInicio": startDate,
+    "fechaFin": endDate,
+    "estado": 0
+  });
+  print('datos subidos');
+  return bloqueId;
+}

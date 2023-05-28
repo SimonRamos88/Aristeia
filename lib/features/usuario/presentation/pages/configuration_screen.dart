@@ -5,8 +5,10 @@ import 'package:aristeia_app/core/widgets/alert_dialog_widget.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
+import 'package:aristeia_app/features/estadistica/presentation/pages/home_screen.dart';
 import 'package:aristeia_app/features/usuario/domain/repositories/deleteUsuario.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +71,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
               try {
                 await deleteUsuariobyId(temp ?? '');
                 await Auth().currentUser?.delete();
+                print('usuario borrado');
                 context.router.replace(const WelcomeRouter());
               } on FirebaseAuthException catch (e) {
                 print('No se pudo borrar el usuario...');
@@ -80,6 +83,49 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             },
           )),
     );
+  }
+
+   DateTime fechaActual = DateTime.now().toLocal();
+  DateTime _startTime = DateTime.now().toLocal();
+  DateTime _finishTime = DateTime.now().toLocal();
+  Duration _useLastWeek = Duration.zero;
+  AppLifecycleState? _lastLifecyleState;
+  final AppLifecycleObserver observer = AppLifecycleObserver();
+
+ Future<void> addAppUsage(DateTime startTime, DateTime finishTime) async {
+    final docUser = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(Auth().currentUser?.uid);
+    final appUsageRef = docUser.collection('usoAplicacion');
+    await appUsageRef.add({
+      'tiempoEntrada': _startTime.toUtc(),
+      'tiempoSalida': _finishTime.toUtc(),
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_lastLifecyleState == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        didChangeAppLifecycleState(AppLifecycleState.resumed);
+      });
+    }
+  }
+
+
+   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _lastLifecyleState = state;
+    });
+    if (state == AppLifecycleState.resumed) {
+      _startTime = DateTime.now();
+    }
+    if (state == AppLifecycleState.paused) {
+      _finishTime = DateTime.now();
+      addAppUsage(_startTime, _finishTime);
+    }
   }
 
   void cambiarContrasena() {
@@ -116,9 +162,12 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
         rightText: 'Cancelar',
         onTapLeft: () {
           if (_controllerConfPassword.text.trim() ==
-              _controllerPassword.text.trim()) {
+              _controllerPassword.text.trim() && _controllerConfPassword.text.length >= 6) {
             print("Valido");
             Auth().currentUser?.updatePassword(_controllerPassword.text.trim());
+              didChangeAppLifecycleState(AppLifecycleState.paused);
+              Auth().signOut().then((_) {});
+              
             context.showFlash<bool>(
               barrierDismissible: true,
               duration: const Duration(seconds: 5),
@@ -158,7 +207,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
                 content: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: Text(
-                      'No se pudo actualizar, revisa que las contraseñas coincidan',
+                      'No se pudo actualizar, revisa que las contraseñas coincidan y que tengan al menos 6 caracteres.',
                       textAlign: TextAlign.center,
                       style: heading3bStyle,
                     )),
@@ -229,7 +278,7 @@ class CajaOpcion extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         alignment: Alignment.centerLeft,
         width: MediaQuery.of(context).size.width,
         height: 55,
@@ -243,7 +292,7 @@ class CajaOpcion extends StatelessWidget {
         ),
         child: Text(
           texto,
-          style: heading3bStyle.copyWith(color: Colors.black),
+          style: heading3Style.copyWith(color: Colors.black),
         ),
       ),
     );

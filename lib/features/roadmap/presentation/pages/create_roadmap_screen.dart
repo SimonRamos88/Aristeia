@@ -134,7 +134,8 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   color: Theme.of(context).primaryColor),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16,right: 16,top:5, bottom: 12),
+              padding: const EdgeInsets.only(
+                  left: 16, right: 16, top: 5, bottom: 12),
               child: buildFilterChips(),
             ),
             MyButton(
@@ -155,6 +156,13 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                       'estado': 0
                     });
 
+                    nombreRoadmap.clear();
+                    descripcion.clear();
+                    tipo_roadmap.clear();
+                    fechaInicio.clear();
+                    etiquetas= [];
+                    idEtiquetas.clear();
+
                     if (tipo_roadmap.text == '1') {
                       incrementarNumeroRoadmapsAsociados(idEtiquetas);
                     }
@@ -174,7 +182,8 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                         reverseAnimationCurve: Curves.bounceIn,
                         position: FlashPosition.bottom,
                         indicatorColor: Theme.of(context).primaryColor,
-                        icon: const Icon(Icons.dangerous_rounded, color:Colors.red),
+                        icon: const Icon(Icons.dangerous_rounded,
+                            color: Colors.red),
                         //title: const Text('Flash Title'),
                         content: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16),
@@ -194,7 +203,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
   }
 
   Widget buildFilterChips() => Wrap(
-        runSpacing: 8,
+        runSpacing: 4,
         spacing: 8,
         children: filterChips
             //filter chips es el widget que permite escoger las etiquetas de un roadmap
@@ -205,7 +214,8 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                   ),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: filterChip.isSelected? Colors.white : filterChip.color,
+                    color:
+                        filterChip.isSelected ? Colors.white : filterChip.color,
                   ),
                   backgroundColor: filterChip.color.withOpacity(0.1),
                   onSelected: (isSelected) {
