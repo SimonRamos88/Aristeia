@@ -6,7 +6,13 @@ import 'package:aristeia_app/core/widgets/roadmap_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget getRoadmapPublico(String filter) {
+import '../../domain/entities/show_road.dart';
+
+
+class GetRoadmapPublico extends showRoad{
+
+  @override
+  Widget getRoadmap(String filter) {
   return StreamBuilder<QuerySnapshot>(
     // Query solicitando los documentos
     stream: FirebaseFirestore.instance
@@ -68,3 +74,7 @@ Widget getRoadmapPublico(String filter) {
     }),
   );
 }
+
+}
+
+

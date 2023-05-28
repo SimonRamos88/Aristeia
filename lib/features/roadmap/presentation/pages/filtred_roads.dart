@@ -2,22 +2,27 @@ import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/filters_drawer.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_roadmap_publico.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/my_search_delegate.dart';
+import 'package:aristeia_app/features/roadmap/presentation/pages/my_roadmaps_screen.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
-class PublicRoadmapsScreen extends StatefulWidget {
-  const PublicRoadmapsScreen({super.key});
+import '../../../buscador/domain/entities/buscador.dart';
+
+
+
+class FiltredRoadmap extends StatefulWidget {
+  final Buscador getRoad;
+  const FiltredRoadmap({super.key, required this.getRoad});
 
   @override
-  State<PublicRoadmapsScreen> createState() => _PublicRoadmapsScreenState();
+  State<FiltredRoadmap> createState() => _FiltredRoadmapState();
 }
 
-class _PublicRoadmapsScreenState extends State<PublicRoadmapsScreen> {
+class _FiltredRoadmapState extends State<FiltredRoadmap> {
 
-  GetRoadmapPublico getRoad = GetRoadmapPublico();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +36,11 @@ class _PublicRoadmapsScreenState extends State<PublicRoadmapsScreen> {
             delegate: MySearchDelegate('publico'),
           );
         },
-         onPressedAction: () => Scaffold.of(context).openEndDrawer(),
+         onPressedAction: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MyRoadmapsScreen()));
+         },
       ),
-      body: getRoad.getRoadmap(''),
+      body: widget.getRoad.getRoadmap(''),
     );
   }
 }

@@ -4,9 +4,13 @@ import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_roadmap_p
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_roadmap_publico.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/show_road.dart';
+
 class MySearchDelegate extends SearchDelegate {
   static final colors = AppColors();
   final String tipo;
+  showRoad getRoadPublico = GetRoadmapPublico();
+  showRoad getRoadPrivado = GetRoadmapPublico();
 
   MySearchDelegate(this.tipo);
 
@@ -69,8 +73,8 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return (tipo == 'publico')
-        ? getRoadmapPublico(query)
-        : getRoadmapPrivado(query);
+        ? getRoadPublico.getRoadmap(query)
+        : getRoadPrivado.getRoadmap(query);
   }
 
   @override

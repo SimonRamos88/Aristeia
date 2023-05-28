@@ -1,8 +1,15 @@
+import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
+import 'package:aristeia_app/features/roadmap/presentation/pages/my_roadmaps_screen.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
+import '../../../buscador/domain/entities/buscador.dart';
+import '../../domain/entities/show_road.dart';
+import '../pages/filtred_roads.dart';
 
 class FiltersDrawer extends StatefulWidget {
   const FiltersDrawer({super.key});
@@ -15,6 +22,10 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
   List<FilterChipData> filterChips = [];
   List<String> etiquetas = [];
   List<String> idEtiquetas = [];
+  List<Map> roads = [];
+  bool filtrado = false;
+
+  Buscador buscador = Buscador();
 
   @override
   void initState() {
@@ -48,7 +59,11 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
             ),
             MyButton(
               buttonText: 'Filtrar',
-              onTap: () {},
+              onTap: () {
+                buscador.BuscarByEt(etiquetas);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FiltredRoadmap(getRoad: buscador,)));
+                //Scaffold.of(context).closeEndDrawer(); //enviarle el buscador a myroads
+              },
             ),
             MyButton(
               buttonText: 'Cancelar',

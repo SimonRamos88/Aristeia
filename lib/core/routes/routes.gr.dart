@@ -9,55 +9,55 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:aristeia_app/core/routes/router_pages/block_router_screen.dart'
-    as _i18;
-import 'package:aristeia_app/core/routes/router_pages/comunidad_router_screen.dart'
-    as _i19;
-import 'package:aristeia_app/core/routes/router_pages/config_router_screen.dart'
-    as _i20;
-import 'package:aristeia_app/core/routes/router_pages/create_router_screen.dart'
-    as _i21;
-import 'package:aristeia_app/core/routes/router_pages/edit_router_screen.dart'
-    as _i22;
-import 'package:aristeia_app/core/routes/router_pages/home_router_screen.dart'
-    as _i23;
-import 'package:aristeia_app/core/routes/router_pages/roadmap_router_screen.dart'
-    as _i24;
-import 'package:aristeia_app/core/routes/router_pages/welcome_router_screen.dart'
-    as _i25;
-import 'package:aristeia_app/features/usuario/presentation/pages/logged_wrapper_screen.dart'
     as _i1;
-import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/comunidad_router_screen.dart'
     as _i2;
-import 'package:aristeia_app/features/autenticacion/presentation/pages/register_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/config_router_screen.dart'
     as _i3;
-import 'package:aristeia_app/features/autenticacion/presentation/pages/splash_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/create_router_screen.dart'
     as _i4;
-import 'package:aristeia_app/features/autenticacion/presentation/pages/welcome_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/edit_router_screen.dart'
     as _i5;
-import 'package:aristeia_app/features/estadistica/presentation/pages/home_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/home_router_screen.dart'
     as _i6;
-import 'package:aristeia_app/features/roadmap/presentation/pages/create_block_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/roadmap_router_screen.dart'
     as _i7;
-import 'package:aristeia_app/features/roadmap/presentation/pages/create_resource_screen.dart'
+import 'package:aristeia_app/core/routes/router_pages/welcome_router_screen.dart'
     as _i8;
-import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart'
+import 'package:aristeia_app/features/autenticacion/presentation/pages/login_screen.dart'
     as _i9;
-import 'package:aristeia_app/features/roadmap/presentation/pages/edit_roadmap_screen.dart'
+import 'package:aristeia_app/features/autenticacion/presentation/pages/register_screen.dart'
     as _i10;
-import 'package:aristeia_app/features/roadmap/presentation/pages/my_roadmaps_screen.dart'
+import 'package:aristeia_app/features/autenticacion/presentation/pages/splash_screen.dart'
     as _i11;
-import 'package:aristeia_app/features/roadmap/presentation/pages/public_roadmaps_screen.dart'
+import 'package:aristeia_app/features/autenticacion/presentation/pages/welcome_screen.dart'
     as _i12;
-import 'package:aristeia_app/features/roadmap/presentation/pages/single_block_screen.dart'
+import 'package:aristeia_app/features/estadistica/presentation/pages/home_screen.dart'
     as _i13;
-import 'package:aristeia_app/features/roadmap/presentation/pages/single_road_screen.dart'
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_block_screen.dart'
     as _i14;
-import 'package:aristeia_app/features/roadmap/presentation/pages/unnavailable_roadmap_screen.dart'
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_resource_screen.dart'
     as _i15;
-import 'package:aristeia_app/features/usuario/presentation/pages/configuration_screen.dart'
+import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart'
     as _i16;
-import 'package:aristeia_app/features/usuario/presentation/pages/edit_profile_screen.dart'
+import 'package:aristeia_app/features/roadmap/presentation/pages/edit_roadmap_screen.dart'
     as _i17;
+import 'package:aristeia_app/features/roadmap/presentation/pages/my_roadmaps_screen.dart'
+    as _i18;
+import 'package:aristeia_app/features/roadmap/presentation/pages/public_roadmaps_screen.dart'
+    as _i19;
+import 'package:aristeia_app/features/roadmap/presentation/pages/single_block_screen.dart'
+    as _i20;
+import 'package:aristeia_app/features/roadmap/presentation/pages/single_road_screen.dart'
+    as _i21;
+import 'package:aristeia_app/features/roadmap/presentation/pages/unnavailable_roadmap_screen.dart'
+    as _i22;
+import 'package:aristeia_app/features/usuario/presentation/pages/configuration_screen.dart'
+    as _i23;
+import 'package:aristeia_app/features/usuario/presentation/pages/edit_profile_screen.dart'
+    as _i24;
+import 'package:aristeia_app/features/usuario/presentation/pages/logged_wrapper_screen.dart'
+    as _i25;
 import 'package:auto_route/auto_route.dart' as _i26;
 import 'package:flutter/material.dart' as _i27;
 
@@ -66,10 +66,52 @@ abstract class $AppRouter extends _i26.RootStackRouter {
 
   @override
   final Map<String, _i26.PageFactory> pagesMap = {
-    LoggedWrapperRoute.name: (routeData) {
+    BlockRouter.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.LoggedWrapperScreen(),
+        child: _i1.RoadmapRouterScreen(),
+      );
+    },
+    ComunidadRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.ComunidadRouterScreen(),
+      );
+    },
+    ConfigRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.ConfigRouterScreen(),
+      );
+    },
+    CreateRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i4.CreateRouterScreen(),
+      );
+    },
+    EditRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i5.EditRouterScreen(),
+      );
+    },
+    HomeRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.HomeRouterScreen(),
+      );
+    },
+    MisRoadmapsRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i7.MisRoadmapsRouterScreen(),
+      );
+    },
+    WelcomeRouter.name: (routeData) {
+      return _i26.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i8.WelcomeRouterScreen(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -77,7 +119,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
           orElse: () => const LoginRouteArgs());
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.LoginScreen(key: args.key),
+        child: _i9.LoginScreen(key: args.key),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -85,25 +127,25 @@ abstract class $AppRouter extends _i26.RootStackRouter {
           orElse: () => const RegisterRouteArgs());
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i3.RegisterScreen(key: args.key),
+        child: _i10.RegisterScreen(key: args.key),
       );
     },
     SplashRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.SplashScreen(),
+        child: const _i11.SplashScreen(),
       );
     },
     WelcomeRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.WelcomeScreen(),
+        child: const _i12.WelcomeScreen(),
       );
     },
     HomeRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.HomeScreen(),
+        child: const _i13.HomeScreen(),
       );
     },
     CreateBlockRoute.name: (routeData) {
@@ -113,7 +155,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
               CreateBlockRouteArgs(roadId: pathParams.getInt('roadId')));
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i7.CreateBlockScreen(
+        child: _i14.CreateBlockScreen(
           key: args.key,
           roadId: args.roadId,
         ),
@@ -123,7 +165,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
       final args = routeData.argsAs<CreateResourceRouteArgs>();
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i8.CreateResourceScreen(
+        child: _i15.CreateResourceScreen(
           key: args.key,
           roadId: args.roadId,
           blockId: args.blockId,
@@ -133,7 +175,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
     CreateRoadmapRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i9.CreateRoadmapScreen(),
+        child: const _i16.CreateRoadmapScreen(),
       );
     },
     EditRoadmapRoute.name: (routeData) {
@@ -143,29 +185,34 @@ abstract class $AppRouter extends _i26.RootStackRouter {
               EditRoadmapRouteArgs(roadId: pathParams.getInt('roadId')));
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i10.EditRoadmapScreen(
+        child: _i17.EditRoadmapScreen(
           key: args.key,
           roadId: args.roadId,
         ),
       );
     },
     MyRoadmapsRoute.name: (routeData) {
+      final args = routeData.argsAs<MyRoadmapsRouteArgs>(
+          orElse: () => const MyRoadmapsRouteArgs());
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i11.MyRoadmapsScreen(),
+        child: _i18.MyRoadmapsScreen(
+          key: args.key,
+          control: args.control,
+        ),
       );
     },
     PublicRoadmapsRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i12.PublicRoadmapsScreen(),
+        child: const _i19.PublicRoadmapsScreen(),
       );
     },
     SingleBlockRoute.name: (routeData) {
       final args = routeData.argsAs<SingleBlockRouteArgs>();
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i13.SingleBlockScreen(
+        child: _i20.SingleBlockScreen(
           key: args.key,
           blockId: args.blockId,
           roadId: args.roadId,
@@ -180,7 +227,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
               SingleRoadRouteArgs(roadId: pathParams.getInt('roadId')));
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i14.SingleRoadScreen(
+        child: _i21.SingleRoadScreen(
           key: args.key,
           roadId: args.roadId,
         ),
@@ -189,7 +236,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
     UnnavailableRoadmapRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i15.UnnavailableRoadmapScreen(),
+        child: const _i22.UnnavailableRoadmapScreen(),
       );
     },
     ConfigurationRoute.name: (routeData) {
@@ -197,7 +244,7 @@ abstract class $AppRouter extends _i26.RootStackRouter {
           orElse: () => const ConfigurationRouteArgs());
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.ConfigurationScreen(key: args.key),
+        child: _i23.ConfigurationScreen(key: args.key),
       );
     },
     EditProfileRoute.name: (routeData) {
@@ -205,76 +252,132 @@ abstract class $AppRouter extends _i26.RootStackRouter {
           orElse: () => const EditProfileRouteArgs());
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i17.EditProfileScreen(key: args.key),
+        child: _i24.EditProfileScreen(key: args.key),
       );
     },
-    BlockRouter.name: (routeData) {
+    LoggedWrapperRoute.name: (routeData) {
       return _i26.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i18.RoadmapRouterScreen(),
-      );
-    },
-    ComunidadRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i19.ComunidadRouterScreen(),
-      );
-    },
-    ConfigRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i20.ConfigRouterScreen(),
-      );
-    },
-    CreateRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i21.CreateRouterScreen(),
-      );
-    },
-    EditRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i22.EditRouterScreen(),
-      );
-    },
-    HomeRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i23.HomeRouterScreen(),
-      );
-    },
-    MisRoadmapsRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i24.MisRoadmapsRouterScreen(),
-      );
-    },
-    WelcomeRouter.name: (routeData) {
-      return _i26.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i25.WelcomeRouterScreen(),
+        child: const _i25.LoggedWrapperScreen(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.LoggedWrapperScreen]
-class LoggedWrapperRoute extends _i26.PageRouteInfo<void> {
-  const LoggedWrapperRoute({List<_i26.PageRouteInfo>? children})
+/// [_i1.RoadmapRouterScreen]
+class BlockRouter extends _i26.PageRouteInfo<void> {
+  const BlockRouter({List<_i26.PageRouteInfo>? children})
       : super(
-          LoggedWrapperRoute.name,
+          BlockRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'LoggedWrapperRoute';
+  static const String name = 'BlockRouter';
 
   static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i2.LoginScreen]
+/// [_i2.ComunidadRouterScreen]
+class ComunidadRouter extends _i26.PageRouteInfo<void> {
+  const ComunidadRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          ComunidadRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ComunidadRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.ConfigRouterScreen]
+class ConfigRouter extends _i26.PageRouteInfo<void> {
+  const ConfigRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          ConfigRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ConfigRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i4.CreateRouterScreen]
+class CreateRouter extends _i26.PageRouteInfo<void> {
+  const CreateRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          CreateRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i5.EditRouterScreen]
+class EditRouter extends _i26.PageRouteInfo<void> {
+  const EditRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          EditRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EditRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.HomeRouterScreen]
+class HomeRouter extends _i26.PageRouteInfo<void> {
+  const HomeRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          HomeRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i7.MisRoadmapsRouterScreen]
+class MisRoadmapsRouter extends _i26.PageRouteInfo<void> {
+  const MisRoadmapsRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          MisRoadmapsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MisRoadmapsRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i8.WelcomeRouterScreen]
+class WelcomeRouter extends _i26.PageRouteInfo<void> {
+  const WelcomeRouter({List<_i26.PageRouteInfo>? children})
+      : super(
+          WelcomeRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomeRouter';
+
+  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i9.LoginScreen]
 class LoginRoute extends _i26.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
     _i27.Key? key,
@@ -303,7 +406,7 @@ class LoginRouteArgs {
 }
 
 /// generated route for
-/// [_i3.RegisterScreen]
+/// [_i10.RegisterScreen]
 class RegisterRoute extends _i26.PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({
     _i27.Key? key,
@@ -332,7 +435,7 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
-/// [_i4.SplashScreen]
+/// [_i11.SplashScreen]
 class SplashRoute extends _i26.PageRouteInfo<void> {
   const SplashRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -346,7 +449,7 @@ class SplashRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.WelcomeScreen]
+/// [_i12.WelcomeScreen]
 class WelcomeRoute extends _i26.PageRouteInfo<void> {
   const WelcomeRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -360,7 +463,7 @@ class WelcomeRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.HomeScreen]
+/// [_i13.HomeScreen]
 class HomeRoute extends _i26.PageRouteInfo<void> {
   const HomeRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -374,7 +477,7 @@ class HomeRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.CreateBlockScreen]
+/// [_i14.CreateBlockScreen]
 class CreateBlockRoute extends _i26.PageRouteInfo<CreateBlockRouteArgs> {
   CreateBlockRoute({
     _i27.Key? key,
@@ -413,7 +516,7 @@ class CreateBlockRouteArgs {
 }
 
 /// generated route for
-/// [_i8.CreateResourceScreen]
+/// [_i15.CreateResourceScreen]
 class CreateResourceRoute extends _i26.PageRouteInfo<CreateResourceRouteArgs> {
   CreateResourceRoute({
     _i27.Key? key,
@@ -457,7 +560,7 @@ class CreateResourceRouteArgs {
 }
 
 /// generated route for
-/// [_i9.CreateRoadmapScreen]
+/// [_i16.CreateRoadmapScreen]
 class CreateRoadmapRoute extends _i26.PageRouteInfo<void> {
   const CreateRoadmapRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -471,7 +574,7 @@ class CreateRoadmapRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.EditRoadmapScreen]
+/// [_i17.EditRoadmapScreen]
 class EditRoadmapRoute extends _i26.PageRouteInfo<EditRoadmapRouteArgs> {
   EditRoadmapRoute({
     _i27.Key? key,
@@ -510,21 +613,45 @@ class EditRoadmapRouteArgs {
 }
 
 /// generated route for
-/// [_i11.MyRoadmapsScreen]
-class MyRoadmapsRoute extends _i26.PageRouteInfo<void> {
-  const MyRoadmapsRoute({List<_i26.PageRouteInfo>? children})
-      : super(
+/// [_i18.MyRoadmapsScreen]
+class MyRoadmapsRoute extends _i26.PageRouteInfo<MyRoadmapsRouteArgs> {
+  MyRoadmapsRoute({
+    _i27.Key? key,
+    String control = '',
+    List<_i26.PageRouteInfo>? children,
+  }) : super(
           MyRoadmapsRoute.name,
+          args: MyRoadmapsRouteArgs(
+            key: key,
+            control: control,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'MyRoadmapsRoute';
 
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
+  static const _i26.PageInfo<MyRoadmapsRouteArgs> page =
+      _i26.PageInfo<MyRoadmapsRouteArgs>(name);
+}
+
+class MyRoadmapsRouteArgs {
+  const MyRoadmapsRouteArgs({
+    this.key,
+    this.control = '',
+  });
+
+  final _i27.Key? key;
+
+  final String control;
+
+  @override
+  String toString() {
+    return 'MyRoadmapsRouteArgs{key: $key, control: $control}';
+  }
 }
 
 /// generated route for
-/// [_i12.PublicRoadmapsScreen]
+/// [_i19.PublicRoadmapsScreen]
 class PublicRoadmapsRoute extends _i26.PageRouteInfo<void> {
   const PublicRoadmapsRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -538,7 +665,7 @@ class PublicRoadmapsRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.SingleBlockScreen]
+/// [_i20.SingleBlockScreen]
 class SingleBlockRoute extends _i26.PageRouteInfo<SingleBlockRouteArgs> {
   SingleBlockRoute({
     _i27.Key? key,
@@ -587,7 +714,7 @@ class SingleBlockRouteArgs {
 }
 
 /// generated route for
-/// [_i14.SingleRoadScreen]
+/// [_i21.SingleRoadScreen]
 class SingleRoadRoute extends _i26.PageRouteInfo<SingleRoadRouteArgs> {
   SingleRoadRoute({
     _i27.Key? key,
@@ -626,7 +753,7 @@ class SingleRoadRouteArgs {
 }
 
 /// generated route for
-/// [_i15.UnnavailableRoadmapScreen]
+/// [_i22.UnnavailableRoadmapScreen]
 class UnnavailableRoadmapRoute extends _i26.PageRouteInfo<void> {
   const UnnavailableRoadmapRoute({List<_i26.PageRouteInfo>? children})
       : super(
@@ -640,7 +767,7 @@ class UnnavailableRoadmapRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i16.ConfigurationScreen]
+/// [_i23.ConfigurationScreen]
 class ConfigurationRoute extends _i26.PageRouteInfo<ConfigurationRouteArgs> {
   ConfigurationRoute({
     _i27.Key? key,
@@ -669,7 +796,7 @@ class ConfigurationRouteArgs {
 }
 
 /// generated route for
-/// [_i17.EditProfileScreen]
+/// [_i24.EditProfileScreen]
 class EditProfileRoute extends _i26.PageRouteInfo<EditProfileRouteArgs> {
   EditProfileRoute({
     _i27.Key? key,
@@ -698,113 +825,15 @@ class EditProfileRouteArgs {
 }
 
 /// generated route for
-/// [_i18.RoadmapRouterScreen]
-class BlockRouter extends _i26.PageRouteInfo<void> {
-  const BlockRouter({List<_i26.PageRouteInfo>? children})
+/// [_i25.LoggedWrapperScreen]
+class LoggedWrapperRoute extends _i26.PageRouteInfo<void> {
+  const LoggedWrapperRoute({List<_i26.PageRouteInfo>? children})
       : super(
-          BlockRouter.name,
+          LoggedWrapperRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'BlockRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i19.ComunidadRouterScreen]
-class ComunidadRouter extends _i26.PageRouteInfo<void> {
-  const ComunidadRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          ComunidadRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ComunidadRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i20.ConfigRouterScreen]
-class ConfigRouter extends _i26.PageRouteInfo<void> {
-  const ConfigRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          ConfigRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ConfigRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i21.CreateRouterScreen]
-class CreateRouter extends _i26.PageRouteInfo<void> {
-  const CreateRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          CreateRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CreateRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i22.EditRouterScreen]
-class EditRouter extends _i26.PageRouteInfo<void> {
-  const EditRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          EditRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'EditRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i23.HomeRouterScreen]
-class HomeRouter extends _i26.PageRouteInfo<void> {
-  const HomeRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          HomeRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i24.MisRoadmapsRouterScreen]
-class MisRoadmapsRouter extends _i26.PageRouteInfo<void> {
-  const MisRoadmapsRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          MisRoadmapsRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MisRoadmapsRouter';
-
-  static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i25.WelcomeRouterScreen]
-class WelcomeRouter extends _i26.PageRouteInfo<void> {
-  const WelcomeRouter({List<_i26.PageRouteInfo>? children})
-      : super(
-          WelcomeRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'WelcomeRouter';
+  static const String name = 'LoggedWrapperRoute';
 
   static const _i26.PageInfo<void> page = _i26.PageInfo<void>(name);
 }
