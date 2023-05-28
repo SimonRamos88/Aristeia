@@ -28,17 +28,11 @@ class _FiltredRoadmapState extends State<FiltredRoadmap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: 'Comunidad',
-        type: 5,
+        title: 'Resultados',
+        type: 1,
         onPressedLeading: () {
-          showSearch(
-            context: context,
-            delegate: MySearchDelegate('publico'),
-          );
+           Navigator.pop(context);
         },
-         onPressedAction: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MyRoadmapsScreen()));
-         },
       ),
       body: widget.getRoad.getRoadmap(''),
     );

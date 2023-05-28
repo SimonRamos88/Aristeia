@@ -35,8 +35,6 @@ class Buscador extends showRoad{
       privs.add(data);
       i ++;
     }
-    log('log1 ' + privs.toString());
-    log('len 1' + privs.length.toString());
     return privs;
   }
 
