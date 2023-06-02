@@ -68,6 +68,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController nombreController = TextEditingController();
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
+    final TextEditingController autorController = TextEditingController();
     final TextEditingController imageController = TextEditingController();
 
     showDialog(
@@ -98,6 +99,8 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                 style: bodyStyle.copyWith(color: colors.pinkColor),
                 textAlign: TextAlign.center,
               ),
+              InputField(
+                  hintText: 'Autor', maxLines: 3, controller: autorController),
             ],
           ),
           rightText: 'Agregar',
@@ -112,8 +115,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
-              'autor': nombre,
-              'imagen': imageController.text
+              'autor': autorController.text,
             }, widget.roadId.toString(), widget.blockId.toString(),
                 recursoId.toString());
 
@@ -123,7 +125,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                 'nombre': nombreController.text,
                 'descripcion': descripcionController,
                 'links_relacionados': linksController,
-                'autor': Auth().currentUser?.displayName,
+                'autor': autorController.text,
                 'imagen': imageController.text
               };
             });
@@ -156,6 +158,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController nombreController = TextEditingController();
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
+    final TextEditingController autorController = TextEditingController();
     final TextEditingController imageController = TextEditingController();
 
     Map<String, dynamic> recurso = await getRecurso(widget.roadId.toString(),
@@ -163,8 +166,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
 
     nombreController.text = recurso['nombre'];
     descripcionController.text = recurso['descripcion'];
-    imageController.text = recurso['imagen'];
-
+    autorController.text = recurso['autor'];
     showDialog(
       context: context,
       builder: (BuildContext context) => SingleChildScrollView(
@@ -189,7 +191,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
               InputField(
                   hintText: 'Links', maxLines: 2, controller: linksController),
               InputField(
-                  hintText: 'Imagen', maxLines: 2, controller: imageController),
+                  hintText: 'Autor', maxLines: 2, controller: autorController),
             ],
           ),
           rightText: 'Editar',
@@ -202,7 +204,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
-              'autor': nombre,
+              'autor': autorController.text,
               'imagen': imageController.text
             });
 
@@ -218,6 +220,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
             nombreController.clear();
             descripcionController.clear();
             linksController.clear();
+            autorController.clear();
             Navigator.of(context).pop();
           },
           onTapLeft: () {
@@ -227,7 +230,6 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
       ),
     );
   }
-
 
   int estadoBloque = 0;
 

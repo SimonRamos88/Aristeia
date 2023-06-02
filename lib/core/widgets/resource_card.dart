@@ -13,6 +13,7 @@ class ResourceCard extends StatelessWidget {
   final bool myRoadmap;
   final String nombreRecurso;
   final String descripcion;
+  final String autor;
   final bool edit;
   final void Function()? onDelete;
   final int cantidadLinks;
@@ -24,6 +25,7 @@ class ResourceCard extends StatelessWidget {
     this.myRoadmap = true,
     this.nombreRecurso = 'Nombre del recurso',
     this.descripcion = '-',
+    this.autor = 'autor',
     this.edit = false,
     this.cantidadLinks = 0,
   });
@@ -58,14 +60,6 @@ class ResourceCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    (descripcion != '')
-                        ? Text(descripcion,
-                            softWrap: true,
-                            style: bodyStyle.copyWith(color: Colors.black))
-                        : const SizedBox(height: 0, width: 0),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     RichText(
                       text: TextSpan(
                         children: [
@@ -75,7 +69,7 @@ class ResourceCard extends StatelessWidget {
                                 color: colors.pinkColor),
                           ),
                           TextSpan(
-                            text: 'Simon ramos',
+                            text: autor,
                             style: bodyStyle.copyWith(color: Colors.black),
                           ),
                         ],
