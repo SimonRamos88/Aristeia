@@ -173,7 +173,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     }
   }
 
-  void abrirRecurso(String nombre, String descripcion, List links) {
+  void abrirRecurso(String nombre, String descripcion, String autor, links) {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -245,7 +245,7 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: descripcion,
+                            text: autor,
                             style: heading3Style.copyWith(
                               color: Colors.black,
                             ),
@@ -312,7 +312,6 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBarWidget(
         type: 1,
@@ -359,21 +358,24 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 : const SizedBox(),
             // Mostrar mensaje de fecha limite para bloque sin iniciar y sin terminar
             (bloqueCreado["fechaInicio"] != null &&
-             bloqueCreado["fechaInicio"].toDate().compareTo(DateTime.now()) < 0 &&
-             estadoBloque == 0) ?
-              Text("¡El bloque no se inició a tiempo!",
-                textAlign: TextAlign.center,
-                style: heading3Style.copyWith(color: Colors.black)
-              )
-              :
-              (bloqueCreado["fechaFin"] != null &&
-             bloqueCreado["fechaFin"].toDate().compareTo(DateTime.now()) < 0 &&
-             estadoBloque < 2)
-              ? Text("¡El bloque no se termino a tiempo!",
-                textAlign: TextAlign.center,
-                style: heading3Style.copyWith(color: Colors.black)
-              )
-              : const SizedBox(),
+                    bloqueCreado["fechaInicio"]
+                            .toDate()
+                            .compareTo(DateTime.now()) <
+                        0 &&
+                    estadoBloque == 0)
+                ? Text("¡El bloque no se inició a tiempo!",
+                    textAlign: TextAlign.center,
+                    style: heading3Style.copyWith(color: Colors.black))
+                : (bloqueCreado["fechaFin"] != null &&
+                        bloqueCreado["fechaFin"]
+                                .toDate()
+                                .compareTo(DateTime.now()) <
+                            0 &&
+                        estadoBloque < 2)
+                    ? Text("¡El bloque no se termino a tiempo!",
+                        textAlign: TextAlign.center,
+                        style: heading3Style.copyWith(color: Colors.black))
+                    : const SizedBox(),
             for (final MapEntry<int, dynamic> tile in recursos.entries)
               Padding(
                 key: ValueKey(tile),
@@ -386,7 +388,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                       abrirRecurso(
                           tile.value["nombre"],
                           tile.value['descripcion'],
-                          tile.value['links_relacionados']);
+                          tile.value['links_relacionados'],
+                          tile.value['autor']);
                     }),
               ),
           ],
