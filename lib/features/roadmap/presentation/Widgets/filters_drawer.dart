@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/button.dart';
@@ -23,7 +25,6 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
   List<String> etiquetas = [];
   List<String> idEtiquetas = [];
   List<Map> roads = [];
-  bool filtrado = false;
 
   Buscador buscador = Buscador();
 
@@ -59,8 +60,8 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
             ),
             MyButton(
               buttonText: 'Filtrar',
-              onTap: () {
-                buscador.BuscarByEt(etiquetas);
+              onTap: () async {
+                await buscador.BuscarByEt(etiquetas);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FiltredRoadmap(getRoad: buscador,)));
                 //Scaffold.of(context).closeEndDrawer(); //enviarle el buscador a myroads
               },

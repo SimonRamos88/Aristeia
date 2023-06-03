@@ -43,10 +43,7 @@ class _MyRoadmapsScreenState extends State<MyRoadmapsScreen> {
             delegate: MySearchDelegate('privado'),
           );
         },
-        onPressedAction: () {
-          log(widget.control);
-          Scaffold.of(context).openEndDrawer();
-        },
+        
       ),
       body: this.getRoad.getRoadmap(''),
     );

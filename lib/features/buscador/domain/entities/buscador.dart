@@ -19,7 +19,7 @@ class Buscador extends showRoad{
 
   List<dynamic> resultados = [];
 
-  Future<List<Map>> roadsPrivados() async {
+  /*Future<List<Map>> roadsPrivados() async {
 
     List<Map> privs = [];
     QuerySnapshot stream = await FirebaseFirestore.instance
@@ -36,6 +36,27 @@ class Buscador extends showRoad{
       i ++;
     }
     return privs;
+  }*/
+
+  Future<List<Map>> roadsPrivados() async {
+
+    List<Map> privs = [];
+    QuerySnapshot stream = await FirebaseFirestore.instance
+        .collection('roadmap')
+        .where("publico", isEqualTo: true)
+        .get();
+
+    int i=0;
+    List docs = stream.docs;
+    log('len ' + docs.length.toString());
+    while(i<docs.length){
+      Map data = docs[i].data();
+      data['id'] = docs[i].id;
+      privs.add(data);
+      i ++;
+    }
+    return privs;
+    
   }
 
   bool inPart(int ini, int fin, String sub, String cad){
@@ -103,7 +124,7 @@ class Buscador extends showRoad{
     }
 
     
-    void BuscarByEt(List<String> etiquetas) async {
+    Future<void> BuscarByEt(List<String> etiquetas) async {
       this.resultados = [];
       List<Map> privs = await roadsPrivados();
       if(etiquetas.isNotEmpty){
@@ -114,7 +135,8 @@ class Buscador extends showRoad{
           }
         }
       }else{
-        this.resultados = privs;
+        log('is empty');
+        this.resultados = await privs;
       }
       
     }
@@ -127,7 +149,7 @@ class Buscador extends showRoad{
     @override
     Widget getRoadmap(String filter) {
 
-      log('res: ' + this.resultados.toString());
+      log('res1: ' + this.resultados.toString());
       return ListView.builder(
         itemCount: this.resultados.length,
         itemBuilder: (context,index){
