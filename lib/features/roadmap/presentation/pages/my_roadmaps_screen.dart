@@ -24,10 +24,6 @@ class _MyRoadmapsScreenState extends State<MyRoadmapsScreen> {
 
    showRoad getRoad = GetRoadmapPrivado();
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   
 
@@ -43,7 +39,11 @@ class _MyRoadmapsScreenState extends State<MyRoadmapsScreen> {
             delegate: MySearchDelegate('privado'),
           );
         },
-        
+        onPressedAction: (){
+          FiltersDrawer.isPriv = true;
+          Scaffold.of(context).openEndDrawer();
+          log(FiltersDrawer.isPriv.toString());
+        },
       ),
       body: this.getRoad.getRoadmap(''),
     );

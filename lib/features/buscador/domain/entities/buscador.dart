@@ -19,7 +19,7 @@ class Buscador extends showRoad{
 
   List<dynamic> resultados = [];
 
-  /*Future<List<Map>> roadsPrivados() async {
+  Future<List<Map>> roadsPrivados() async {
 
     List<Map> privs = [];
     QuerySnapshot stream = await FirebaseFirestore.instance
@@ -36,9 +36,9 @@ class Buscador extends showRoad{
       i ++;
     }
     return privs;
-  }*/
+  }
 
-  Future<List<Map>> roadsPrivados() async {
+  Future<List<Map>> roadsPublicos() async {
 
     List<Map> privs = [];
     QuerySnapshot stream = await FirebaseFirestore.instance
@@ -124,9 +124,15 @@ class Buscador extends showRoad{
     }
 
     
-    Future<void> BuscarByEt(List<String> etiquetas) async {
+    Future<void> BuscarByEt(List<String> etiquetas, bool isPriv) async {
       this.resultados = [];
-      List<Map> privs = await roadsPrivados();
+      List<Map> privs = [];
+      if(isPriv){
+         privs = await roadsPrivados();
+      }else{
+        privs = await roadsPublicos();
+      }
+     
       if(etiquetas.isNotEmpty){
         for(Map road in privs){
           log('r ' + road.toString());

@@ -15,6 +15,9 @@ import '../pages/filtred_roads.dart';
 
 class FiltersDrawer extends StatefulWidget {
   const FiltersDrawer({super.key});
+  static  bool isPriv = false;
+
+ 
 
   @override
   State<FiltersDrawer> createState() => _FiltersDrawerState();
@@ -27,6 +30,7 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
   List<Map> roads = [];
 
   Buscador buscador = Buscador();
+  
 
   @override
   void initState() {
@@ -61,7 +65,7 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
             MyButton(
               buttonText: 'Filtrar',
               onTap: () async {
-                await buscador.BuscarByEt(etiquetas);
+                await buscador.BuscarByEt(etiquetas, FiltersDrawer.isPriv);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FiltredRoadmap(getRoad: buscador,)));
                 //Scaffold.of(context).closeEndDrawer(); //enviarle el buscador a myroads
               },
