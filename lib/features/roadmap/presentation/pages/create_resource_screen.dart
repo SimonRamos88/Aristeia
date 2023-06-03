@@ -69,7 +69,6 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
     final TextEditingController autorController = TextEditingController();
-    final TextEditingController imageController = TextEditingController();
 
     showDialog(
       context: context,
@@ -126,13 +125,11 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                 'descripcion': descripcionController,
                 'links_relacionados': linksController,
                 'autor': autorController.text,
-                'imagen': imageController.text
               };
             });
             nombreController.clear();
             descripcionController.clear();
             linksController.clear();
-            imageController.clear();
             log(recursos.toString());
             Navigator.of(context).pop();
           },
@@ -159,7 +156,6 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     final TextEditingController descripcionController = TextEditingController();
     final TextEditingController linksController = TextEditingController();
     final TextEditingController autorController = TextEditingController();
-    final TextEditingController imageController = TextEditingController();
 
     Map<String, dynamic> recurso = await getRecurso(widget.roadId.toString(),
         widget.blockId.toString(), recursoId.toString());
@@ -167,6 +163,11 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
     nombreController.text = recurso['nombre'];
     descripcionController.text = recurso['descripcion'];
     autorController.text = recurso['autor'];
+    List<String> listaLinks = recurso['links_relacionados']
+        .map((elemento) => elemento.toString())
+        .whereType<String>()
+        .toList();
+    linksController.text = listaLinks.join(' ');
     showDialog(
       context: context,
       builder: (BuildContext context) => SingleChildScrollView(
@@ -197,24 +198,24 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
           rightText: 'Editar',
           leftText: 'Cancelar',
           onTapRight: () async {
-            var usuario = await getUsuariobyId(Auth().currentUser!.uid);
-            String nombre = usuario['nombres'];
+            print("En update");
+            print(linksController.text);
             updateRecurso(widget.roadId.toString(), widget.blockId.toString(),
                 recursoId.toString(), {
               'nombre': nombreController.text,
               'descripcion': descripcionController.text,
               'links_relacionados': StringToList(linksController.text),
               'autor': autorController.text,
-              'imagen': imageController.text
             });
 
+            print("Luego de update");
+            print(linksController.text);
             setState(() {
               recursos[recursoId] = {
                 'nombre': nombreController.text,
                 'descripcion': descripcionController,
                 'links_relacionados': linksController,
-                'autor': Auth().currentUser?.displayName,
-                'imagen': imageController.text
+                'autor': autorController.text,
               };
             });
             nombreController.clear();
@@ -393,6 +394,7 @@ class _CreateResourceScreenState extends State<CreateResourceScreen> {
                   nombreRecurso: tile.value['nombre'],
                   edit: true,
                   onDelete: borrarRecurso,
+                  autor: tile.value['autor'],
                   onTap: () {
                     editarRecurso(tile.key);
                   }),

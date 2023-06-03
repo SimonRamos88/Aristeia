@@ -71,7 +71,11 @@ class _EditRoadmapScreenState extends State<EditRoadmapScreen> {
       nombreRoadmap.text = roadmapCreado["nombre"];
       descripcion.text = roadmapCreado["descripcion"];
       fechaInicio.text = roadmapCreado["fechaInicio"];
-      etiquetas = roadmapCreado["etiquetas"];
+      etiquetas = roadmapCreado["etiquetas"]
+          .map((elemento) => elemento.toString())
+          .whereType<String>()
+          .toList();
+      ;
       tipo_roadmap.text = roadmapCreado["publico"] ? "1" : "2";
     });
   }

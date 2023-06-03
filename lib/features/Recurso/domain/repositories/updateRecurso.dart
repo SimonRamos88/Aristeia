@@ -18,14 +18,14 @@ Future<void> updateRecurso(String roadmapID, String bloqueID, String idRecurso,
 
   if (query.exists) {
     //revisar logica para añadir links_relacionados
-    if (data.containsKey("links_relacionados")) {
+    /*if (data.containsKey("links_relacionados")) {
       Map<String, dynamic> data_map = query.data() as Map<String, dynamic>;
       List<dynamic> linksExistentes = data_map["links_relacionados"] ?? [];
       data["links_relacionados"] = [
         ...linksExistentes,
         ...data["links_relacionados"]
       ];
-    }
+    }*/
 
     await recursoQuery.update(data);
   }

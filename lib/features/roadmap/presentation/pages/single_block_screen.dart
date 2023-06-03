@@ -173,7 +173,8 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
     }
   }
 
-  void abrirRecurso(String nombre, String descripcion, String autor, links) {
+  void abrirRecurso(
+      String nombre, String descripcion, String autor, List links) {
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -383,13 +384,14 @@ class _SingleBlockScreenState extends State<SingleBlockScreen> {
                 child: ResourceCard(
                     nombreRecurso: tile.value['nombre'],
                     edit: false,
+                    autor: tile.value['autor'],
                     onDelete: borrarRecurso,
                     onTap: () {
                       abrirRecurso(
                           tile.value["nombre"],
                           tile.value['descripcion'],
-                          tile.value['links_relacionados'],
-                          tile.value['autor']);
+                          tile.value['autor'],
+                          tile.value['links_relacionados']);
                     }),
               ),
           ],

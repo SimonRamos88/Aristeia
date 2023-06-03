@@ -80,12 +80,12 @@ class ResourceCard extends StatelessWidget {
                             height: 7,
                           )
                         : const SizedBox(height: 0, width: 0),
-                    Text('${cantidadLinks.toString()} links',
+                    /*Text('${cantidadLinks.toString()} links',
                         softWrap: true,
                         style: bodyStyle.copyWith(
                             color: colors.pinkColor,
                             fontSize: 13,
-                            fontWeight: FontWeight.w500)),
+                            fontWeight: FontWeight.w500)),*/
                   ],
                 ),
               ),
