@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
@@ -7,9 +9,12 @@ import 'package:aristeia_app/features/roadmap/presentation/Widgets/my_search_del
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/show_road.dart';
+
 @RoutePage()
 class MyRoadmapsScreen extends StatefulWidget {
-  const MyRoadmapsScreen({super.key});
+  final String control;
+  MyRoadmapsScreen({super.key, this.control = ''});
 
   @override
   State<MyRoadmapsScreen> createState() => _MyRoadmapsScreenState();
@@ -17,6 +22,10 @@ class MyRoadmapsScreen extends StatefulWidget {
 
 class _MyRoadmapsScreenState extends State<MyRoadmapsScreen> {
 
+   showRoad getRoad = GetRoadmapPrivado();
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +39,13 @@ class _MyRoadmapsScreenState extends State<MyRoadmapsScreen> {
             delegate: MySearchDelegate('privado'),
           );
         },
-        onPressedAction: () => Scaffold.of(context).openEndDrawer(),
+        onPressedAction: (){
+          FiltersDrawer.isPriv = true;
+          Scaffold.of(context).openEndDrawer();
+          log(FiltersDrawer.isPriv.toString());
+        },
       ),
-      body: getRoadmapPrivado(''),
+      body: this.getRoad.getRoadmap(''),
     );
   }
 }
