@@ -11,8 +11,6 @@ Future<Map<String, dynamic>> getCalificacion(
   CollectionReference query =
       db.collection('roadmap').doc(roadmapID).collection('calificaciones');
 
-  var rng = Random();
-  //String calificacionID = rng.nextInt(100000).toString();
   QuerySnapshot calificacionDocument =
       await query.where('autor', isEqualTo: usuarioId).get();
 

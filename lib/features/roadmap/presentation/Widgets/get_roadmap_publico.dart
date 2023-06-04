@@ -34,6 +34,8 @@ class GetRoadmapPublico extends showRoad{
                   future: calcularPromedio(doc?[index].id),
                   builder: (context, snapshot) {
                     double promedio = snapshot.data ?? 0.0;
+                    String pars= promedio.toStringAsFixed(1);
+                    promedio= double.parse(pars);
                     // Función para calcular el total de bloques que tiene el roadmap
                     return FutureBuilder<int>(
                       future: totalBloques(doc?[index].id),

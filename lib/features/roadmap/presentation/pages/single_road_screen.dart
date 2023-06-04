@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:ui';
+
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
@@ -29,6 +31,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../core/network/auth.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/calcular_promedio.dart';
 import '../../domain/repositories/copy_roadmapID.dart';
 
 @RoutePage()
@@ -45,11 +48,11 @@ class SingleRoadScreen extends StatefulWidget {
 
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
+  double calificacionProm=0;
   double initialRating = 1;
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
   int estadoRoad = 0;
-  double calificacion = 0;
 
   @override
   void initState() {
@@ -367,6 +370,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     );
   }
 
+
+
   Future<void> traerRoadmap() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     //instanciamos la db y buscamos la coleccion
@@ -374,11 +379,16 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     //antes que nada, verificamos que la informacion esté correcta
     DocumentSnapshot query =
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
-      Future<double> prom =  calcularPromedio(widget.roadId.toString());
+    Future<double> vael= calcularPromedio(widget.roadId.toString());
+    print("===============================");
+    var temp;
+    await vael.then((value) => {
+      temp=value.toStringAsFixed(1)
+    });
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad = roadmapCreado["estado"] ?? 1;
-      calificacion= prom as double;
+      calificacionProm=double.parse(temp);
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -447,9 +457,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 Row(
                   children: [
                     Icon(Icons.star_rounded, size: 32, color: colors.blueColor),
-
-                    Text(
-                      calificacion.toString()== '0.0'? '-': calificacion.toString(),
+                    Text( calificacionProm.toString(),
                       style: heading2bStyle.copyWith(color: colors.blueColor),
                     ),
                   ],

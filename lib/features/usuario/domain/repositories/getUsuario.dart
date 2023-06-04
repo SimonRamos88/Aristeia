@@ -1,3 +1,4 @@
+import 'package:aristeia_app/core/network/auth.dart';
 import 'package:aristeia_app/core/network/create_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
