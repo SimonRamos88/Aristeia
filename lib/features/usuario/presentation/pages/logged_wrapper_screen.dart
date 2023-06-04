@@ -54,7 +54,7 @@ class LoggedWrapperScreen extends StatelessWidget {
                   Icons.article,
                   size: 30,
                 ),
-                title: const Text('Mis roadmaps', style: subheadingbStyle),
+                title: const Text('Propios', style: subheadingbStyle),
               ),
               SalomonBottomBarItem(
                 icon: const Icon(
