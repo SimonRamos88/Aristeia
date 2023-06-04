@@ -13,6 +13,7 @@ import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/add_calificacion.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_bloque_road.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
@@ -48,6 +49,7 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
   int estadoRoad = 0;
+  double calificacion = 0;
 
   @override
   void initState() {
@@ -85,6 +87,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             Navigator.of(context).pop();
           },
           more: RatingBar.builder(
+            itemSize: 35,
+            wrapAlignment: WrapAlignment.center,
             glow: false,
             initialRating: initialRating,
             minRating: 1,
@@ -370,10 +374,11 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     //antes que nada, verificamos que la informacion esté correcta
     DocumentSnapshot query =
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
+      Future<double> prom =  calcularPromedio(widget.roadId.toString());
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad = roadmapCreado["estado"] ?? 1;
-
+      calificacion= prom as double;
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -442,8 +447,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 Row(
                   children: [
                     Icon(Icons.star_rounded, size: 32, color: colors.blueColor),
+
                     Text(
-                      '4,5',
+                      calificacion.toString()== '0.0'? '-': calificacion.toString(),
                       style: heading2bStyle.copyWith(color: colors.blueColor),
                     ),
                   ],
@@ -457,8 +463,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 8),
+                      padding: const EdgeInsets.only(
+                          left: 24, bottom: 8, top: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

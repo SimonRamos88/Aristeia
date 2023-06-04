@@ -24,7 +24,7 @@ class GetRoadmapPrivado extends showRoad{
         
     builder: ((context, snapshot) {
       var doc = snapshot.data?.docs.where((element) {
-        return element['nombre'].toString().toLowerCase().contains(filter);
+        return element['nombre'].toString().toLowerCase().contains(filter.toLowerCase());
       }).toList();
       if (snapshot.hasData) {
         if (doc!.isNotEmpty) {
