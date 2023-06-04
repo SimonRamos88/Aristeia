@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<Map<String, int>> getCompletedRoadmaps() async {
     final now = DateTime.now();
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1)).toUtc();
+    final startOfWeek = now.subtract(Duration(days: now.weekday)).toUtc();
     final startOfMonth = DateTime(now.year, now.month).toUtc();
     final startOfYear = DateTime(now.year).toUtc();
 
