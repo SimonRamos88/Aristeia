@@ -13,7 +13,7 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/resource_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/create_bloque.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_bloque.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
+import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_bloque_road.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/get_roadmap.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -95,30 +95,61 @@ class _CreateBlockScreenState extends State<CreateBlockScreen> {
           leftText: 'Crear',
           rightText: 'Cancelar',
           onTapLeft: () async {
-            DateTime f_inicio = DateTime.parse(_controllerFechaInicio.text);
-            DateTime f_final = DateTime.parse(_controllerFechaFin.text);
-            if (_controllerTitulo.text != '' &&
-                _controllerDescripcion.text != '' &&
-                _controllerFechaFin.text != '' &&
-                _controllerFechaInicio.text != '' &&
-                int.parse(_controllerImportancia.text) < 6 &&
-                int.parse(_controllerImportancia.text) > 0 &&
-                (f_inicio.compareTo(f_final) < 0 ||
-                    f_inicio.compareTo(f_final) == 0)) {
-              String bloqueId = await addBlock(
-                  widget.roadId.toString(),
-                  _controllerTitulo.text,
-                  _controllerDescripcion.text,
-                  int.parse(_controllerImportancia.text),
-                  f_inicio,
-                  f_final);
-              Navigator.of(context).pop();
-              //borrar los controllers:
-              _controllerTitulo.clear();
-              _controllerDescripcion.clear();
-              _controllerImportancia.clear();
-              _controllerFechaInicio.clear();
-              _controllerFechaFin.clear();
+            print('asi se ven las fechas ' +
+                _controllerFechaFin.text +
+                " y " +
+                _controllerFechaInicio.text);
+            if (_controllerFechaFin.text != '' &&
+                _controllerFechaInicio.text != '') {
+              DateTime f_inicio = DateTime.parse(_controllerFechaInicio.text);
+              DateTime f_final = DateTime.parse(_controllerFechaFin.text);
+
+              if (_controllerTitulo.text != '' &&
+                  _controllerDescripcion.text != '' &&
+                  _controllerFechaFin.text != '' &&
+                  _controllerFechaInicio.text != '' &&
+                  int.parse(_controllerImportancia.text) < 6 &&
+                  int.parse(_controllerImportancia.text) > 0 &&
+                  (f_inicio.compareTo(f_final) < 0 ||
+                      f_inicio.compareTo(f_final) == 0)) {
+                print('no deberias hacer esto');
+                String bloqueId = await addBlock(
+                    widget.roadId.toString(),
+                    _controllerTitulo.text,
+                    _controllerDescripcion.text,
+                    int.parse(_controllerImportancia.text),
+                    f_inicio,
+                    f_final);
+                Navigator.of(context).pop();
+                //borrar los controllers:
+                _controllerTitulo.clear();
+                _controllerDescripcion.clear();
+                _controllerImportancia.clear();
+                _controllerFechaInicio.clear();
+                _controllerFechaFin.clear();
+              } else {
+                //esto muestra un flash, que es como un snackbar para decir que faltan datos
+                context.showFlash<bool>(
+                  barrierDismissible: true,
+                  duration: const Duration(seconds: 5),
+                  builder: (context, controller) => FlashBar(
+                    controller: controller,
+                    forwardAnimationCurve: Curves.easeInCirc,
+                    reverseAnimationCurve: Curves.bounceIn,
+                    position: FlashPosition.bottom,
+                    indicatorColor: Theme.of(context).primaryColor,
+                    icon: const Icon(Icons.dangerous_rounded),
+                    //title: const Text('Flash Title'),
+                    content: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          'Algun dato no ha sido llenado correctamente',
+                          textAlign: TextAlign.center,
+                          style: heading3bStyle,
+                        )),
+                  ),
+                );
+              }
             } else {
               //esto muestra un flash, que es como un snackbar para decir que faltan datos
               context.showFlash<bool>(

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aristeia_app/core/routes/routes.gr.dart';
 import 'package:aristeia_app/core/utils/app_colors.dart';
 import 'package:aristeia_app/core/utils/text_styles.dart';
@@ -10,10 +12,13 @@ import 'package:aristeia_app/core/widgets/input_field.dart';
 import 'package:aristeia_app/core/widgets/pop_up_menu.dart';
 import 'package:aristeia_app/core/widgets/state_widget.dart';
 import 'package:aristeia_app/features/autenticacion/presentation/pages/terms_screen.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/add_calificacion.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/delete_roadmap.dart';
-import 'package:aristeia_app/features/roadmap/domain/repositories/get_bloque_road.dart';
+import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_bloque_road.dart';
 import 'package:aristeia_app/core/widgets/filter__chips_data.dart';
 import 'package:aristeia_app/core/widgets/filter_chips.dart';
+import 'package:aristeia_app/features/roadmap/domain/repositories/get_calificacion.dart';
 import 'package:aristeia_app/features/roadmap/presentation/pages/create_roadmap_screen.dart';
 import 'package:aristeia_app/features/roadmap/presentation/pages/edit_roadmap_screen.dart';
 import 'package:auto_route/auto_route.dart';
@@ -24,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../../../core/network/auth.dart';
 import '../../../../core/widgets/date_picker.dart';
+import '../../domain/repositories/copy_roadmapID.dart';
 
 @RoutePage()
 class SingleRoadScreen extends StatefulWidget {
@@ -39,17 +45,31 @@ class SingleRoadScreen extends StatefulWidget {
 
 class _SingleRoadScreenState extends State<SingleRoadScreen> {
   static final colors = AppColors();
+  double initialRating = 1;
   Map<String, dynamic> roadmapCreado = {};
   bool isMyRoad = false;
   int estadoRoad = 0;
+  double calificacion = 0;
+
   @override
   void initState() {
     traerRoadmap();
     isMyRoad = context.router.currentPath.contains('personal');
     super.initState();
+    traerCal();
   }
 
-  void calificarRoadmap() {
+  Future<void> traerCal() async {
+    Map<String, dynamic> calificacion = await getCalificacion(
+        widget.roadId.toString(), Auth().currentUser!.uid);
+
+    initialRating =
+        calificacion['calificacion'] == null ? 1 : calificacion['calificacion'];
+  }
+
+  void calificarRoadmap() async {
+    double calificacion = 1;
+//simon es una lok
     showDialog(
       context: context,
       builder: ((context) => AlertDialogWidget(
@@ -57,13 +77,20 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           rightText: 'Calificar',
           leftText: 'Cancelar',
           color: 1,
-          onTapRight: () {},
+          onTapRight: () async {
+            addCalificacion(widget.roadId.toString(), Auth().currentUser!.uid,
+                calificacion);
+            initialRating = calificacion;
+            Navigator.of(context).pop();
+          },
           onTapLeft: () {
             Navigator.of(context).pop();
           },
           more: RatingBar.builder(
+            itemSize: 35,
+            wrapAlignment: WrapAlignment.center,
             glow: false,
-            initialRating: 1,
+            initialRating: initialRating,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -71,10 +98,13 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
             itemBuilder: (context, _) => Icon(
               Icons.star_rounded,
-              color: Theme.of(context).primaryColor,
+              color: colors.blueColor,
             ),
             onRatingUpdate: (rating) {
               print(rating);
+              setState(() {
+                calificacion = rating;
+              });
             },
           ))),
     );
@@ -88,7 +118,15 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
             color: 1,
             leftText: 'Copiar',
             rightText: 'Cancelar',
-            onTapLeft: () {},
+            onTapLeft: () async {
+              await copyRoadmapID(
+                  widget.roadId.toString(), Auth().currentUser!.uid);
+              Navigator.of(context).pop();
+              context.router.navigateNamed(
+                ('/logged/personal'),
+              );
+              //
+            },
             onTapRight: () {
               Navigator.of(context).pop();
             },
@@ -336,11 +374,11 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     //antes que nada, verificamos que la informacion esté correcta
     DocumentSnapshot query =
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
+      Future<double> prom =  calcularPromedio(widget.roadId.toString());
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
-      estadoRoad =
-          roadmapCreado["estado"] == null ? 1 : roadmapCreado["estado"];
-
+      estadoRoad = roadmapCreado["estado"] ?? 1;
+      calificacion= prom as double;
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -409,8 +447,9 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 Row(
                   children: [
                     Icon(Icons.star_rounded, size: 32, color: colors.blueColor),
+
                     Text(
-                      '4,5',
+                      calificacion.toString()== '0.0'? '-': calificacion.toString(),
                       style: heading2bStyle.copyWith(color: colors.blueColor),
                     ),
                   ],
@@ -424,8 +463,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 8),
+                      padding: const EdgeInsets.only(
+                          left: 24, bottom: 8, top: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

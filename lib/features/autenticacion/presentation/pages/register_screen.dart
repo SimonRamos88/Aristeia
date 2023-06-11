@@ -34,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllerConfPassword = TextEditingController();
   //Crear usuario
   Future<void> createUserWithEmailAndPassword() async {
-    if (passwordConfirmed() == true) {
+    if (passwordConfirmed() == true && _controllerName.text.isNotEmpty && _controllerUsertag.text.isNotEmpty) {
       try {
         await Auth().createUserWithEmailAndPassword(
             email: _controllerEmail.text, password: _controllerPassword.text);
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } else {
       setState(() {
-        errorMessage = 'La contraseñas no coinciden';
+        errorMessage = 'Revisa Bien Tus Datos';
       });
     }
   }
