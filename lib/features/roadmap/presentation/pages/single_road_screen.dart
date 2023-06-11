@@ -277,23 +277,41 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
           print(widget.roadId);
           FirebaseFirestore db = FirebaseFirestore.instance;
           if (!nombreRoadmap.text.trim().isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"nombre": nombreRoadmap.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"nombre": nombreRoadmap.text.trim()});
           }
           if (!descripcion.text.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"descripcion": descripcion.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"descripcion": descripcion.text.trim()});
           }
           if (!fechaInicio.text.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"fechaInicio": fechaInicio.text.trim()});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"fechaInicio": fechaInicio.text.trim()});
           }
           if (!tipo_roadmap.text.isEmpty) {
             if (tipo_roadmap.text.trim() == '1') {
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": true});
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": true});
             } else {
-              db.collection('roadmap').doc(widget.roadId.toString()).update({"publico": false});
+              db
+                  .collection('roadmap')
+                  .doc(widget.roadId.toString())
+                  .update({"publico": false});
             }
           }
           if (!etiquetas.isEmpty) {
-            db.collection('roadmap').doc(widget.roadId.toString()).update({"etiquetas": etiquetas});
+            db
+                .collection('roadmap')
+                .doc(widget.roadId.toString())
+                .update({"etiquetas": etiquetas});
           }
           print("Todo realizado con Exito");
           traerRoadmap();
@@ -374,11 +392,11 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
     //antes que nada, verificamos que la informacion esté correcta
     DocumentSnapshot query =
         await collectionReferenceRoadmap.doc(widget.roadId.toString()).get();
-      Future<double> prom =  calcularPromedio(widget.roadId.toString());
+    double prom = await calcularPromedio(widget.roadId.toString());
     setState(() {
       roadmapCreado = query.data() as Map<String, dynamic>;
       estadoRoad = roadmapCreado["estado"] ?? 1;
-      calificacion= prom as double;
+      calificacion = prom;
       /*
       if (roadmapCreado["creador"] == Auth().currentUser!.uid) {
         //widget.isMyRoadmap = true;
@@ -447,9 +465,10 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                 Row(
                   children: [
                     Icon(Icons.star_rounded, size: 32, color: colors.blueColor),
-
                     Text(
-                      calificacion.toString()== '0.0'? '-': calificacion.toString(),
+                      calificacion.toString() == '0.0'
+                          ? '-'
+                          : calificacion.toStringAsFixed(2),
                       style: heading2bStyle.copyWith(color: colors.blueColor),
                     ),
                   ],
@@ -463,8 +482,8 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(
-                          left: 24, bottom: 8, top: 8),
+                      padding:
+                          const EdgeInsets.only(left: 24, bottom: 8, top: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -484,12 +503,14 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 // Extraer el estado del roadmap
-                                final data = snapshot.data?.data() as Map<String, dynamic>;
+                                final data = snapshot.data?.data()
+                                    as Map<String, dynamic>;
                                 final estado = data['estado'];
                                 return StateWidget(
                                   estado: estado,
-                                  large: true,);
-                              }else{
+                                  large: true,
+                                );
+                              } else {
                                 return const Center(
                                   child: CircularProgressIndicator(),
                                 );
