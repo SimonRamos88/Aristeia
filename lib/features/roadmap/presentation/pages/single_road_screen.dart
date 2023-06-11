@@ -475,9 +475,26 @@ class _SingleRoadScreenState extends State<SingleRoadScreen> {
                           const SizedBox(
                             width: 4,
                           ),
-                          StateWidget(
-                            estado: estadoRoad,
-                            large: true,
+                          // Consulta el estado del roadmap
+                          StreamBuilder<DocumentSnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('roadmap')
+                                .doc(widget.roadId.toString())
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                // Extraer el estado del roadmap
+                                final data = snapshot.data?.data() as Map<String, dynamic>;
+                                final estado = data['estado'];
+                                return StateWidget(
+                                  estado: estado,
+                                  large: true,);
+                              }else{
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),

@@ -6,6 +6,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
+import '../../../roadmap/presentation/Widgets/get_roadmap_privado.dart';
+
 @RoutePage()
 class LoggedWrapperScreen extends StatelessWidget {
   const LoggedWrapperScreen({Key? key}) : super(key: key);
