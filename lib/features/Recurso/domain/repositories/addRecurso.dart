@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-Future<String> createRecurso(
-    Map<String, dynamic> data, String roadmapID, String bloqueID, String recursoID) async {
+Future<String> createRecurso(Map<String, dynamic> data, String roadmapID,
+    String bloqueID, String recursoID) async {
   String res = "";
   FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference collectionReferenceRecurso = db
@@ -16,8 +16,7 @@ Future<String> createRecurso(
   if (data.containsKey("nombre") &&
       data.containsKey("descripcion") &&
       data.containsKey("links_relacionados") &&
-      data.containsKey("autor") &&
-      data.containsKey("imagen")) {
+      data.containsKey("autor")) {
     //subimos los datos del evento
     await collectionReferenceRecurso.doc(recursoID).set(data);
     res = 'datos subidos con exito';
@@ -28,9 +27,7 @@ Future<String> createRecurso(
   return res;
 }
 
-
-Future<int> getRecursoAmount( String roadmapID, String bloqueID) async{
-
+Future<int> getRecursoAmount(String roadmapID, String bloqueID) async {
   int amount = -1;
   FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference collectionReferenceRecurso = db
@@ -39,37 +36,34 @@ Future<int> getRecursoAmount( String roadmapID, String bloqueID) async{
       .collection('bloques')
       .doc(bloqueID)
       .collection('recursos');
-  
-  QuerySnapshot query= await collectionReferenceRecurso.get();
-  if(!query.docs.isEmpty){
+
+  QuerySnapshot query = await collectionReferenceRecurso.get();
+  if (!query.docs.isEmpty) {
     amount = query.size;
   }
-  
-  return amount;
 
+  return amount;
 }
 
-
-List<String> StringToList (String input) {
-  
+List<String> StringToList(String input) {
   List<String> list = [];
   String cad = "";
-  
+
   input.runes.forEach((e) {
     var ch = String.fromCharCode(e);
-    if(ch!=" "){
-        cad += ch;
-    }else{
-      if(cad != ""){
+    if (ch != " ") {
+      cad += ch;
+    } else {
+      if (cad != "") {
         list.add(cad);
         cad = "";
-      }else{
+      } else {
         cad = "";
       }
     }
   });
 
-  if(cad!=""){
+  if (cad != "") {
     list.add(cad);
   }
   return list;
