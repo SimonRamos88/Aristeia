@@ -1,15 +1,22 @@
-# aristeia_app
+# RoadMap TO
 
-Aristeia is a flutter app created for designing roadmaps. A roadmap is a tool that can be used to get easier the learning process of anything. Our app aims to a general public who wants to learn any topic.
+*RoadMap to* is a flutter app created for designing roadmaps. A roadmap is a tool that can be used to get easier the learning process of anything. Our app aims to a general public who wants to learn any topic.
 
-## Getting Started
+This project was developped by the **Aristeia's** team, a group of student taking the course of "Software Engineering I" in the "Universidad Nacional de Colombia". Their contact is on the following section: 
 
-This project is a starting point for a Flutter application.
+## Contact
+- Jose Simon Ramos Sandoval: joramos@unal.edu.co
+- Juan Manuel Cortes Jimenez: jcortesj@unal.edu.co
+- Jefferson Duvan Ramirez Castañeda jeramirezca@unal.edu.co
+- Juan David Guarnizo Gutierrez jguarnizog@unal.edu.co
+- Juan David Jaimes Claros jujaimesc@unal.edu.co
+- Miguel Angel Parrado Garcia mparradog@unal.edu.co
+- Yenifer Yulieth Mora Segura ymoras@unal.edu.co
 
-A few resources to get you started if this is your first Flutter project:
+## Demonstration video and screenshots
+https://www.youtube.com/watch?v=kA3YKWphYYE&ab_channel=JuanManuelCortes
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Getting Started with Flutter
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
