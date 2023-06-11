@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aristeia_app/core/widgets/app_bar_widget.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/filters_drawer.dart';
 import 'package:aristeia_app/features/roadmap/presentation/Widgets/get_roadmap_publico.dart';
@@ -17,6 +19,12 @@ class PublicRoadmapsScreen extends StatefulWidget {
 
 class _PublicRoadmapsScreenState extends State<PublicRoadmapsScreen> {
 
+  GetRoadmapPublico getRoad = GetRoadmapPublico();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +38,13 @@ class _PublicRoadmapsScreenState extends State<PublicRoadmapsScreen> {
             delegate: MySearchDelegate('publico'),
           );
         },
-         onPressedAction: () => Scaffold.of(context).openEndDrawer(),
+         onPressedAction: (){
+           FiltersDrawer.isPriv = false;
+           Scaffold.of(context).openEndDrawer();
+           log(FiltersDrawer.isPriv.toString());
+         } ,
       ),
-      body: getRoadmapPublico(''),
+      body: getRoad.getRoadmap(''),
     );
   }
 }

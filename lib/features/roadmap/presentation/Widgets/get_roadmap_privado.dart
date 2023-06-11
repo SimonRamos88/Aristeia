@@ -1,3 +1,4 @@
+
 import 'package:aristeia_app/core/utils/text_styles.dart';
 import 'package:aristeia_app/core/widgets/roadmap_card.dart';
 import 'package:aristeia_app/features/roadmap/domain/repositories/calcular_promedio.dart';
@@ -7,8 +8,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/network/auth.dart';
+import '../../domain/entities/show_road.dart';
 
-Widget getRoadmapPrivado(String filter) {
+
+class GetRoadmapPrivado extends showRoad{
+  @override
+  Widget getRoadmap(String filter) {
   return StreamBuilder<QuerySnapshot>(
     // Query solicitando los documentos
     stream: 
@@ -30,6 +35,8 @@ Widget getRoadmapPrivado(String filter) {
               return FutureBuilder<double>(
                 future: calcularPromedio(doc?[index].id),
                 builder: (context, snapshot) {
+                  var key = doc[index].data();
+                  roads.add( key as Map);
                   double promedio = snapshot.data ?? 0.0;
                   // Función para calcular el total de bloques que tiene el roadmap
                   return FutureBuilder<int>(
@@ -90,3 +97,7 @@ Widget getRoadmapPrivado(String filter) {
     }),
   );
 }
+  
+}
+
+
